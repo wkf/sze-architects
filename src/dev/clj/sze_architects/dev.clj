@@ -9,7 +9,7 @@
             [weasel.repl.websocket :as weasel]))
 
 (defn style-manifest []
-  (style/manifest {}))
+  (style/manifest {:pretty-print? false}))
 
 (defn markup-manifest []
   (markup/manifest

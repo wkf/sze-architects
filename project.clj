@@ -12,7 +12,8 @@
                  [org.clojure/clojurescript "0.0-3308"]
                  [aviary "0.1.16"]
                  [enlive "1.1.5"]
-                 [garden "1.2.5"]]
+                 [garden "1.2.5"]
+                 [cljsjs/fastclick "1.0.6-0"]]
   :profiles {:dev {:source-paths ["src/dev/clj"
                                   "src/dev/cljs"]
                    :dependencies [[weasel "0.5.0"]

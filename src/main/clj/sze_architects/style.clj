@@ -138,7 +138,9 @@
   ([n gutter]
    (let [columns (denominator n)]
      [:&
-      {:width (format "calc(99.99%% * %1$s - (%2$spx - %2$spx * %1$s))" n gutter)}
+      {:width (if (zero? gutter)
+                (format "calc(99.99%% * %1$s)" n)
+                (format "calc(99.99%% * %1$s - (%2$spx - %2$spx * %1$s))" n gutter))}
       ["&:nth-child(n)"
        {:float :left
         :clear :none
@@ -164,12 +166,12 @@
   [[:body.show-header-menu
     [:header
      [:nav
-      {:max-height (px 2000)}]]]
+      {:max-height (px 450)}]]]
 
    [:body.show-footer-menu
     [:footer
      [:nav
-      {:max-height (px 2000)}]]]
+      {:max-height (px 450)}]]]
 
    [:.menu
     (underline green (px -1))
@@ -195,7 +197,7 @@
       :padding-right (px 20)
       :max-height 0
       :overflow :hidden
-      :transition [[:max-height "1000ms" :ease]]}
+      :transition [[:max-height "500ms" :ease]]}
 
      [:a
       {:color white}]

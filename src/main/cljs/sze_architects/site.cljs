@@ -1,13 +1,13 @@
 (ns sze-architects.site
   (:require [goog.dom :as dom]
             [goog.dom.classes :as classes]
-            [goog.events :as events]))
+            [goog.events :as events]
+            [cljsjs.fastclick]))
 
 (defonce site (atom {:running? false}))
 
-(defn find-body []
-  (aget
-    (dom/getElementsByTagNameAndClass "body") 0))
+(def body
+  (.-body js/document))
 
 (defn find-toggle-menu-button [tag]
   (dom/getElementByClass
@@ -20,13 +20,13 @@
   []
   (when-not (:running? @site)
     (swap! site assoc :running? true)
-    (let [body (find-body)]
-      (doseq [tag ["header" "footer"]]
-        (events/listen
-          (find-toggle-menu-button tag)
-          "click"
-          (fn [e]
-            (classes/toggle body (str "show-" tag "-menu"))))))))
+    (.attach js/FastClick body)
+    (doseq [tag ["header" "footer"]]
+      (events/listen
+        (find-toggle-menu-button tag)
+        "click"
+        (fn [e]
+          (classes/toggle body (str "show-" tag "-menu")))))))
 
 (defn stop
   "Stop the site. Attempt to be idempotent. Useful for interactive local development."

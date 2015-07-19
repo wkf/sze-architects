@@ -137,7 +137,7 @@
      [:span.fa.fa-facebook]
      "facebook"]]
    [:div.copyright
-    [:small "© 2014 Steven Z Epstein Architects."]]])
+    [:small "© 2015 Steven Z Epstein Architects."]]])
 
 (defn home []
   (html5
