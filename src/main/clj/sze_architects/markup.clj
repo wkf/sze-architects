@@ -104,7 +104,7 @@
 (defn tagline-card []
   [:section.tagline-card
    [:div.square
-    [:h1 "Building Connections"]
+    [:h1 "Building Connections."]
     [:h2 "Steven Z Epstein Architects practices real architecture for real people."]]])
 
 (defn services-card []
@@ -133,7 +133,7 @@
   [:footer
    (menu)
    [:div.facebook
-    [:a {:href "http://facebook.com/szearchitects"}
+    [:a {:href "https://www.facebook.com/pages/Steven-Z-Epstein-Architects/101676946574474"}
      [:span.fa.fa-facebook]
      "facebook"]]
    [:div.copyright

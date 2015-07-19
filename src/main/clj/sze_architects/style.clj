@@ -363,7 +363,7 @@
      {:padding [[(px 30) (px 20)]]}]
     [:.fa-quote-left
      :.fa-quote-right
-     {:color (with-alpha green 0.6)
+     {:color (with-alpha green 0.4)
       :width (percent 100)
       :text-align :center}]
     [:p
@@ -373,9 +373,9 @@
      {:margin-top (px 20)
       :display :inline-block
       :font-size (px 18)
+      :line-height (px 26)
       :font-family avenir-book-oblique
-      :font-style :normal
-      :line-height (px 31)}]]])
+      :font-style :normal}]]])
 
 (def footer
   [[:footer
