@@ -105,7 +105,9 @@
   [:section.tagline-card
    [:div.square
     [:h1 "Building Connections."]
-    [:h2 "Steven Z Epstein Architects practices real architecture for real people."]]])
+    [:h2 "Steven Z Epstein Architects practices real architecture for real people."]
+    [:p
+     [:a {:href "/about"} "Learn about us"]]]])
 
 (defn services-card []
   [:section.services-card

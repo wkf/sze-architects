@@ -162,16 +162,29 @@
    [:&:after
     {:clear :both}]])
 
+(def hamburger-to-x
+  [:.hamburger
+   [:svg
+    [:line
+     ["&:last-child"
+      {:display :none}]
+     ["&:nth-child(1)"
+      {:transform "rotate(-45deg) translate(-5px, 5px)"}]
+     ["&:nth-child(2)"
+      {:transform "rotate(45deg) translate(-5px, -5px)"}]]]])
+
 (def menu
   [[:body.show-header-menu
     [:header
      [:nav
-      {:max-height (px 450)}]]]
+      {:max-height (px 450)}]
+     hamburger-to-x]]
 
    [:body.show-footer-menu
     [:footer
      [:nav
-      {:max-height (px 450)}]]]
+      {:max-height (px 450)}]
+     hamburger-to-x]]
 
    [:.menu
     (underline green (px -1))
@@ -188,7 +201,12 @@
        :top (px 2)
        :bottom 0
        :display :inline-block
-       :margin-left (px 12)}]]
+       :margin-left (px 12)}
+      [:svg
+       [:line
+        {:transition [[:all "250ms" :ease]]
+         :transform "rotate(0) translate(0, 0)"
+         :transform-origin [[(percent 50) (percent 50)]]}]]]]
 
     [:nav
      {:position :relative
@@ -326,6 +344,17 @@
      :right 0
      :bottom 0}]])
 
+(defn card-link [color]
+  [:a
+   {:color color
+    :font-size (px 18)
+    :font-family avenir-book-oblique}
+   [:&:before
+    {:background color
+     :transform "translateY(0)"}]
+   [:&:hover:before
+    {:transform "translateY(2px)"}]])
+
 (def tagline-card
   [[:.tagline-card
     {:background-color green}
@@ -335,7 +364,10 @@
     [:h1 :h2
      {:color white}]
     [:h1
-     {:margin-bottom (px 30)}]]])
+     {:margin-bottom (px 30)}]
+    [:h2
+     {:margin-bottom (px 30)}]
+    (card-link white)]])
 
 (def services-card
   [[:.services-card
@@ -343,15 +375,7 @@
     (square)
     [:div.square
      {:padding [[(px 30) (px 20)]]}]
-    [:a
-     {:color red
-      :font-size (px 18)
-      :font-family avenir-book-oblique}
-     [:&:before
-      {:background red
-       :transform "translateY(0)"}]
-     [:&:hover:before
-      {:transform "translateY(2px)"}]]
+    (card-link red)
     [:p
      {:margin-bottom (px 30)}]]])
 
