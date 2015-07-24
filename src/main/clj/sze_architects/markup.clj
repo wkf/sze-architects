@@ -26,47 +26,68 @@
   "assets/img/hamburger.svg" [html/root] []
   [html/root] (html/wrap :div {:class "hamburger"}))
 
+(def residential-projects
+  [[:li
+    [:a {:href "/new-homes"} "New Homes"]]
+   [:li
+    [:a {:href "/additions"} "Additions"]]
+   [:li
+    [:a {:href "/remodels"} "Remodels"]]
+   [:li
+    [:a {:href "/condominiums"} "Condominiums"]]])
+
+(def commercial-projects
+  [[:li
+    [:a {:href "/commercial"} "Commercial"]]
+   [:li
+    [:a {:href "/offices"} "Offices"]]
+   [:li
+    [:a {:href "/retail"} "Retail"]]
+   [:li
+    [:a {:href "/restaurants"} "Restaurants"]]])
+
 (defn menu []
   [:div.menu
    [:button.toggle-menu
     [:span "Menu"]
     (hamburger)]
    [:nav
-    [:ul.main-nav
-     [:li
-      [:a {:href "/"} "Home"]]
-     [:li
-      [:a {:href "/our-office"} "Our Office"]]
-     [:li
-      [:a {:href "/services"} "Services"]]
-     [:li
-      [:a {:href "/get-in-touch"} "Get in Touch"]]
-     [:li.portfolio
-      [:a {:href "/portfolio"} "Portfolio"]
-      (hamburger)]
-     [:li.facebook
-      [:a {:href "/facebook"}
-       [:span.fa.fa-facebook]
-       [:span "facebook"]]]]
-    (roof)
-    [:ul.sub-nav.column-1
-     [:li
-      [:a {:href "/new-homes"} "New Homes"]]
-     [:li
-      [:a {:href "/additions"} "Additions"]]
-     [:li
-      [:a {:href "/remodels"} "Remodels"]]
-     [:li
-      [:a {:href "/condominiums"} "Condominiums"]]]
-    [:ul.sub-nav.column-2
-     [:li
-      [:a {:href "/commercial"} "Commercial"]]
-     [:li
-      [:a {:href "/offices"} "Offices"]]
-     [:li
-      [:a {:href "/retail"} "Retail"]]
-     [:li
-      [:a {:href "/restaurants"} "Restaurants"]]]]])
+    [:div.row-0
+     [:div.column-0
+      [:ul.main-nav
+       [:li
+        [:a {:href "/"} "Home"]]
+       " "
+       [:li
+        [:a {:href "/our-office"} "Our Office"]]
+       " "
+       [:li
+        [:a {:href "/services"} "Services"]]
+       " "
+       [:li
+        [:a {:href "/get-in-touch"} "Get in Touch"]]
+       [:li.space " "]
+       [:li.portfolio-link
+        [:a {:href "/portfolio"} "Portfolio"]
+        [:button.toggle-menu (hamburger)]]
+       [:li.facebook
+        [:a {:href "/facebook"}
+         [:span.fa.fa-facebook]
+         [:span "facebook"]]]]]]
+    [:div.medium-drawer
+     [:span.portfolio-label "Portfolio:"]
+     " "
+     [:div.row-1
+      (vec
+        (concat [:ul.sub-nav.column-1]
+          (butlast (interleave residential-projects (repeat " ")))))]
+     " "
+     [:span.divider]
+     " "
+     [:div.row-2
+      (vec
+        (concat [:ul.sub-nav.column-2]
+          (butlast (interleave commercial-projects (repeat " ")))))]]]])
 
 (defn header []
   [:header
@@ -74,32 +95,34 @@
    (menu)])
 
 (def contact-info
-  [[:div.phone
-    [:span
-     [:a {:href "tel:+15619999290"} "(561)999-9290"]]]
-   [:div.email
-    [:span
-     [:a {:href "mailto:info@szearchitects.com"} "info@szearchitects.com"]]]
-   [:div.address-1
-    [:span "700 NE 74th St"]]
-   [:div.address-2
-    [:span "Boca Raton, FL 33487"]]])
+  [[:div.links
+    [:div.phone
+     [:span
+      [:a {:href "tel:+15619999290"} "(561)999-9290"]]]
+    [:div.email
+     [:span
+      [:a {:href "mailto:info@szearchitects.com"} "info@szearchitects.com"]]]]
+   [:div.address
+    [:div.address-1
+     [:span "700 NE 74th St"]]
+    [:div.address-2
+     [:span "Boca Raton, FL 33487"]]]])
 
 (defn small-contact-card []
   (vec
-    (concat
-      [:section.contact-card]
+    (concat [:section.contact-card]
       contact-info)))
 
 (defn large-contact-card []
   (vec
-    (concat
-      [:section.contact-card
+    (concat [:section.contact-card
        [:p
         "We still respect the time-honored traditions of good business. "
         [:em "Talk to us, not to our voicemail."]]]
       contact-info
-      [[:button "Send us a Message"]])))
+      [[:button
+        [:em "Send us a Message"]
+        [:em.continued " to Start your Project Today"]]])))
 
 (defn tagline-card []
   [:section.tagline-card
@@ -131,6 +154,10 @@
     [:h1 title]]
    [:img {:src src :alt ""}]])
 
+(defn shrink-featured-image [title src]
+  (assoc
+    (featured-image title src) 0 :section.featured-image.shrink))
+
 (defn footer []
   [:footer
    (menu)
@@ -151,17 +178,18 @@
         :content "width=device-width, initial-scale=1"}]
       [:title]]
      [:body
+      [:div.vertical-line]
       (header)
       [:main
        (small-contact-card)
        (featured-image "Custom Home" "img/square-1.jpg")
        (tagline-card)
-       (featured-image "Custom Home" "img/square-2.jpg")
+       (shrink-featured-image "Custom Home" "img/square-2.jpg")
        (services-card)
        (featured-image "Custom Home" "img/rectangle-1.jpg")
        (featured-image "Custom Home" "img/square-3.jpg")
        (quote-card)
-       (featured-image "Custom Home" "img/square-2.jpg")
+       (shrink-featured-image "Custom Home" "img/square-2.jpg")
        (featured-image "Custom Home" "img/square-1.jpg")
        (large-contact-card)]
       (footer)]]))

@@ -1,7 +1,8 @@
 (ns sze-architects.style
   (:require [garden.core :refer [css]]
             [garden.units :refer [px em percent]]
-            [garden.color :as color :refer [rgb rgb? rgba]]))
+            [garden.color :as color :refer [rgb rgb? rgba]]
+            [garden.stylesheet :refer [at-media]]))
 
 (def red "#ef4639")
 (def green "#39bb99")
@@ -90,6 +91,26 @@
    ["::selection" {:color white
                    :background green}]])
 
+(defn at-medium [& rules]
+  (at-media
+    {:min-width (px 768)}
+    (apply vector :& rules)))
+
+(defn at-large [& rules]
+  (at-media
+    {:min-width (px 1024)}
+    (apply vector :& rules)))
+
+(defn at-huge [& rules]
+  (at-media
+    {:min-width (px 1280)}
+    (apply vector :& rules)))
+
+(defn with-alpha [color alpha]
+  (let [color (if (rgb? color) color (color/hex->rgb color))]
+    (color/as-color
+      (assoc color :alpha alpha))))
+
 (defn link []
   [:&
    {:cursor :pointer
@@ -108,7 +129,12 @@
     {:transform "scaleX(1.1)"}]])
 
 (def common
-  [[:a (link)]])
+  [[:html
+    {:min-height (percent 100)
+     :position :relative}]
+   [:body
+    {:height (percent 100)}]
+   [:a (link)]])
 
 (defn underline
   ([color]
@@ -124,13 +150,6 @@
      :right 0
      :display :block
      :margin-top offset}]))
-
-(def header
-  [[:header
-    {:padding-top (px 25)}]
-
-   [:.logo {:width (px 182)
-            :margin [[0 :auto (px 28)]]}]])
 
 (defn column
   ([n]
@@ -162,51 +181,69 @@
    [:&:after
     {:clear :both}]])
 
+(def hamburger
+  [:.hamburger
+   {:width (px 22)
+    :height (px 22)
+    :position :relative
+    :overflow :hidden
+    :top (px 2)
+    :bottom 0
+    :display :inline-block
+    :margin-left (px 12)}
+   [:svg
+    [:line
+     {:transition [[:all "250ms" :ease]]
+      :transform "rotate(0) translate(0, 0)"
+      :transform-origin [[(percent 50) (percent 50)]]}]]])
+
 (def hamburger-to-x
   [:.hamburger
    [:svg
     [:line
      ["&:last-child"
-      {:display :none}]
+      {:transform "translateX(24px)"}]
      ["&:nth-child(1)"
       {:transform "rotate(-45deg) translate(-5px, 5px)"}]
      ["&:nth-child(2)"
       {:transform "rotate(45deg) translate(-5px, -5px)"}]]]])
 
+(def header
+  [[:header
+    {:padding-top (px 25)}
+    (at-medium
+      {:padding [[(px 40) 0 0]]})
+    (at-large
+      {:padding-top (px 25)})]
+
+   [:.logo
+    {:width (px 182)
+     :margin [[0 :auto (px 28)]]}
+    (at-large
+      {:float :left
+       :margin-top (px 38)
+       :margin-left (px 30)
+       :margin-bottom (px -57)
+       :width (px 242)
+       :z-index 2
+       :position :relative})]])
+
 (def menu
-  [[:body.show-header-menu
-    [:header
-     [:nav
-      {:max-height (px 450)}]
-     hamburger-to-x]]
-
-   [:body.show-footer-menu
-    [:footer
-     [:nav
-      {:max-height (px 450)}]
-     hamburger-to-x]]
-
-   [:.menu
+  [[:.menu
     (underline green (px -1))
+    (at-medium
+      (underline green (px -1)))
+    (at-large
+      (underline green (px -2)))
     [:button
      (link)
      {:display :block
       :margin [[0 :auto]]}
      [:&:before
       {:background green}]
-     [:.hamburger
-      {:width (px 22)
-       :height (px 22)
-       :position :relative
-       :top (px 2)
-       :bottom 0
-       :display :inline-block
-       :margin-left (px 12)}
-      [:svg
-       [:line
-        {:transition [[:all "250ms" :ease]]
-         :transform "rotate(0) translate(0, 0)"
-         :transform-origin [[(percent 50) (percent 50)]]}]]]]
+     hamburger
+     (at-medium
+       {:display :none})]
 
     [:nav
      {:position :relative
@@ -216,7 +253,6 @@
       :max-height 0
       :overflow :hidden
       :transition [[:max-height "500ms" :ease]]}
-
      [:a
       {:color white}]
 
@@ -225,37 +261,199 @@
        :line-height (px 29)}
       [:li
        {:margin-top (px 20)}
+       (underline white (px -1))]
+      [:li.space
+       {:display :none}]
+      (at-medium
+        {:text-align :justify
+         :line-height 0
+         :margin-bottom (px -7)
+         :padding-left (px 70)
+         :padding-right (px 70)}
+        [:.facebook
+         {:display :none}]
+        [:li
+         {:display :inline-block
+          :vertical-align :bottom}
+         [:&:after
+          {:line-height 0
+           :visibility :hidden}]]
+        [:li.space
+         {:display :inline}]
+        [:&:after
+         {:content "''"
+          :width (percent 100)
+          :display :inline-block
+          :font-size 0
+          :line-height 0}]
+        [:a :button :span
+         {:color black
+          :text-align :left
+          :display :inline-block
+          :line-height (px 29)}
+         [:&:before
+          {:background green}]])
+      (at-large
+        {:float :right
+         :text-align :left
+         :padding-right (px 30)}
+        [:.portfolio-link :li.space
+         {:display :none}]
+        [:li
+         {:padding-left (px 20)}])]
 
-       (underline white (px -1))]]
+     [:.row-0
+      (at-large
+        (underline green (px -1)))]
+
+     [:.column-0
+      (at-large
+        (clearfix))]
+
+     [:.row-1
+      (at-medium
+        (underline white (px -17)))
+      (at-large
+        (underline white (px -25)))]
+
+     [:.row-2
+      (at-medium
+        {:margin-bottom (px 30)}
+        (underline white (px -17)))]
 
      (clearfix)
+
+     [:.facebook :.hamburger
+      {:display :none}]
+
      [:ul.sub-nav
-      (column 1/2)
       {:font-size (px 19)
-       :line-height (px 23)
-       :margin-top (px 10)
-       :margin-bottom (px 30)}
-      [:.portfolio
-       {:display :none}]
-      [:&.column-1
-       {:float :left}]
-      [:&.column-2
-       {:float :right
-        :position :relative
-        :padding-left (px 25)}
-       [:&:before
-        {:content "''"
-         :opacity 0.4
-         :background-color white
-         :position :absolute
-         :top (px 20)
-         :bottom (px -10)
-         :left 0
-         :width (px 1)}]]
-      [:li
-       {:margin-top (px 10)}]]
-     [:.facebook :.roof :.hamburger
-      {:display :none}]]]])
+       :line-height (px 23)}]
+
+     [:.divider
+      {:width (px 14)
+       :height (px 14)
+       :background (with-alpha green 0.6)
+       :position :relative
+       :bottom (px -4)
+       :display :none}]
+
+     [:.portfolio-label
+      {:display :none
+       :font-size (px 24)
+       :line-height (px 29)}
+      (at-large
+        {:display :inline})]
+
+     [:.medium-drawer
+      [:ul.sub-nav
+       {:width (percent 50)
+        :margin-top (px 10)
+        :margin-bottom (px 30)}
+       [:.portfolio
+        {:display :none}]
+       [:&.column-1
+        {:float :left}]
+       [:&.column-2
+        {:float :right
+         :position :relative
+         :padding-left (px 25)}
+        [:&:before
+         {:content "''"
+          :opacity 0.4
+          :background-color white
+          :position :absolute
+          :top (px 20)
+          :bottom (px -10)
+          :left 0
+          :width (px 1)}]]
+       [:li
+        {:margin-top (px 10)}]
+
+      (at-medium
+        (clearfix)
+        {:width (percent 100)
+         :margin-top (px 15)
+         :margin-bottom (px 15)
+         :padding-left (px 70)
+         :padding-right (px 70)}
+        [:&.column-1
+         :&.column-2
+         {:float :none
+          :padding-left (px 70)}]
+        [:li
+         {:float :left
+          :padding-right (px 25)}])
+
+       (at-large
+         [:&:before :&:after
+          {:content :none}]
+         {:width :auto
+          :margin-top (px 15)
+          :margin-bottom (px 15)
+          :padding-left 0
+          :padding-right 0}
+         [:&.column-1
+          :&.column-2
+          {:float :none
+           :padding-left 0}]
+         [:li
+          {:float :none
+           :padding 0
+           :display :inline-block}])]
+
+      (at-medium
+        (clearfix)
+        {:max-height 0
+         :width (percent 100)
+         :background green
+         :transition [[:max-height "500ms" :ease]]})
+
+      (at-large
+        {:background white
+         :max-height :none
+         :line-height 0
+         :text-align :justify
+         :padding [[(px 15) (px 30) 0]]}
+        [:&:after
+         {:content "''"
+          :width (percent 100)
+          :display :inline-block
+          :line-height 0}]
+        [:a
+         {:color black}
+         [:&:before
+          {:background green}]]
+        [:.row-1 :.row-2 :.column-1 :.column-2
+         {:display :inline}]
+        [:.divider
+         {:display :inline-block}])]
+
+     (at-medium
+       {:background white
+        :max-height (px 450)
+        :padding 0}
+       hamburger)
+
+     (at-large
+       {:clear :both}
+       [:&:after
+        {:margin-top (px -8)}])]
+
+    (at-large
+      {:position :relative})]
+
+   [:header.show-menu
+    :footer.show-menu
+    [:nav
+     {:max-height (px 450)}]
+    hamburger-to-x
+    (at-medium
+      [:.medium-drawer
+       {:max-height (px 130)}])
+    (at-large
+      [:.medium-drawer
+       {:max-height :none}])]])
 
 (def contact-card
   [[:.contact-card
@@ -277,25 +475,34 @@
      {:bottom (px 4)}]
     [:span
      (underline white (px -12))]
-
     [:button
      {:cursor :pointer
       :width (percent 100)
-      :color red
-      :font-size (px 18)
-      :font-family avenir-book-oblique
       :text-align :center
       :background white
       :padding-top (px 12)
       :padding-bottom (px 10)
       :margin-top (px 30)
       :margin-bottom (px 30)
-      :border-bottom [[(px 5) :solid gray]]}]]])
-
-(defn with-alpha [color alpha]
-  (let [color (if (rgb? color) color (color/hex->rgb color))]
-    (color/as-color
-      (assoc color :alpha alpha))))
+      :border-bottom [[(px 5) :solid gray]]}
+     [:em
+      {:color red
+       :font-size (px 18)}]
+     [:em.continued
+      {:display :none}]]
+    (at-medium
+      {:margin-top (px 20)
+       :padding {:left (px 40)
+                 :right (px 40)
+                 :bottom (px 15)}}
+      [:.links :.address
+       {:width (percent 50)
+        :display :inline-block}]
+      [:.address
+       {:padding-left (px 15)}]
+      [:button
+       [:em.continued
+        {:display :inline}]])]])
 
 (def featured-image
   [[:.featured-image
@@ -326,7 +533,15 @@
       :background-color (with-alpha green 0.70)
       :padding [[(px 30) (px 20)]]}
      [:h1
-      {:color white}]]]])
+      {:color white}]]
+    (at-medium
+      {:margin {:top (px 40)
+                :bottom (px 40)}}
+      [:&.shrink
+       {:margin-top 0
+        :margin-bottom 0
+        :width "calc(50% - 20px)"
+        :display :inline-block}])]])
 
 (defn square []
   [:&
@@ -367,7 +582,13 @@
      {:margin-bottom (px 30)}]
     [:h2
      {:margin-bottom (px 30)}]
-    (card-link white)]])
+    (card-link white)
+    (at-medium
+      {:margin {:top 0
+                :right (px 40)
+                :bottom 0}
+       :width "calc(50% - 20px)"
+       :display :inline-block})]])
 
 (def services-card
   [[:.services-card
@@ -377,7 +598,11 @@
      {:padding [[(px 30) (px 20)]]}]
     (card-link red)
     [:p
-     {:margin-bottom (px 30)}]]])
+     {:margin-bottom (px 30)}]
+    (at-medium
+      {:margin-top (px 40)}
+      [:&:before
+       {:padding-top (percent 50)}])]])
 
 (def quote-card
   [[:.quote-card
@@ -399,7 +624,13 @@
       :font-size (px 18)
       :line-height (px 26)
       :font-family avenir-book-oblique
-      :font-style :normal}]]])
+      :font-style :normal}]
+    (at-medium
+      {:margin {:top 0
+                :right (px 40)
+                :bottom 0}
+       :width "calc(50% - 20px)"
+       :display :inline-block})]])
 
 (def footer
   [[:footer
@@ -424,11 +655,42 @@
     [:.copyright
      {:text-align :center
       :margin-top (px 20)
-      :margin-bottom (px 20)}]]])
+      :margin-bottom (px 20)}]
+    (at-medium
+      (clearfix)
+      {:margin-bottom (px 20)}
+      [:.facebook
+       {:float :left
+        :padding-left (px 70)}]
+      [:.copyright
+       {:float :right
+        :padding-right (px 70)}])]])
 
 (def main
   [[:main
-    {:padding (px 20)}]])
+    {:padding (px 20)}
+    (at-medium
+      {:padding-left (px 70)
+       :padding-right (px 70)})
+    (at-large
+      {:padding-left (px 30)
+       :padding-right (px 30)})]])
+
+(def vertical-line
+  [[:.vertical-line
+    {:display :none}
+    (at-medium
+      {:display :block
+       :position :absolute
+       :margin-left (px 70)
+       :margin-right (px 70)
+       :width (px 1)
+       :height (percent 100)
+       :background (with-alpha green 0.4)
+       :z-index 3})
+    (at-large
+      {:margin-left (px 30)
+       :margin-right (px 30)})]])
 
 (def screen
   (concat
@@ -444,7 +706,8 @@
     featured-image
     tagline-card
     services-card
-    quote-card))
+    quote-card
+    vertical-line))
 
 (defn manifest [config]
   {"css/out/screen.css" #(css (merge
@@ -455,6 +718,7 @@
                                                 :transition-property
                                                 :transition-duration
                                                 :transition-timing-function
-                                                :backface-visibility}}
+                                                :backface-visibility
+                                                :justify-content}}
                                 config)
                            screen)})
