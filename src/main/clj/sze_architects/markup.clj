@@ -14,6 +14,12 @@
 
 (defn render [nodes] (str/join nodes))
 
+(defn classes->str [classes]
+  (->> classes
+    (concat [:card :image-card])
+    (map name)
+    (str/join " ")))
+
 (defsnippet logo
   "assets/img/logo.svg" [html/root] []
   [html/root] (html/wrap :div {:class "logo"}))
@@ -46,15 +52,14 @@
    [:li
     [:a {:href "/restaurants"} "Restaurants"]]])
 
-(defn menu []
-  [:div.menu
+(defn nav []
+  [:nav
    [:button.toggle-menu
-    [:span "Menu"]
-    (hamburger)]
-   [:nav
-    [:div.row-0
-     [:div.column-0
-      [:ul.main-nav
+    [:span "Menu"] (hamburger)]
+   [:div.primary-drawer
+    [:div.row
+     [:div.column
+      [:ul.primary-menu
        [:li
         [:a {:href "/"} "Home"]]
        " "
@@ -70,29 +75,29 @@
        [:li.portfolio-link
         [:a {:href "/portfolio"} "Portfolio"]
         [:button.toggle-menu (hamburger)]]
-       [:li.facebook
+       [:li.facebook-link
         [:a {:href "/facebook"}
          [:span.fa.fa-facebook]
          [:span "facebook"]]]]]]
-    [:div.medium-drawer
-     [:span.portfolio-label "Portfolio:"]
+    [:div.portfolio-drawer
+     (roof)
+     [:span.portfolio-link
+      [:a {:href "/portfolio"} "Portfolio:"]]
      " "
-     [:div.row-1
+     [:div.row
       (vec
-        (concat [:ul.sub-nav.column-1]
+        (concat [:ul.portfolio-menu.column]
           (butlast (interleave residential-projects (repeat " ")))))]
      " "
      [:span.divider]
      " "
-     [:div.row-2
+     [:div.row
       (vec
-        (concat [:ul.sub-nav.column-2]
+        (concat [:ul.portfolio-menu.column]
           (butlast (interleave commercial-projects (repeat " ")))))]]]])
 
 (defn header []
-  [:header
-   (logo)
-   (menu)])
+  [:header (logo) (nav)])
 
 (def contact-info
   [[:div.links
@@ -108,24 +113,24 @@
     [:div.address-2
      [:span "Boca Raton, FL 33487"]]]])
 
-(defn small-contact-card []
+(defn simple-contact-card []
   (vec
-    (concat [:section.contact-card]
+    (concat [:section.card.contact-card.simple.full.left]
       contact-info)))
 
-(defn large-contact-card []
+(defn detailed-contact-card []
   (vec
-    (concat [:section.contact-card
-       [:p
-        "We still respect the time-honored traditions of good business. "
-        [:em "Talk to us, not to our voicemail."]]]
+    (concat [:section.card.contact-card.detailed.full.left
+             [:p
+              "We still respect the time-honored traditions of good business. "
+              [:em "Talk to us, not to our voicemail."]]]
       contact-info
       [[:button
         [:em "Send us a Message"]
         [:em.continued " to Start your Project Today"]]])))
 
 (defn tagline-card []
-  [:section.tagline-card
+  [:section.card.tagline-card.third.left
    [:div.square
     [:h1 "Building Connections."]
     [:h2 "Steven Z Epstein Architects practices real architecture for real people."]
@@ -133,14 +138,14 @@
      [:a {:href "/about"} "Learn about us"]]]])
 
 (defn services-card []
-  [:section.services-card
+  [:section.card.services-card.full.left
    [:div.square
     [:p "We take projects from concept to reality, respecting styles and budgets. Our clients range from small contractors to growing families, and hopefully you."]
     [:p
      [:a {:href "/services"} "Browse our services"]]]])
 
 (defn quote-card []
-  [:section.quote-card
+  [:section.card.quote-card.third.left
    [:div.square
     [:blockquote
      [:div.fa.fa-quote-left]
@@ -148,20 +153,18 @@
      [:div.fa.fa-quote-right]
      [:cite "–Frank Litrento, Construction Solutions & Services"]]]])
 
-(defn featured-image [title src]
-  [:section.featured-image
+(defn image-card [title src & classes]
+  [:section
+   {:class (classes->str classes)}
    [:div.overlay
     [:h1 title]]
-   [:img {:src src :alt ""}]])
-
-(defn shrink-featured-image [title src]
-  (assoc
-    (featured-image title src) 0 :section.featured-image.shrink))
+   [:div.square.mask
+    [:img {:src src :alt ""}]]])
 
 (defn footer []
   [:footer
-   (menu)
-   [:div.facebook
+   (nav)
+   [:div.facebook-link
     [:a {:href "https://www.facebook.com/pages/Steven-Z-Epstein-Architects/101676946574474"}
      [:span.fa.fa-facebook]
      "facebook"]]
@@ -181,17 +184,21 @@
       [:div.vertical-line]
       (header)
       [:main
-       (small-contact-card)
-       (featured-image "Custom Home" "img/square-1.jpg")
-       (tagline-card)
-       (shrink-featured-image "Custom Home" "img/square-2.jpg")
-       (services-card)
-       (featured-image "Custom Home" "img/rectangle-1.jpg")
-       (featured-image "Custom Home" "img/square-3.jpg")
-       (quote-card)
-       (shrink-featured-image "Custom Home" "img/square-2.jpg")
-       (featured-image "Custom Home" "img/square-1.jpg")
-       (large-contact-card)]
+       (simple-contact-card)
+       (image-card "Custom Home" "img/square-1.jpg" :full :left :square)
+       [:section.cards.right.third
+        (tagline-card)
+        (image-card "Custom Home" "img/square-2.jpg" :third :right :square)]
+       [:section.cards.left.half
+        (services-card)
+        (image-card "Custom Home" "img/rectangle-1.jpg" :half :right)]
+       (image-card "Custom Home" "img/square-3.jpg" :half :right :square)
+       [:section.cards.left.third
+        (quote-card)
+        (image-card "Custom Home" "img/square-2.jpg" :third :left :square)]
+       (image-card "Custom Home" "img/square-1.jpg" :full :right :square)
+       (detailed-contact-card)
+       (image-card "Custom Home" "img/square-3.jpg" :third :right :square :extra)]
       (footer)]]))
 
 (defn main []

@@ -68,16 +68,12 @@
      :font-size (px 16)}]
    [:h1
     {:color black
-     ;; :font-size (px 42)
      :font-size (px 36)
-     :line-height (px 43)
-     }]
+     :line-height (px 43)}]
    [:h2
     {:color black
-     ;; :font-size (px 32)
      :font-size (px 24)
-     :line-height (px 32)
-     }]
+     :line-height (px 32)}]
    [:h3
     {:color black
      :font-size (px 22)}]
@@ -91,19 +87,18 @@
    ["::selection" {:color white
                    :background green}]])
 
+(def medium-breakpoint (px 768))
+
+(def large-breakpoint (px 1140))
+
 (defn at-medium [& rules]
   (at-media
-    {:min-width (px 768)}
+    {:min-width medium-breakpoint}
     (apply vector :& rules)))
 
 (defn at-large [& rules]
   (at-media
-    {:min-width (px 1024)}
-    (apply vector :& rules)))
-
-(defn at-huge [& rules]
-  (at-media
-    {:min-width (px 1280)}
+    {:min-width large-breakpoint}
     (apply vector :& rules)))
 
 (defn with-alpha [color alpha]
@@ -128,14 +123,6 @@
    [:&:hover:before
     {:transform "scaleX(1.1)"}]])
 
-(def common
-  [[:html
-    {:min-height (percent 100)
-     :position :relative}]
-   [:body
-    {:height (percent 100)}]
-   [:a (link)]])
-
 (defn underline
   ([color]
    (underline color 0))
@@ -151,27 +138,6 @@
      :display :block
      :margin-top offset}]))
 
-(defn column
-  ([n]
-   (column n 0))
-  ([n gutter]
-   (let [columns (denominator n)]
-     [:&
-      {:width (if (zero? gutter)
-                (format "calc(99.99%% * %1$s)" n)
-                (format "calc(99.99%% * %1$s - (%2$spx - %2$spx * %1$s))" n gutter))}
-      ["&:nth-child(n)"
-       {:float :left
-        :clear :none
-        :margin-right (px gutter)}]
-      ["&:last-child"
-       {:margin-right 0}]
-      [(format "&:nth-child(%sn)" columns)
-       {:float :right
-        :margin-right 0}]
-      [(format "&:nth-child(%sn + 1)" columns)
-       {:clear :left}]])))
-
 (defn clearfix []
   [:&
    {"*zoom" 1}
@@ -180,6 +146,14 @@
      :display :table}]
    [:&:after
     {:clear :both}]])
+
+(def common
+  [[:html
+    {:min-height (percent 100)
+     :position :relative}]
+   [:body
+    {:height (percent 100)}]
+   [:a (link)]])
 
 (def hamburger
   [:.hamburger
@@ -211,253 +185,362 @@
 (def header
   [[:header
     {:padding-top (px 25)}
+    [:.logo
+     {:width (px 182)
+      :margin [[0 :auto (px 28)]]}]
     (at-medium
       {:padding [[(px 40) 0 0]]})
     (at-large
-      {:padding-top (px 25)})]
+      {:padding-top (px 25)
+       :max-width large-breakpoint
+       :margin {:left :auto
+                :right :auto}}
+      [:.logo
+       {:float :left
+        :margin-top (px 38)
+        :margin-left (px 28)
+        :margin-bottom (px -57)
+        :width (px 242)
+        :z-index 2
+        :position :relative}])]])
 
-   [:.logo
-    {:width (px 182)
-     :margin [[0 :auto (px 28)]]}
-    (at-large
-      {:float :left
-       :margin-top (px 38)
-       :margin-left (px 30)
-       :margin-bottom (px -57)
-       :width (px 242)
-       :z-index 2
-       :position :relative})]])
-
-(def menu
-  [[:.menu
+(def nav
+  [[:nav
     (underline green (px -1))
-    (at-medium
-      (underline green (px -1)))
-    (at-large
-      (underline green (px -2)))
     [:button
      (link)
+     hamburger
      {:display :block
       :margin [[0 :auto]]}
      [:&:before
-      {:background green}]
-     hamburger
-     (at-medium
-       {:display :none})]
-
-    [:nav
-     {:position :relative
-      :background green
-      :padding-left (px 20)
-      :padding-right (px 20)
-      :max-height 0
-      :overflow :hidden
-      :transition [[:max-height "500ms" :ease]]}
-     [:a
-      {:color white}]
-
-     [:ul.main-nav
-      {:font-size (px 24)
-       :line-height (px 29)}
-      [:li
-       {:margin-top (px 20)}
-       (underline white (px -1))]
-      [:li.space
-       {:display :none}]
-      (at-medium
-        {:text-align :justify
-         :line-height 0
-         :margin-bottom (px -7)
-         :padding-left (px 70)
-         :padding-right (px 70)}
-        [:.facebook
-         {:display :none}]
-        [:li
-         {:display :inline-block
-          :vertical-align :bottom}
-         [:&:after
-          {:line-height 0
-           :visibility :hidden}]]
-        [:li.space
-         {:display :inline}]
-        [:&:after
-         {:content "''"
-          :width (percent 100)
-          :display :inline-block
-          :font-size 0
-          :line-height 0}]
-        [:a :button :span
-         {:color black
-          :text-align :left
-          :display :inline-block
-          :line-height (px 29)}
-         [:&:before
-          {:background green}]])
-      (at-large
-        {:float :right
-         :text-align :left
-         :padding-right (px 30)}
-        [:.portfolio-link :li.space
-         {:display :none}]
-        [:li
-         {:padding-left (px 20)}])]
-
-     [:.row-0
-      (at-large
-        (underline green (px -1)))]
-
-     [:.column-0
-      (at-large
-        (clearfix))]
-
-     [:.row-1
-      (at-medium
-        (underline white (px -17)))
-      (at-large
-        (underline white (px -25)))]
-
-     [:.row-2
-      (at-medium
-        {:margin-bottom (px 30)}
-        (underline white (px -17)))]
-
-     (clearfix)
-
-     [:.facebook :.hamburger
-      {:display :none}]
-
-     [:ul.sub-nav
-      {:font-size (px 19)
-       :line-height (px 23)}]
-
-     [:.divider
-      {:width (px 14)
-       :height (px 14)
-       :background (with-alpha green 0.6)
-       :position :relative
-       :bottom (px -4)
-       :display :none}]
-
-     [:.portfolio-label
-      {:display :none
-       :font-size (px 24)
-       :line-height (px 29)}
-      (at-large
-        {:display :inline})]
-
-     [:.medium-drawer
-      [:ul.sub-nav
-       {:width (percent 50)
-        :margin-top (px 10)
-        :margin-bottom (px 30)}
-       [:.portfolio
-        {:display :none}]
-       [:&.column-1
-        {:float :left}]
-       [:&.column-2
-        {:float :right
-         :position :relative
-         :padding-left (px 25)}
-        [:&:before
-         {:content "''"
-          :opacity 0.4
-          :background-color white
-          :position :absolute
-          :top (px 20)
-          :bottom (px -10)
-          :left 0
-          :width (px 1)}]]
-       [:li
-        {:margin-top (px 10)}]
-
-      (at-medium
-        (clearfix)
-        {:width (percent 100)
-         :margin-top (px 15)
-         :margin-bottom (px 15)
-         :padding-left (px 70)
-         :padding-right (px 70)}
-        [:&.column-1
-         :&.column-2
-         {:float :none
-          :padding-left (px 70)}]
-        [:li
-         {:float :left
-          :padding-right (px 25)}])
-
-       (at-large
-         [:&:before :&:after
-          {:content :none}]
-         {:width :auto
-          :margin-top (px 15)
-          :margin-bottom (px 15)
-          :padding-left 0
-          :padding-right 0}
-         [:&.column-1
-          :&.column-2
-          {:float :none
-           :padding-left 0}]
-         [:li
-          {:float :none
-           :padding 0
-           :display :inline-block}])]
-
-      (at-medium
-        (clearfix)
-        {:max-height 0
-         :width (percent 100)
-         :background green
-         :transition [[:max-height "500ms" :ease]]})
-
-      (at-large
-        {:background white
-         :max-height :none
-         :line-height 0
-         :text-align :justify
-         :padding [[(px 15) (px 30) 0]]}
-        [:&:after
-         {:content "''"
-          :width (percent 100)
-          :display :inline-block
-          :line-height 0}]
-        [:a
-         {:color black}
-         [:&:before
-          {:background green}]]
-        [:.row-1 :.row-2 :.column-1 :.column-2
-         {:display :inline}]
-        [:.divider
-         {:display :inline-block}])]
-
-     (at-medium
-       {:background white
-        :max-height (px 450)
-        :padding 0}
-       hamburger)
-
-     (at-large
-       {:clear :both}
-       [:&:after
-        {:margin-top (px -8)}])]
-
+      {:background green}]]
+    (at-medium
+      (underline green (px -1))
+      [:button
+       {:display :none}])
     (at-large
-      {:position :relative})]
+      (underline green (px -1)))]
+
+   [:header
+    [:.roof
+     {:display :none}]]
 
    [:header.show-menu
     :footer.show-menu
-    [:nav
+    [:.primary-drawer
      {:max-height (px 450)}]
     hamburger-to-x
     (at-medium
-      [:.medium-drawer
+      [:.portfolio-drawer
        {:max-height (px 130)}])
     (at-large
-      [:.medium-drawer
+      [:.portfolio-drawer
        {:max-height :none}])]])
+
+(def primary-drawer
+  [[:.primary-drawer
+    (clearfix)
+    {:background green
+     :padding-left (px 20)
+     :padding-right (px 20)
+     :max-height 0
+     :overflow :hidden
+     :transition [[:max-height "500ms" :ease]]}
+
+    [:a
+     {:color white}]
+
+    [:.facebook-link :.hamburger
+     {:display :none}]
+
+    [:ul.primary-menu
+     {:font-size (px 24)
+      :line-height (px 29)}
+     [:li
+      {:margin-top (px 20)}
+      (underline white (px -1))]
+     [:li.space
+      {:display :none}]]
+
+    (at-medium
+      hamburger
+      {:background :none
+       :max-height (px 450)
+       :padding 0}
+      [:ul.primary-menu
+       {:text-align :justify
+        :line-height 0
+        :margin-bottom (px -7)
+        :padding-left (px 70)
+        :padding-right (px 70)}
+       [:.facebook-link
+        {:display :none}]
+       [:li
+        {:display :inline-block
+         :vertical-align :bottom}
+        [:&:after
+         {:line-height 0
+          :visibility :hidden}]]
+       [:li.space
+        {:display :inline}]
+       [:&:after
+        {:content "''"
+         :width (percent 100)
+         :display :inline-block
+         :font-size 0
+         :line-height 0}]
+       [:a :button :span
+        {:color black
+         :text-align :left
+         :display :inline-block
+         :line-height (px 29)}
+        [:&:before
+         {:background green}]]])
+
+    (at-large
+      {:clear :both
+       :overflow :visible}
+      [:&:after
+       {:margin-top (px -8)}]
+      [:.row
+       (underline green (px -1))]
+      [:.column
+       (clearfix)]
+      [:ul.primary-menu
+       {:float :right
+        :text-align :left
+        :padding-right (px 30)}
+       [:.portfolio-link :li.space
+        {:display :none}]
+       [:.facebook-link
+        {:display :inline-block}
+        [:.fa-facebook:before
+         {:color (with-alpha green 0.4)
+          :background white
+          :padding-right (px 15)}]]
+       [:li
+        {:padding-left (px 20)}]])]])
+
+(def portfolio-drawer
+  [[:.portfolio-drawer
+    {:position :relative}
+
+    [:ul.portfolio-menu
+     {:font-size (px 19)
+      :line-height (px 23)
+      :width (percent 50)
+      :margin-top (px 10)
+      :margin-bottom (px 30)}
+
+     [:li
+      {:margin-top (px 10)}]]
+
+    [:.row
+     [:.column
+      {:float :left}]]
+
+    [:.row:last-child
+     [:.column
+      {:float :right
+       :position :relative
+       :padding-left (px 25)}
+      [:&:before
+       {:content "''"
+        :opacity 0.4
+        :background-color white
+        :position :absolute
+        :top (px 20)
+        :bottom (px -10)
+        :left 0
+        :width (px 1)}]]]
+
+    [:.portfolio-link
+     {:display :none
+      :font-size (px 24)
+      :line-height (px 23)}]
+
+    [:.roof
+     {:width (px 53)
+      :position :absolute
+      :top (px -3)
+      :left (px -20)
+      :z-index 10}]
+
+    [:.divider
+     {:width (px 14)
+      :height (px 14)
+      :background (with-alpha green 0.6)
+      :position :relative
+      :bottom (px -4)
+      :display :none}]
+
+    (at-medium
+      (clearfix)
+      {:max-height 0
+       :width (percent 100)
+       :background green
+       :transition [[:max-height "500ms" :ease]]}
+      [:ul.portfolio-menu
+       (clearfix)
+       {:width (percent 100)
+        :margin-top (px 15)
+        :margin-bottom (px 15)
+        :padding-left (px 70)
+        :padding-right (px 70)}
+       [:li
+        {:float :left
+         :padding-right (px 25)}]]
+      [:.row :.row:last-child
+       (underline white (px -17))
+       [:.column
+        {:float :none
+         :padding-left (px 70)}]]
+      [:.row:last-child
+       {:margin-bottom (px 30)}])
+
+    (at-large
+      {:background :none
+       :max-height :none
+       :line-height 0
+       :text-align :justify
+       :padding [[(px 15) (px 30) 0]]}
+      [:&:after
+       {:content "''"
+        :width (percent 100)
+        :display :inline-block
+        :line-height 0}]
+      [:a
+       {:color black}
+       [:&:before
+        {:background green}]]
+      [:.divider
+       {:display :inline-block}]
+      [:ul.portfolio-menu
+       [:&:before :&:after
+        {:content :none}]
+       {:width :auto
+        :margin-top (px 15)
+        :margin-bottom (px 15)
+        :padding-left 0
+        :padding-right 0}
+       [:li
+        {:float :none
+         :padding 0
+         :display :inline-block}]]
+      [:.row :.column
+       {:display :inline}]
+      [:.row :.row:last-child
+       [:&:after
+        {:content :none}]
+       [:.column
+        {:float :none
+         :padding-left 0}]]
+      [:.portfolio-link
+       {:display :inline-block}
+       [:a:before
+        {:bottom (px 2)}]])]])
+
+(defn square []
+  [:&
+   {:position :relative
+    :width (percent 100)
+    :overflow :hidden}
+   [:&:before
+    {:content "''"
+     :display :block
+     :padding-top (percent 100)}]
+   [:div.square
+    {:position :absolute
+     :top 0
+     :left 0
+     :right 0
+     :bottom 0}]])
+
+(defn card-link [color]
+  [:a
+   {:color color
+    :font-size (px 18)
+    :font-family avenir-book-oblique}
+   [:&:before
+    {:background color
+     :transform "translateY(0)"}]
+   [:&:hover:before
+    {:transform "translateY(2px)"}]])
+
+(def main
+  [[:main
+    (clearfix)
+    {:padding [[0 (px 20)]]
+     :margin [[(px 20) 0 (px 10)]]}
+    (at-medium
+      {:padding [[0 (px 70)]]
+       :margin-bottom 0})
+    (at-large
+      {:padding [[0 (px 30)]]
+       :max-width large-breakpoint
+       :margin {:left :auto
+                :right :auto}}
+      [" > section:nth-child(odd)"
+       {:margin-left (px 20)
+        :margin-right 0}]
+      [" > section:nth-child(even)"
+       {:margin-left 0
+        :margin-right (px 20)}]
+      [" > section:nth-child(2)"
+       [:&.square:before
+        {:padding-top (percent 102.9)}]]
+      [" > section:nth-child(5)"
+       [:&.square:before
+        {:padding-top (percent 105.8)}]]
+      [" > section:nth-child(7)"
+       [:&.square:before
+        {:padding-top (percent 102.9)}]]
+      [" > section:nth-child(9)"
+       [:&.square:before
+        {:padding-top (percent 97.5)}]])]])
+
+(def card
+  [[:.card
+    {:width (percent 100)
+     :margin {:top (px 10)
+              :bottom (px 10)}}
+    [:&.left
+     {:float :left}]
+    [:&.right
+     {:float :right}]
+    [:&.square (square)]
+    (at-medium
+      {:margin {:top (px 20)
+                :bottom (px 20)}}
+      [:&.third
+       {:width "calc(50% - 20px)"}])
+    (at-large
+      [:&.full
+       {:width "calc(66.6666667% - 20px)"}]
+      [:&.half
+       {:width "calc(50% - 20px)"}]
+      [:&.third
+       {:width "calc(33.3333333% - 20px)"}])]])
+
+(def cards
+  [[:.cards
+    {:float :left
+     :width (percent 100)}
+    (at-large
+      [:&.left
+       {:float :left}]
+      [:&.half
+       {:width "calc(50% - 20px)"}
+       [:.card
+        {:width (percent 100)}]]
+      [:&.third
+       {:width "calc(33.3333333% - 20px)"}
+       [:.card
+        {:width (percent 100)}]])]])
 
 (def contact-card
   [[:.contact-card
-    {:background-color green
+    {:background green
      :padding [[(px 10) (px 20)]]}
     [:p :em
      {:color white
@@ -497,31 +580,42 @@
                  :bottom (px 15)}}
       [:.links :.address
        {:width (percent 50)
-        :display :inline-block}]
+        :display :inline-block}
+       [:a:before
+        {:z-index 2}]]
       [:.address
-       {:padding-left (px 15)}]
+       {:padding-left (px 15)}
+       [:span:after
+        {:background green}]]
       [:button
        [:em.continued
-        {:display :inline}]])]])
+        {:display :inline}]])
+    (at-large
+      [:&.simple
+       {:display :none}]
+      [:.address
+       [:span:after
+        {:content :none}]])]])
 
-(def featured-image
-  [[:.featured-image
+(def image-card
+  [[:.image-card
     {:width (percent 100)
-     :overflow :hidden
      :text-align :center
-     :position :relative
-     :margin-top (px 20)
-     :margin-bottom (px 20)}
+     :position :relative}
     [:&:hover
      [:.overlay
       {:opacity 1}]
      [:img
       {:transform "scale(1.2)"}]]
+    [:&.extra
+     {:display :none}]
     [:img :.overlay
      {:transition [[:all "250ms" :ease]]}]
     [:img
      {:width (percent 100)
       :transform "scale(1.1)"}]
+    [:.mask
+     {:overflow :hidden}]
     [:.overlay
      {:opacity 0
       :position :absolute
@@ -534,41 +628,10 @@
       :padding [[(px 30) (px 20)]]}
      [:h1
       {:color white}]]
-    (at-medium
-      {:margin {:top (px 40)
-                :bottom (px 40)}}
-      [:&.shrink
-       {:margin-top 0
-        :margin-bottom 0
-        :width "calc(50% - 20px)"
-        :display :inline-block}])]])
-
-(defn square []
-  [:&
-   {:position :relative
-    :width (percent 100)
-    :overflow :hidden}
-   [:&:before
-    {:content "''"
-     :display :block
-     :padding-top (percent 100)}]
-   [:div.square
-    {:position :absolute
-     :top 0
-     :left 0
-     :right 0
-     :bottom 0}]])
-
-(defn card-link [color]
-  [:a
-   {:color color
-    :font-size (px 18)
-    :font-family avenir-book-oblique}
-   [:&:before
-    {:background color
-     :transform "translateY(0)"}]
-   [:&:hover:before
-    {:transform "translateY(2px)"}]])
+    (at-large
+      {:border [[(px 1) :solid (with-alpha green 0.4)]]}
+      [:&.extra
+       {:display :block}])]])
 
 (def tagline-card
   [[:.tagline-card
@@ -584,11 +647,7 @@
      {:margin-bottom (px 30)}]
     (card-link white)
     (at-medium
-      {:margin {:top 0
-                :right (px 40)
-                :bottom 0}
-       :width "calc(50% - 20px)"
-       :display :inline-block})]])
+      {:margin-right (px 40)})]])
 
 (def services-card
   [[:.services-card
@@ -600,9 +659,10 @@
     [:p
      {:margin-bottom (px 30)}]
     (at-medium
-      {:margin-top (px 40)}
       [:&:before
-       {:padding-top (percent 50)}])]])
+       {:padding-top (percent 50)}])
+    (at-large
+      {:width "calc(50% - 20px)"})]])
 
 (def quote-card
   [[:.quote-card
@@ -626,15 +686,11 @@
       :font-family avenir-book-oblique
       :font-style :normal}]
     (at-medium
-      {:margin {:top 0
-                :right (px 40)
-                :bottom 0}
-       :width "calc(50% - 20px)"
-       :display :inline-block})]])
+      {:margin-right (px 40)})]])
 
 (def footer
   [[:footer
-    [:.facebook
+    ["> .facebook-link"
      {:text-align :center
       :margin-top (px 20)
       :margin-bottom (px 20)}
@@ -659,22 +715,21 @@
     (at-medium
       (clearfix)
       {:margin-bottom (px 20)}
-      [:.facebook
+      ["> .facebook-link"
        {:float :left
         :padding-left (px 70)}]
       [:.copyright
        {:float :right
-        :padding-right (px 70)}])]])
-
-(def main
-  [[:main
-    {:padding (px 20)}
-    (at-medium
-      {:padding-left (px 70)
-       :padding-right (px 70)})
+        :padding-right (px 70)}])
     (at-large
-      {:padding-left (px 30)
-       :padding-right (px 30)})]])
+      {:margin {:left :auto
+                :right :auto}
+       :max-width large-breakpoint}
+      [" > .facebook-link"
+       {:display :none}]
+      [:.copyright
+       {:padding-right (px 25)
+        :margin-bottom  (px 40)}])]])
 
 (def vertical-line
   [[:.vertical-line
@@ -684,13 +739,16 @@
        :position :absolute
        :margin-left (px 70)
        :margin-right (px 70)
-       :width (px 1)
+       :width (percent 100)
        :height (percent 100)
-       :background (with-alpha green 0.4)
-       :z-index 3})
+       :border-left [[(px 1) :solid (with-alpha green 0.4)]]
+       :z-index -1})
     (at-large
-      {:margin-left (px 30)
-       :margin-right (px 30)})]])
+      {:max-width large-breakpoint
+       :left (px 60)
+       :right 0
+       :margin {:left :auto
+                :right :auto}})]])
 
 (def screen
   (concat
@@ -698,16 +756,20 @@
     defaults
     common
     fonts
+    vertical-line
     header
-    footer
-    menu
+    nav
+    primary-drawer
+    portfolio-drawer
     main
+    card
+    cards
     contact-card
-    featured-image
+    image-card
     tagline-card
     services-card
     quote-card
-    vertical-line))
+    footer))
 
 (defn manifest [config]
   {"css/out/screen.css" #(css (merge
