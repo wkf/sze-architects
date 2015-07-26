@@ -225,6 +225,12 @@
     [:.roof
      {:display :none}]]
 
+   [:header
+    [:.primary-drawer
+     [:ul.primary-menu
+      [:.facebook-link
+       {:display :none}]]]]
+
    [:header.show-menu
     :footer.show-menu
     [:.primary-drawer
