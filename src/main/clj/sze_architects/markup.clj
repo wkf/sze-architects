@@ -16,7 +16,6 @@
 
 (defn classes->str [classes]
   (->> classes
-    (concat [:card :image-card])
     (map name)
     (str/join " ")))
 
@@ -131,7 +130,7 @@
 
 (defn tagline-card []
   [:section.card.tagline-card.third.left
-   [:div.square
+   [:div
     [:h1 "Building Connections."]
     [:h2 "Steven Z Epstein Architects practices real architecture for real people."]
     [:p
@@ -139,14 +138,14 @@
 
 (defn services-card []
   [:section.card.services-card.full.left
-   [:div.square
+   [:div
     [:p "We take projects from concept to reality, respecting styles and budgets. Our clients range from small contractors to growing families, and hopefully you."]
     [:p
      [:a {:href "/services"} "Browse our services"]]]])
 
 (defn quote-card []
   [:section.card.quote-card.third.left
-   [:div.square
+   [:div
     [:blockquote
      [:div.fa.fa-quote-left]
      [:p "I have been working with Steve and Claudia for almost 20 years now and they are my architects of choice." ]
@@ -155,10 +154,13 @@
 
 (defn image-card [title src & classes]
   [:section
-   {:class (classes->str classes)}
+   {:class (classes->str
+             (conj classes :card :image-card))}
    [:div.overlay
-    [:h1 title]]
-   [:div.square.mask
+    [:h1 title]
+    [:button
+     [:em "See the Project"]]]
+   [:div.mask
     [:img {:src src :alt ""}]]])
 
 (defn footer []
@@ -185,20 +187,28 @@
       (header)
       [:main
        (simple-contact-card)
-       (image-card "Custom Home" "img/square-1.jpg" :full :left :square)
-       [:section.cards.right.third
-        (tagline-card)
-        (image-card "Custom Home" "img/square-2.jpg" :third :right :square)]
-       [:section.cards.left.half
-        (services-card)
-        (image-card "Custom Home" "img/rectangle-1.jpg" :half :right)]
-       (image-card "Custom Home" "img/square-3.jpg" :half :right :square)
-       [:section.cards.left.third
-        (quote-card)
-        (image-card "Custom Home" "img/square-2.jpg" :third :left :square)]
-       (image-card "Custom Home" "img/square-1.jpg" :full :right :square)
-       (detailed-contact-card)
-       (image-card "Custom Home" "img/square-3.jpg" :third :right :square :extra)]
+       [:div.cards.row.thirds
+        [:div
+         (image-card "Additon & Remodel in Watermill, NY" "img/square-1.jpg" :full :left)
+         [:div.cards.column.right.third
+          (tagline-card)
+          (image-card "Additon & Remodel in Watermill, NY" "img/square-2.jpg" :third :right)]]]
+       [:div.cards.row.halves
+        [:div
+         [:div.cards.column.left.half
+          (services-card)
+          (image-card "Additon & Remodel in Watermill, NY" "img/rectangle-1.jpg" :half :right :rectangle)]
+         (image-card "Additon & Remodel in Watermill, NY" "img/square-3.jpg" :half :right)]]
+       [:div.cards.row.thirds
+        [:div
+         [:div.cards.column.left.third
+          (quote-card)
+          (image-card "Additon & Remodel in Watermill, NY" "img/square-2.jpg" :third :left)]
+         (image-card "Additon & Remodel in Watermill, NY" "img/square-1.jpg" :full :right)]]
+       [:div.cards.row.fixed
+        [:div
+         (detailed-contact-card)
+         (image-card "Additon & Remodel in Watermill, NY" "img/square-3.jpg" :third :right :extra)]]]
       (footer)]]))
 
 (defn main []

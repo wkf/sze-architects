@@ -118,10 +118,11 @@
      :bottom 0
      :height (px 1)
      :background white
-     :transform "scaleX(1)"
-     :transition [[:all "250ms" :ease]]}]
-   [:&:hover:before
-    {:transform "scaleX(1.1)"}]])
+     :transform "translateY(0)"
+     :transition [[:all "200ms" :ease]]}]
+   [:&:hover
+    [:&:before
+     {:transform "translateY(1px)"}]]])
 
 (defn underline
   ([color]
@@ -163,8 +164,7 @@
     :overflow :hidden
     :top (px 2)
     :bottom 0
-    :display :inline-block
-    :margin-left (px 12)}
+    :display :inline-block}
    [:svg
     [:line
      {:transition [[:all "250ms" :ease]]
@@ -192,13 +192,13 @@
       {:padding [[(px 40) 0 0]]})
     (at-large
       {:padding-top (px 25)
-       :max-width large-breakpoint
+       ;; :max-width large-breakpoint
        :margin {:left :auto
                 :right :auto}}
       [:.logo
        {:float :left
         :margin-top (px 38)
-        :margin-left (px 28)
+        :margin-left (px 68)
         :margin-bottom (px -57)
         :width (px 242)
         :z-index 2
@@ -214,6 +214,9 @@
       :margin [[0 :auto]]}
      [:&:before
       {:background green}]]
+    [:button.toggle-menu
+     [:span
+      {:padding-right (px 12)}]]
     (at-medium
       (underline green (px -1))
       [:button
@@ -222,14 +225,18 @@
       (underline green (px -1)))]
 
    [:header
-    [:.roof
-     {:display :none}]]
-
-   [:header
     [:.primary-drawer
      [:ul.primary-menu
       [:.facebook-link
        {:display :none}]]]]
+
+   (at-large
+     [:footer
+      [:.portfolio-drawer
+       [:.roof
+        {:display :block}]
+       [:.portfolio-link
+        {:padding-left (px 30)}]]])
 
    [:header.show-menu
     :footer.show-menu
@@ -251,7 +258,8 @@
      :padding-right (px 20)
      :max-height 0
      :overflow :hidden
-     :transition [[:max-height "500ms" :ease]]}
+     :transition [[:max-height "500ms" :ease]]
+     :position :relative}
 
     [:a
      {:color white}]
@@ -272,13 +280,18 @@
       hamburger
       {:background :none
        :max-height (px 450)
-       :padding 0}
+       :padding 0
+       :position :static
+       :overflow :visible}
       [:ul.primary-menu
        {:text-align :justify
         :line-height 0
         :margin-bottom (px -7)
         :padding-left (px 70)
         :padding-right (px 70)}
+       [:.portfolio-link
+        [:a
+         {:margin-right (px 12)}]]
        [:.facebook-link
         {:display :none}]
        [:li
@@ -300,12 +313,13 @@
          :text-align :left
          :display :inline-block
          :line-height (px 29)}
+        [:&:hover
+         {:color red}]
         [:&:before
          {:background green}]]])
 
     (at-large
-      {:clear :both
-       :overflow :visible}
+      {:clear :both}
       [:&:after
        {:margin-top (px -8)}]
       [:.row
@@ -314,8 +328,7 @@
        (clearfix)]
       [:ul.primary-menu
        {:float :right
-        :text-align :left
-        :padding-right (px 30)}
+        :text-align :left}
        [:.portfolio-link :li.space
         {:display :none}]
        [:.facebook-link
@@ -353,7 +366,7 @@
       [:&:before
        {:content "''"
         :opacity 0.4
-        :background-color white
+        :background white
         :position :absolute
         :top (px 20)
         :bottom (px -10)
@@ -366,10 +379,11 @@
       :line-height (px 23)}]
 
     [:.roof
-     {:width (px 53)
+     {:display :none
+      :width (px 53)
       :position :absolute
       :top (px -3)
-      :left (px -20)
+      :left (px 20)
       :z-index 10}]
 
     [:.divider
@@ -385,7 +399,8 @@
       {:max-height 0
        :width (percent 100)
        :background green
-       :transition [[:max-height "500ms" :ease]]}
+       :transition [[:max-height "500ms" :ease]]
+       :overflow :hidden}
       [:ul.portfolio-menu
        (clearfix)
        {:width (percent 100)
@@ -409,7 +424,7 @@
        :max-height :none
        :line-height 0
        :text-align :justify
-       :padding [[(px 15) (px 30) 0]]}
+       :padding [[(px 15) (px 70) 0]]}
       [:&:after
        {:content "''"
         :width (percent 100)
@@ -417,6 +432,8 @@
         :line-height 0}]
       [:a
        {:color black}
+       [:&:hover
+        {:color red}]
        [:&:before
         {:background green}]]
       [:.divider
@@ -446,21 +463,26 @@
        [:a:before
         {:bottom (px 2)}]])]])
 
-(defn square []
-  [:&
-   {:position :relative
-    :width (percent 100)
-    :overflow :hidden}
-   [:&:before
-    {:content "''"
-     :display :block
-     :padding-top (percent 100)}]
-   [:div.square
-    {:position :absolute
-     :top 0
-     :left 0
-     :right 0
-     :bottom 0}]])
+(defn aspect
+  ([]
+   (aspect (percent 100)))
+  ([p]
+   (aspect p "> div"))
+  ([p sel]
+   [[:&
+     {:position :relative
+      :width (percent 100)
+      :overflow :hidden}
+     [:&:before
+      {:content "''"
+       :display :block
+       :padding-top p}]
+     [sel
+      {:position :absolute
+       :top 0
+       :left 0
+       :right 0
+       :bottom 0}]]]))
 
 (defn card-link [color]
   [:a
@@ -469,9 +491,29 @@
     :font-family avenir-book-oblique}
    [:&:before
     {:background color
-     :transform "translateY(0)"}]
+     :transform "scaleY(1) translateY(0)"}]
    [:&:hover:before
-    {:transform "translateY(2px)"}]])
+    {:transform "scaleY(2) translateY(1px)"}]])
+
+(defn card-button []
+  [:button
+   {:cursor :pointer
+    :width (percent 100)
+    :text-align :center
+    :background white
+    :padding-top (px 12)
+    :padding-bottom (px 10)
+    :margin-top (px 30)
+    :margin-bottom (px 30)
+    :border-bottom [[(px 5) :solid gray]]
+    :transition [[:all "150ms" :ease]]}
+   [:&:hover
+    {:border-bottom-color red}]
+   [:em
+    {:color red
+     :font-size (px 18)}]
+   [:em.continued
+    {:display :none}]])
 
 (def main
   [[:main
@@ -482,31 +524,14 @@
       {:padding [[0 (px 70)]]
        :margin-bottom 0})
     (at-large
-      {:padding [[0 (px 30)]]
-       :max-width large-breakpoint
+      {:padding [[0 (px 70)]]
+       ;; :max-width large-breakpoint
        :margin {:left :auto
-                :right :auto}}
-      [" > section:nth-child(odd)"
-       {:margin-left (px 20)
-        :margin-right 0}]
-      [" > section:nth-child(even)"
-       {:margin-left 0
-        :margin-right (px 20)}]
-      [" > section:nth-child(2)"
-       [:&.square:before
-        {:padding-top (percent 102.9)}]]
-      [" > section:nth-child(5)"
-       [:&.square:before
-        {:padding-top (percent 105.8)}]]
-      [" > section:nth-child(7)"
-       [:&.square:before
-        {:padding-top (percent 102.9)}]]
-      [" > section:nth-child(9)"
-       [:&.square:before
-        {:padding-top (percent 97.5)}]])]])
+                :right :auto}})]])
 
 (def card
   [[:.card
+    (aspect)
     {:width (percent 100)
      :margin {:top (px 10)
               :bottom (px 10)}}
@@ -514,7 +539,9 @@
      {:float :left}]
     [:&.right
      {:float :right}]
-    [:&.square (square)]
+    [:&.rectangle
+     [:&:before
+      {:padding-top "calc(50% - 22px)"}]]
     (at-medium
       {:margin {:top (px 20)
                 :bottom (px 20)}}
@@ -533,6 +560,18 @@
     {:float :left
      :width (percent 100)}
     (at-large
+      [:&.row
+       [:&.row.fixed
+        (aspect (px 352))]
+       [:&.row.halves
+        (aspect "calc(50% - -20px)")]
+       [:&.row.thirds
+        (aspect "calc(66.6666667% - -40px)")]
+       ["> div"
+        ["> *:first-child"
+         {:margin-right (px 40)}]
+        ["> .card"
+         {:height "calc(100% - 40px)"}]]]
       [:&.left
        {:float :left}]
       [:&.half
@@ -546,8 +585,14 @@
 
 (def contact-card
   [[:.contact-card
-    {:background green
+    (card-button)
+    {:position :static
+     :background green
      :padding [[(px 10) (px 20)]]}
+    [:&:before
+     {:content :none}]
+    ["> div"
+     {:position :static}]
     [:p :em
      {:color white
       :font-size (px 24)
@@ -564,21 +609,6 @@
      {:bottom (px 4)}]
     [:span
      (underline white (px -12))]
-    [:button
-     {:cursor :pointer
-      :width (percent 100)
-      :text-align :center
-      :background white
-      :padding-top (px 12)
-      :padding-bottom (px 10)
-      :margin-top (px 30)
-      :margin-bottom (px 30)
-      :border-bottom [[(px 5) :solid gray]]}
-     [:em
-      {:color red
-       :font-size (px 18)}]
-     [:em.continued
-      {:display :none}]]
     (at-medium
       {:margin-top (px 20)
        :padding {:left (px 40)
@@ -605,23 +635,31 @@
 
 (def image-card
   [[:.image-card
+    (card-button)
     {:width (percent 100)
      :text-align :center
-     :position :relative}
+     :position :relative
+     :border [[(px 1) :solid (with-alpha green 0.4)]]}
     [:&:hover
      [:.overlay
       {:opacity 1}]
      [:img
-      {:transform "scale(1.2)"}]]
+      {:transform "scale(1.35)"}]]
     [:&.extra
      {:display :none}]
     [:img :.overlay
-     {:transition [[:all "250ms" :ease]]}]
+     {:transition [[:all "100ms" :ease]]}]
     [:img
      {:width (percent 100)
-      :transform "scale(1.1)"}]
+      :transform "scale(1.3)"}]
     [:.mask
-     {:overflow :hidden}]
+     {:height (percent 100)
+      :overflow :hidden
+      :position :absolute
+      :top 0
+      :left 0
+      :right 0
+      :bottom 0}]
     [:.overlay
      {:opacity 0
       :position :absolute
@@ -635,15 +673,15 @@
      [:h1
       {:color white}]]
     (at-large
-      {:border [[(px 1) :solid (with-alpha green 0.4)]]}
       [:&.extra
-       {:display :block}])]])
+       {:display :block}]
+      [:.overlay
+       {:padding (px 35)}])]])
 
 (def tagline-card
   [[:.tagline-card
     {:background-color green}
-    (square)
-    [:div.square
+    ["> div"
      {:padding [[(px 30) (px 20)]]}]
     [:h1 :h2
      {:color white}]
@@ -653,28 +691,31 @@
      {:margin-bottom (px 30)}]
     (card-link white)
     (at-medium
-      {:margin-right (px 40)})]])
+      {:margin-right (px 40)})
+    (at-large
+      ["> div"
+       {:padding (px 35)}])]])
 
 (def services-card
   [[:.services-card
     {:border [[(px 1) (with-alpha green 0.6) :solid]]}
-    (square)
-    [:div.square
+    ["> div"
      {:padding [[(px 30) (px 20)]]}]
     (card-link red)
     [:p
      {:margin-bottom (px 30)}]
     (at-medium
       [:&:before
-       {:padding-top (percent 50)}])
+       {:padding-top "calc(50% - 20px)"}])
     (at-large
-      {:width "calc(50% - 20px)"})]])
+      {:width "calc(50% - 20px)"}
+      ["> div"
+       {:padding (px 35)}])]])
 
 (def quote-card
   [[:.quote-card
     {:border [[(px 1) (with-alpha green 0.6) :solid]]}
-    (square)
-    [:div.square
+    ["> div"
      {:padding [[(px 30) (px 20)]]}]
     [:.fa-quote-left
      :.fa-quote-right
@@ -692,7 +733,10 @@
       :font-family avenir-book-oblique
       :font-style :normal}]
     (at-medium
-      {:margin-right (px 40)})]])
+      {:margin-right (px 40)})
+    (at-large
+      ["> div"
+       {:padding (px 35)}])]])
 
 (def footer
   [[:footer
@@ -730,12 +774,12 @@
     (at-large
       {:margin {:left :auto
                 :right :auto}
-       :max-width large-breakpoint}
+       ;; :max-width large-breakpoint
+       }
       [" > .facebook-link"
        {:display :none}]
       [:.copyright
-       {:padding-right (px 25)
-        :margin-bottom  (px 40)}])]])
+       {:margin-bottom  (px 40)}])]])
 
 (def vertical-line
   [[:.vertical-line
@@ -750,8 +794,9 @@
        :border-left [[(px 1) :solid (with-alpha green 0.4)]]
        :z-index -1})
     (at-large
-      {:max-width large-breakpoint
-       :left (px 60)
+      {
+       ;; :max-width large-breakpoint
+       :left (px 70)
        :right 0
        :margin {:left :auto
                 :right :auto}})]])
