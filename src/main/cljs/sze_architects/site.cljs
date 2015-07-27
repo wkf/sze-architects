@@ -40,9 +40,9 @@
   "Start the site. Attempt to be idempotent."
   []
   (when-not (:running? @site)
-    (swap! site assoc :running? true)
-
-    (.attach js/FastClick body)
+    (swap! site assoc
+      :running? true
+      :fastclick (.attach js/FastClick body))
 
     (doseq [el [header footer]
             button-el (get-toggle-menu-buttons el)]
@@ -63,6 +63,9 @@
                        get-element-by-tag
                        get-toggle-menu-buttons)]
         (events/removeAll button "click")))
+
+    (-> @site :fastclick .destroy)
+
     (swap! site assoc :running? false)))
 
 (start)

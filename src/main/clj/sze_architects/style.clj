@@ -789,14 +789,14 @@
        :position :absolute
        :margin-left (px 70)
        :margin-right (px 70)
-       :width (percent 100)
+       :width "calc(100% - 140px)"
        :height (percent 100)
        :border-left [[(px 1) :solid (with-alpha green 0.4)]]
        :z-index -1})
     (at-large
       {
        ;; :max-width large-breakpoint
-       :left (px 70)
+       :left 0
        :right 0
        :margin {:left :auto
                 :right :auto}})]])

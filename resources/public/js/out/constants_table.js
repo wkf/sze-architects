@@ -1,3 +1,4 @@
+cljs.core.constant$keyword$fastclick = new cljs.core.Keyword(null,"fastclick","fastclick",-1156355519);
 cljs.core.constant$keyword$meta = new cljs.core.Keyword(null,"meta","meta",1499536964);
 cljs.core.constant$keyword$dup = new cljs.core.Keyword(null,"dup","dup",556298533);
 cljs.core.constant$keyword$running_QMARK_ = new cljs.core.Keyword(null,"running?","running?",-257884763);
