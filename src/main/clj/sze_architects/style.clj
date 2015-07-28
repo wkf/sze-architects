@@ -570,16 +570,12 @@
      :width (percent 100)}
     (at-medium
       [:&.row
-       ["> div > .card > div"
+       ["> div > .card.image-card.full > div"
+        "> div > .card.image-card.half > div"
         {:padding (px 70)}
         [:h1
          {:font-size (px 48)
-          :line-height (px 58)}]]
-       ["> div > .card.extra > div"
-        {:padding (px 35)}
-        [:h1
-         {:font-size (px 36)
-          :line-height (px 43)}]]]
+          :line-height (px 58)}]]]
       [:&.column
        [:&.third
         [:.card:before
