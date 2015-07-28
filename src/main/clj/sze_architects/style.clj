@@ -5,6 +5,7 @@
             [garden.stylesheet :refer [at-media]]))
 
 (def red "#ef4639")
+(def light-red "#ff6f6c")
 (def green "#39bb99")
 (def black "#000000")
 (def white "#ffffff")
@@ -112,7 +113,8 @@
 (defn link []
   [:&
    {:cursor :pointer
-    :position :relative}
+    :position :relative
+    :transition [[:all "200ms" :ease]]}
    [:&:before
     {:content "''"
      :position :absolute
@@ -170,7 +172,7 @@
     :display :inline-block}
    [:svg
     [:line
-     {:transition [[:all "250ms" :ease]]
+     {:transition [[:all "300ms" :ease]]
       :transform "rotate(0) translate(0, 0)"
       :transform-origin [[(percent 50) (percent 50)]]}]]])
 
@@ -509,12 +511,16 @@
     :margin-top (px 30)
     :margin-bottom (px 30)
     :border-bottom [[(px 5) :solid gray]]
-    :transition [[:all "150ms" :ease]]}
+    :transition [[:all "200ms" :ease]]}
    [:&:hover
-    {:border-bottom-color red}]
+    {:background light-red
+     :border-bottom-color red}
+    [:em
+     {:color white}]]
    [:em
     {:color red
-     :font-size (px 18)}]
+     :font-size (px 18)
+     :transition [[:all "200ms" :ease]]}]
    [:em.continued
     {:display :none}]])
 
@@ -542,14 +548,14 @@
      {:float :left}]
     [:&.right
      {:float :right}]
-    [:&.rectangle
-     [:&:before
-      {:padding-top "calc(50% - 22px)"}]]
     (at-medium
       {:margin {:top (px 20)
                 :bottom (px 20)}}
       [:&.third
-       {:width "calc(50% - 20px)"}])
+       {:width "calc(50% - 20px)"}]
+      [:&.rectangle
+       [:&:before
+        {:padding-top "calc(50% - 22px)"}]])
     (at-large
       [:&.full
        {:width "calc(66.6666667% - 20px)"}]
@@ -562,19 +568,32 @@
   [[:.cards
     {:float :left
      :width (percent 100)}
+    (at-medium
+      [:&.column
+       [:&.third
+        [:.card:before
+         {:padding-top (percent 120)}]]])
+    (at-size (px 860)
+      [:&.column
+       [:&.third
+        [:.card:before
+         {:padding-top (percent 100)}]]])
     (at-large
       [:&.row
        [:&.row.fixed
-        (aspect (px 352))]
+        (aspect (px 372))]
        [:&.row.halves
-        (aspect "calc(50% - -20px)")]
+        (aspect "calc(60% - -20px)")]
        [:&.row.thirds
-        (aspect "calc(66.6666667% - -40px)")]
+        (aspect "calc(80% - -40px)")]
        ["> div"
         ["> *:first-child"
          {:margin-right (px 40)}]
         ["> .card"
-         {:height "calc(100% - 40px)"}]]]
+         "> .cards"
+         {:height "calc(100% - 40px)"}
+         ["> .card"
+          {:height "calc(50% - 20px)"}]]]]
       [:&.left
        {:float :left}]
       [:&.half
@@ -584,7 +603,13 @@
       [:&.third
        {:width "calc(33.3333333% - 20px)"}
        [:.card
-        {:width (percent 100)}]])]])
+        {:width (percent 100)}]])
+    (at-size (px 1290)
+      [:&.row
+       [:&.row.halves
+        (aspect "calc(50% - -20px)")]
+       [:&.row.thirds
+        (aspect "calc(66.6666667% - -40px)")]])]])
 
 (def contact-card
   [[:.contact-card
@@ -646,17 +671,26 @@
     [:&.extra
      {:display :none}]
     [:&.show-overlay
+     [:&.rectangle
+      ]
      [:.overlay
       {:opacity 1}]
      [:img
-      {:transform "scale(1.35)"}]
+      {:transform "scale(1.55)"}]
      [:button
       {:display :block}]]
+    [:&.rectangle
+     [:&.show-overlay
+      [:img
+       {:transform "scale(2.58)"}]]
+     [:img
+      {:transform "scale(2.5)"
+       :transform-origin [[(percent 50) 0]]}]]
     [:img :.overlay
-     {:transition [[:all "100ms" :ease]]}]
+     {:transition [[:all "200ms" :ease]]}]
     [:img
      {:width (percent 100)
-      :transform "scale(1.3)"}]
+      :transform "scale(1.5)"}]
     [:button
      {:display :none}]
     [:.mask
@@ -679,6 +713,15 @@
       :padding [[(px 30) (px 20)]]}
      [:h1
       {:color white}]]
+    (at-medium
+      [:&.rectangle
+       [:&.show-overlay
+        [:img
+         {:transform "scale(1.55)"}]]
+       [:img
+        {:transform "scale(1.5)"
+         :transform-origin [[(percent 50)
+                             (percent 50)]]}]])
     (at-large
       [:&.extra
        {:display :block}]
@@ -686,13 +729,21 @@
        {:padding (px 35)}])]
    [:.no-touch
     [:.image-card
+     [:&.rectangle
+      [:&:hover
+       [:img
+        {:transform "scale(2.58)"}]]]
      [:&:hover
       [:.overlay
        {:opacity 1}]
       [:img
-       {:transform "scale(1.35)"}]
+       {:transform "scale(1.55)"}]
       [:button
-       {:display :block}]]]]])
+       {:display :block}]]
+     (at-medium
+       [:&.rectangle:hover
+        [:img
+         {:transform "scale(1.55)"}]])]]])
 
 (def tagline-card
   [[:.tagline-card
