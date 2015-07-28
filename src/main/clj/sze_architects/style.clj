@@ -92,7 +92,7 @@
 
 (def medium-breakpoint (px 768))
 
-(def large-breakpoint (px 1140))
+(def large-breakpoint (px 1100))
 
 (defn at-size [size & rules]
   (at-media
@@ -569,10 +569,16 @@
     {:float :left
      :width (percent 100)}
     (at-medium
+      [:&.row
+       ["> div > .card > div"
+        {:padding (px 70)}
+        [:h1
+         {:font-size (px 48)
+          :line-height (px 58)}]]]
       [:&.column
        [:&.third
         [:.card:before
-         {:padding-top (percent 120)}]]])
+         {:padding-top (percent 130)}]]])
     (at-size (px 860)
       [:&.column
        [:&.third
@@ -585,7 +591,7 @@
        [:&.row.halves
         (aspect "calc(60% - -20px)")]
        [:&.row.thirds
-        (aspect "calc(80% - -40px)")]
+        (aspect "calc(83% - -40px)")]
        ["> div"
         ["> *:first-child"
          {:margin-right (px 40)}]
@@ -676,7 +682,7 @@
      [:.overlay
       {:opacity 1}]
      [:img
-      {:transform "scale(1.55)"}]
+      {:transform "scale(1.65)"}]
      [:button
       {:display :block}]]
     [:&.rectangle
@@ -690,7 +696,7 @@
      {:transition [[:all "200ms" :ease]]}]
     [:img
      {:width (percent 100)
-      :transform "scale(1.5)"}]
+      :transform "scale(1.6)"}]
     [:button
      {:display :none}]
     [:.mask
@@ -714,12 +720,14 @@
      [:h1
       {:color white}]]
     (at-medium
+      [:.overlay
+       {:padding (px 35)}]
       [:&.rectangle
        [:&.show-overlay
         [:img
-         {:transform "scale(1.55)"}]]
+         {:transform "scale(1.65)"}]]
        [:img
-        {:transform "scale(1.5)"
+        {:transform "scale(1.6)"
          :transform-origin [[(percent 50)
                              (percent 50)]]}]])
     (at-large
@@ -737,13 +745,13 @@
       [:.overlay
        {:opacity 1}]
       [:img
-       {:transform "scale(1.55)"}]
+       {:transform "scale(1.65)"}]
       [:button
        {:display :block}]]
      (at-medium
        [:&.rectangle:hover
         [:img
-         {:transform "scale(1.55)"}]])]]])
+         {:transform "scale(1.65)"}]])]]])
 
 (def tagline-card
   [[:.tagline-card
@@ -758,7 +766,9 @@
      {:margin-bottom (px 30)}]
     (card-link white)
     (at-medium
-      {:margin-right (px 40)})
+      {:margin-right (px 40)}
+      ["> div"
+       {:padding (px 35)}])
     (at-large
       ["> div"
        {:padding (px 35)}])]])
@@ -773,7 +783,9 @@
      {:margin-bottom (px 30)}]
     (at-medium
       [:&:before
-       {:padding-top "calc(50% - 20px)"}])
+       {:padding-top "calc(40% - 20px)"}]
+      ["> div"
+       {:padding (px 35)}])
     (at-large
       {:width "calc(50% - 20px)"}
       ["> div"
@@ -801,19 +813,8 @@
       :font-style :normal}]
     (at-medium
       {:margin-right (px 40)}
-      [:p:before
-       :p:after
-        {:content "'\"'"}]
-      [:.fa-quote-left
-       :.fa-quote-right
-       {:display :none}])
-    (at-size (px 810)
-      [:p:before
-       :p:after
-       {:content :none}]
-      [:.fa-quote-left
-       :.fa-quote-right
-       {:display :block}])
+      ["> div"
+       {:padding (px 35)}])
     (at-large
       ["> div"
        {:padding (px 35)}])]])
