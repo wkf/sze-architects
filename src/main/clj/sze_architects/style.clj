@@ -574,7 +574,12 @@
         {:padding (px 70)}
         [:h1
          {:font-size (px 48)
-          :line-height (px 58)}]]]
+          :line-height (px 58)}]]
+       ["> div > .card.extra > div"
+        {:padding (px 35)}
+        [:h1
+         {:font-size (px 36)
+          :line-height (px 43)}]]]
       [:&.column
        [:&.third
         [:.card:before
