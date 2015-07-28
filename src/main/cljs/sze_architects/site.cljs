@@ -26,6 +26,9 @@
 (def footer
   (get-element-by-tag "footer"))
 
+(def transition-end
+  #js["transitionend" "webkitTransitionEnd" "msTransitionEnd" "oTransitionEnd"])
+
 (defn scroll-y [by]
   (let [scroll (dom/getDocumentScroll)]
     (.play (Scroll.
@@ -52,12 +55,10 @@
       :running? true
       :fastclick (.attach js/FastClick body))
 
-    ;; (doseq [el (dom/getElementsByClass "image-card")]
-    ;;   (events/listen el "ontouchend" #(this-as t
-    ;;                                     (refresh-element t))))
-
-    (when-not (js* "'ontouchstart' in window")
-      (classlist/enable body "no-touch" true))
+    (if-not (js* "'ontouchstart' in window")
+      (classlist/enable body "no-touch" true)
+      (doseq [el (dom/getElementsByClass "image-card")]
+        (events/listen el "click" #(classlist/toggle el "show-overlay"))))
 
     (doseq [el [header footer]
             button-el (get-toggle-menu-buttons el)]
@@ -67,7 +68,8 @@
         (fn [e]
           (classlist/toggle el "show-menu")
           (when (classlist/contains el "show-menu")
-            (scroll-y (-> el .getBoundingClientRect .-top))))))))
+            (events/listenOnce el transition-end
+              #(scroll-y (-> el .getBoundingClientRect .-top)))))))))
 
 (defn stop
   "Stop the site. Attempt to be idempotent. Useful for interactive local development."
@@ -76,10 +78,9 @@
     (when-let [fastclick (:fastclick @site)]
       (.destroy fastclick))
 
-    ;; (doseq [el (dom/getElementsByClass "image-card")]
-    ;;   (events/removeAll el "ontouchend"))
-
     (classlist/enable body "no-touch" false)
+    (doseq [el (dom/getElementsByClass "image-card")]
+      (events/removeAll el "click"))
 
     (doseq [tag ["header" "footer"]]
       (doseq [button (-> tag

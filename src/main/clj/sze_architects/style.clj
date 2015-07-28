@@ -1,6 +1,6 @@
 (ns sze-architects.style
   (:require [garden.core :refer [css]]
-            [garden.units :refer [px em percent]]
+            [garden.units :refer [px em percent] :as units]
             [garden.color :as color :refer [rgb rgb? rgba]]
             [garden.stylesheet :refer [at-media]]))
 
@@ -86,6 +86,8 @@
      :font-family avenir-book}]
    ["::selection" {:color white
                    :background green}]])
+
+(def max-width (px 1600))
 
 (def medium-breakpoint (px 768))
 
@@ -193,7 +195,7 @@
       {:padding [[(px 40) 0 0]]})
     (at-large
       {:padding-top (px 25)
-       ;; :max-width large-breakpoint
+       :max-width max-width
        :margin {:left :auto
                 :right :auto}}
       [:.logo
@@ -526,7 +528,7 @@
        :margin-bottom 0})
     (at-large
       {:padding [[0 (px 70)]]
-       ;; :max-width large-breakpoint
+       :max-width max-width
        :margin {:left :auto
                 :right :auto}})]])
 
@@ -643,11 +645,20 @@
      :border [[(px 1) :solid (with-alpha green 0.4)]]}
     [:&.extra
      {:display :none}]
+    [:&.show-overlay
+     [:.overlay
+      {:opacity 1}]
+     [:img
+      {:transform "scale(1.35)"}]
+     [:button
+      {:display :block}]]
     [:img :.overlay
      {:transition [[:all "100ms" :ease]]}]
     [:img
      {:width (percent 100)
       :transform "scale(1.3)"}]
+    [:button
+     {:display :none}]
     [:.mask
      {:height (percent 100)
       :overflow :hidden
@@ -679,7 +690,9 @@
       [:.overlay
        {:opacity 1}]
       [:img
-       {:transform "scale(1.35)"}]]]]])
+       {:transform "scale(1.35)"}]
+      [:button
+       {:display :block}]]]]])
 
 (def tagline-card
   [[:.tagline-card
@@ -790,8 +803,7 @@
     (at-large
       {:margin {:left :auto
                 :right :auto}
-       ;; :max-width large-breakpoint
-       }
+       :max-width max-width}
       [" > .facebook-link"
        {:display :none}]
       [:.copyright
@@ -810,8 +822,7 @@
        :border-left [[(px 1) :solid (with-alpha green 0.4)]]
        :z-index -1})
     (at-large
-      {
-       ;; :max-width large-breakpoint
+      {:max-width (units/px- max-width (px 140))
        :left 0
        :right 0
        :margin {:left :auto
