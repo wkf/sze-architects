@@ -20,6 +20,12 @@
 (def body
   (.-body js/document))
 
+(def header
+  (get-element-by-tag "header"))
+
+(def footer
+  (get-element-by-tag "footer"))
+
 (defn scroll-y [by]
   (let [scroll (dom/getDocumentScroll)]
     (.play (Scroll.
@@ -30,11 +36,13 @@
                  (+ (.-y scroll) by)]
              200))))
 
-(def header
-  (get-element-by-tag "header"))
-
-(def footer
-  (get-element-by-tag "footer"))
+(defn refresh-element
+  "http://stackoverflow.com/a/17234319/102622"
+  [el]
+  (let [parent (.-parentNode el)
+        sibling (.-nextSibling el)]
+    (.removeChild parent el)
+    (.setTimeout js/window #(.insertBefore parent el sibling) 0)))
 
 (defn start
   "Start the site. Attempt to be idempotent."
@@ -43,6 +51,13 @@
     (swap! site assoc
       :running? true
       :fastclick (.attach js/FastClick body))
+
+    ;; (doseq [el (dom/getElementsByClass "image-card")]
+    ;;   (events/listen el "ontouchend" #(this-as t
+    ;;                                     (refresh-element t))))
+
+    (when-not (js* "'ontouchstart' in window")
+      (classlist/enable body "no-touch" true))
 
     (doseq [el [header footer]
             button-el (get-toggle-menu-buttons el)]
@@ -58,13 +73,19 @@
   "Stop the site. Attempt to be idempotent. Useful for interactive local development."
   []
   (when (:running? @site)
+    (when-let [fastclick (:fastclick @site)]
+      (.destroy fastclick))
+
+    ;; (doseq [el (dom/getElementsByClass "image-card")]
+    ;;   (events/removeAll el "ontouchend"))
+
+    (classlist/enable body "no-touch" false)
+
     (doseq [tag ["header" "footer"]]
       (doseq [button (-> tag
                        get-element-by-tag
                        get-toggle-menu-buttons)]
         (events/removeAll button "click")))
-
-    (-> @site :fastclick .destroy)
 
     (swap! site assoc :running? false)))
 

@@ -91,15 +91,16 @@
 
 (def large-breakpoint (px 1140))
 
-(defn at-medium [& rules]
+(defn at-size [size & rules]
   (at-media
-    {:min-width medium-breakpoint}
+    {:min-width size}
     (apply vector :& rules)))
 
-(defn at-large [& rules]
-  (at-media
-    {:min-width large-breakpoint}
-    (apply vector :& rules)))
+(def at-medium
+  (partial at-size medium-breakpoint))
+
+(def at-large
+  (partial at-size large-breakpoint))
 
 (defn with-alpha [color alpha]
   (let [color (if (rgb? color) color (color/hex->rgb color))]
@@ -640,11 +641,6 @@
      :text-align :center
      :position :relative
      :border [[(px 1) :solid (with-alpha green 0.4)]]}
-    [:&:hover
-     [:.overlay
-      {:opacity 1}]
-     [:img
-      {:transform "scale(1.35)"}]]
     [:&.extra
      {:display :none}]
     [:img :.overlay
@@ -676,7 +672,14 @@
       [:&.extra
        {:display :block}]
       [:.overlay
-       {:padding (px 35)}])]])
+       {:padding (px 35)}])]
+   [:.no-touch
+    [:.image-card
+     [:&:hover
+      [:.overlay
+       {:opacity 1}]
+      [:img
+       {:transform "scale(1.35)"}]]]]])
 
 (def tagline-card
   [[:.tagline-card
@@ -733,7 +736,20 @@
       :font-family avenir-book-oblique
       :font-style :normal}]
     (at-medium
-      {:margin-right (px 40)})
+      {:margin-right (px 40)}
+      [:p:before
+       :p:after
+        {:content "'\"'"}]
+      [:.fa-quote-left
+       :.fa-quote-right
+       {:display :none}])
+    (at-size (px 810)
+      [:p:before
+       :p:after
+       {:content :none}]
+      [:.fa-quote-left
+       :.fa-quote-right
+       {:display :block}])
     (at-large
       ["> div"
        {:padding (px 35)}])]])

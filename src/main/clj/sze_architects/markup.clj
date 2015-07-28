@@ -155,12 +155,12 @@
 (defn image-card [title src & classes]
   [:section
    {:class (classes->str
-             (conj classes :card :image-card))}
-   [:div.overlay
-    [:h1 title]
-    [:button
+             (conj classes :card :image-card :needsclick))}
+   [:div.overlay.needsclick
+    [:h1.needsclick title]
+    [:button.needsclick
      [:em "See the Project"]]]
-   [:div.mask
+   [:div.mask.needsclick
     [:img {:src src :alt ""}]]])
 
 (defn footer []
