@@ -11,9 +11,9 @@
 (def white "#ffffff")
 (def gray "#bfbfbf")
 
-(def avenir-book "'Avenir LT W01 45 Book'")
-(def avenir-book-oblique "'AvenirLTW01-45BookObliq'")
-(def lubalin-graph-book "'ITCLubalinGraphW01-Bk'")
+(def avenir-book ["'Avenir LT W01 45 Book'" "Arial" "'Helvetica Neue'" "sans-serif"])
+(def avenir-book-oblique ["'AvenirLTW01-45BookObliq'" "Arial" "'Helvetica Neue'" "sans-serif"])
+(def lubalin-graph-book ["'ITCLubalinGraphW01-Bk'" "'Courier New'" "Courier" "monospace"])
 
 (def reset
   [[:*
