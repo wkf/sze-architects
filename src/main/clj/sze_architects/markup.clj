@@ -27,9 +27,14 @@
   "assets/img/roof.svg" [html/root] []
   [html/root] (html/wrap :div {:class "roof"}))
 
-(defsnippet hamburger
-  "assets/img/hamburger.svg" [html/root] []
-  [html/root] (html/wrap :div {:class "hamburger"}))
+(defn hamburger []
+  [:div.hamburger
+   [:div.top
+    [:div.line]]
+   [:div.middle
+    [:div.line]]
+   [:div.bottom
+    [:div.line]]])
 
 (def residential-projects
   [[:li
@@ -178,6 +183,7 @@
     [:html
      [:head
       [:meta {:charset "UTF-8"}]
+      [:meta {:http-equiv "X-UA-Compatible" :content "IE=edge"}]
       [:meta
        {:name "viewport"
         :content "width=device-width, initial-scale=1"}]

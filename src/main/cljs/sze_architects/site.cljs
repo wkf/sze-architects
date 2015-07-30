@@ -26,18 +26,27 @@
 (def footer
   (get-element-by-tag "footer"))
 
-(def transition-end
-  #js["transitionend" "webkitTransitionEnd" "msTransitionEnd" "oTransitionEnd"])
+(defn get-scroll-container
+  "https://groups.google.com/forum/#!msg/closure-library-discuss/8XhcwWP4Jks/OUbDyHICfUEJ"
+  []
+  (let [document-element (-> js/window .-document .-documentElement)]
+    (set! (.-scrollTop document-element) 1)
+    (if (= (.-scrollTop document-element) 1)
+      (do
+        (set! (.-scrollTop document-element) 0)
+        document-element)
+      body)))
 
 (defn scroll-y [by]
-  (let [scroll (dom/getDocumentScroll)]
+  (let [scroll (dom/getDocumentScroll)
+        container (get-scroll-container)]
     (.play (Scroll.
-             body
+             container
              #js[(.-x scroll)
                  (.-y scroll)]
              #js[(.-x scroll)
                  (+ (.-y scroll) by)]
-             200))))
+             500))))
 
 (defn refresh-element
   "http://stackoverflow.com/a/17234319/102622"
@@ -68,8 +77,7 @@
         (fn [e]
           (classlist/toggle el "show-menu")
           (when (classlist/contains el "show-menu")
-            (events/listenOnce el transition-end
-              #(scroll-y (-> el .getBoundingClientRect .-top)))))))))
+            (scroll-y (-> el .getBoundingClientRect .-top))))))))
 
 (defn stop
   "Stop the site. Attempt to be idempotent. Useful for interactive local development."

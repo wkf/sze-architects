@@ -170,22 +170,39 @@
     :top (px 2)
     :bottom 0
     :display :inline-block}
-   [:svg
-    [:line
-     {:transition [[:all "300ms" :ease]]
-      :transform "rotate(0) translate(0, 0)"
-      :transform-origin [[(percent 50) (percent 50)]]}]]])
+   [:.line
+    {:background green}]
+   [:.top :.middle :.bottom :.line
+    {:position :absolute
+     :width (px 18)
+     :height (px 2)
+     :transition [[:all "300ms" :ease]]}]
+   [:.top
+    {:transform "translate(2px, 7px)"}
+    [:.line
+     {:transform-origin [[(percent 100) 0]]}]]
+   [:.middle
+    {:transform "translate(2px, 13px)"}]
+   [:.bottom
+    {:transform "translate(2px, 19px)"}
+    [:.line
+     {:transform-origin [[(percent 100)
+                          (percent 100)]]}]]])
 
 (def hamburger-to-x
   [:.hamburger
-   [:svg
-    [:line
-     ["&:last-child"
-      {:transform "translateX(24px)"}]
-     ["&:nth-child(1)"
-      {:transform "rotate(-45deg) translate(-5px, 5px)"}]
-     ["&:nth-child(2)"
-      {:transform "rotate(45deg) translate(-5px, -5px)"}]]]])
+   [:.top
+    {:transform "translate(-2px, 7px)"}
+    [:.line
+     {:transform "rotate(-45deg)"}]]
+   [:.middle
+    {:transform "translate(-2px, 13px)"}
+    [:.line
+     {:transform "translate(24px, 0)"}]]
+   [:.bottom
+    {:transform "translate(-2px, 19px)"}
+    [:.line
+     {:transform "rotate(45deg)"}]]])
 
 (def header
   [[:header
@@ -284,6 +301,7 @@
     (at-medium
       hamburger
       {:background :none
+       :height :auto
        :max-height (px 450)
        :padding 0
        :position :static
@@ -388,6 +406,7 @@
       :width (px 53)
       :position :absolute
       :top (px -3)
+      :bottom 0
       :left (px 20)
       :z-index 10}]
 
@@ -528,7 +547,8 @@
   [[:main
     (clearfix)
     {:padding [[0 (px 20)]]
-     :margin [[(px 20) 0 (px 10)]]}
+     :margin [[(px 20) 0 (px 10)]]
+     :display :block}
     (at-medium
       {:padding [[0 (px 70)]]
        :margin-bottom 0})
@@ -683,7 +703,7 @@
      [:.overlay
       {:opacity 1}]
      [:img
-      {:transform "scale(1.65)"}]
+      {:transform "scale(1.75)"}]
      [:button
       {:display :block}]]
     [:&.rectangle
@@ -691,13 +711,13 @@
       [:img
        {:transform "scale(2.58)"}]]
      [:img
-      {:transform "scale(2.5)"
-       :transform-origin [[(percent 50) 0]]}]]
+      {:transform "scale(2.5)"}]]
     [:img :.overlay
      {:transition [[:all "200ms" :ease]]}]
     [:img
      {:width (percent 100)
-      :transform "scale(1.6)"}]
+      :transform "scale(1.7)"
+      :transform-origin [[(percent 50) (percent 25)]]}]
     [:button
      {:display :none}]
     [:.mask
@@ -726,11 +746,9 @@
       [:&.rectangle
        [:&.show-overlay
         [:img
-         {:transform "scale(1.65)"}]]
+         {:transform "scale(1.75)"}]]
        [:img
-        {:transform "scale(1.6)"
-         :transform-origin [[(percent 50)
-                             (percent 50)]]}]])
+        {:transform "scale(1.7)"}]])
     (at-large
       [:&.extra
        {:display :block}]
@@ -746,13 +764,13 @@
       [:.overlay
        {:opacity 1}]
       [:img
-       {:transform "scale(1.65)"}]
+       6      {:transform "scale(1.75)"}]
       [:button
        {:display :block}]]
      (at-medium
        [:&.rectangle:hover
         [:img
-         {:transform "scale(1.65)"}]])]]])
+         {:transform "scale(1.75)"}]])]]])
 
 (def tagline-card
   [[:.tagline-card
@@ -904,7 +922,7 @@
 
 (defn manifest [config]
   {"css/out/screen.css" #(css (merge
-                                {:vendors ["webkit" "moz"]
+                                {:vendors ["webkit" "moz" "ms" "o"]
                                  :auto-prefix #{:transform
                                                 :transform-origin
                                                 :transition
