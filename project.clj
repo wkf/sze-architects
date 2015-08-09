@@ -10,7 +10,7 @@
                  "src/main/cljs"]
   :dependencies [[org.clojure/clojure "1.7.0-RC2"]
                  [org.clojure/clojurescript "0.0-3308"]
-                 [aviary "0.1.16"]
+                 [aviary "0.1.17"]
                  [enlive "1.1.5"]
                  [garden "1.2.5"]
                  [cljsjs/fastclick "1.0.6-0"]]
