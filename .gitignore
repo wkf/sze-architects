@@ -12,3 +12,4 @@ pom.xml.asc
 .agignore
 .hgignore
 .hg/
+/aviary.log
