@@ -1,0 +1,22 @@
+[:html
+ [:head
+  [:meta {:charset "UTF-8"}]
+  [:meta {:http-equiv "X-UA-Compatible" :content "IE=edge"}]
+  [:meta
+   {:name "viewport"
+    :content "width=device-width, initial-scale=1"}]
+  [:title]]
+ [:body
+  [:div.vertical-line]
+  [:header
+   [:div.logo]
+   [:nav]]
+  [:main]
+  [:footer
+   [:nav]
+   [:div.facebook-link
+    [:a {:href "https://www.facebook.com/pages/Steven-Z-Epstein-Architects/101676946574474"}
+     [:span.fa.fa-facebook]
+     "facebook"]]
+   [:div.copyright
+    [:small "© 2015 Steven Z Epstein Architects."]]]]]

@@ -6,8 +6,17 @@
             [aviary.figwheel :as fw]
             [aviary.filesystem :as fs]))
 
+(def style-manifest-config
+  {:pretty-print? false})
+
+(def markup-manifest-config
+  {:styles ["css/out/screen.css"
+            "//fast.fonts.net/cssapi/f5a4bdc2-eb4a-40ed-b8fa-c53138c27cc2.css"
+            "//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"]
+   :scripts ["js/out/main.js"]})
+
 (defn style-manifest []
-  (style/manifest {:pretty-print? false}))
+  (style/manifest style-manifest-config))
 
 (defn markup-manifest []
   (markup/manifest {}))

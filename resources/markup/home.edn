@@ -1,0 +1,24 @@
+[:main
+ [:div.simple-contact-card]
+ [:div.cards.row.thirds
+  [:div
+   [:div.image-card-0]
+   [:div.cards.column.right.third
+    [:div.tagline-card]
+    [:div.image-card-1]]]]
+ [:div.cards.row.halves
+  [:div
+   [:div.cards.column.left.half
+    [:div.services-card]
+    [:div.image-card-2]]
+   [:div.image-card-3]]]
+ [:div.cards.row.thirds
+  [:div
+   [:div.cards.column.left.third
+    [:div.quote-card]
+    [:div.image-card-4]]
+   [:div.image-card-5]]]
+ [:div.cards.row.fixed
+  [:div
+   [:div.detailed-contact-card]
+   [:div.image-card-6]]]]

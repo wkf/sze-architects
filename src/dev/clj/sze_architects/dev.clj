@@ -1,5 +1,6 @@
 (ns sze-architects.dev
-  (:require [sze-architects.style :as style]
+  (:require [sze-architects.site :as site]
+            [sze-architects.style :as style]
             [sze-architects.markup :as markup]
             [aviary.system :refer [defsystem* using] :as system]
             [aviary.serve :refer [serve]]
@@ -9,14 +10,16 @@
             [weasel.repl.websocket :as weasel]))
 
 (defn style-manifest []
-  (style/manifest {:pretty-print? false}))
+  (style/manifest site/style-manifest-config))
 
 (defn markup-manifest []
   (markup/manifest
-    {:scripts ["js/out/goog/base.js"
-               "js/out/main.js"]
-     :requires ["sze_architects.dev"
-                "sze_architects.site"]}))
+    (merge
+      site/markup-manifest-config
+      {:scripts ["js/out/goog/base.js"
+                 "js/out/main.js"]
+       :requires ["sze_architects.dev"
+                  "sze_architects.site"]})))
 
 (defsystem* dev
   :serve (serve

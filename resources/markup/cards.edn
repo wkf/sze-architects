@@ -1,0 +1,52 @@
+[:div.cards
+
+ [:section.card.contact-card
+  [:p
+   "We still respect the time-honored traditions of good business. "
+   [:em "Talk to us, not to our voicemail."]]
+  [:div.links
+   [:div.phone
+    [:span
+     [:a {:href "tel:+15619999290"} "(561)999-9290"]]]
+   [:div.email
+    [:span
+     [:a {:href "mailto:info@szearchitects.com"} "info@szearchitects.com"]]]]
+  [:div.address
+   [:div.address-1
+    [:span "700 NE 74th St"]]
+   [:div.address-2
+    [:span "Boca Raton, FL 33487"]]]
+  [:button
+    [:em "Send us a Message"]
+    [:em.continued " to Start your Project Today"]]]
+
+ [:section.card.tagline-card
+  [:div
+   [:h1 "Building Connections."]
+   [:h2 "Steven Z Epstein Architects practices real architecture for real people."]
+   [:p
+    [:a {:href "/about"} "Learn about us"]]]]
+
+ [:section.card.services-card
+  [:div
+   [:p "We take projects from concept to reality, respecting styles and budgets. Our clients range from small contractors to growing families, and hopefully you."]
+   [:p
+    [:a {:href "/services"} "Browse our services"]]]]
+
+ [:section.card.quote-card
+  [:div
+   [:blockquote
+    [:div.fa.fa-quote-left]
+    [:p "I have been working with Steve and Claudia for almost 20 years now and they are my architects of choice." ]
+    [:div.fa.fa-quote-right]
+    [:cite "–Frank Litrento, Construction Solutions & Services"]]]]
+
+ [:section.card.image-card
+  [:div.overlay
+   [:h1]
+   [:button
+    [:em "See the Project"]]]
+  [:div.mask
+   [:img]]]
+
+ ]
