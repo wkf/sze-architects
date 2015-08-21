@@ -19,7 +19,7 @@
   (style/manifest style-manifest-config))
 
 (defn markup-manifest []
-  (markup/manifest {}))
+  (markup/manifest markup-manifest-config))
 
 (defn export []
   (fs/export
