@@ -13,6 +13,8 @@
                  [aviary "0.1.17"]
                  [enlive "1.1.5"]
                  [garden "1.2.5"]
+                 [org.jodd/jodd-lagarto "3.6.6"]
+                 [cljsjs/dropkick "2.1.7-0"]
                  [cljsjs/fastclick "1.0.6-0"]]
   :profiles {:dev {:source-paths ["src/dev/clj"
                                   "src/dev/cljs"]

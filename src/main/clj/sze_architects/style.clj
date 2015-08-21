@@ -1,12 +1,17 @@
 (ns sze-architects.style
-  (:require [garden.core :refer [css]]
-            [garden.units :refer [px em percent] :as units]
+  (:require [clojure.edn :as edn]
+            [clojure.java.io :as io]
+            [clojure.string :as str]
             [garden.color :as color :refer [rgb rgb? rgba]]
-            [garden.stylesheet :refer [at-media]]))
+            [garden.core :refer [css]]
+            [garden.stylesheet :refer [at-media]]
+            [garden.units :refer [px em percent] :as units])
+  (:import (jodd.csselly CSSelly CssSelector Combinator Selector$Type)))
 
 (def red "#ef4639")
 (def light-red "#ff6f6c")
 (def green "#39bb99")
+(def dark-green "#1c9371")
 (def black "#000000")
 (def white "#ffffff")
 (def gray "#bfbfbf")
@@ -20,7 +25,7 @@
     {:background [[:none :repeat :scroll 0 0 :transparent]]
      :border [[:medium :none]]
      :border-spacing 0
-     :color "black"
+     :color :black
      :font-weight :normal
      :list-style [[:none :outside :none]]
      :margin 0
@@ -28,12 +33,23 @@
      :text-align :left
      :text-decoration :none
      :text-indent 0}]
+   [:a :a:hover
+    {:color :black}]
+   [:fieldset
+    {:border [[:medium :none]]}]
+   [:body
+    {:line-height :normal}]
+   [:ul
+    {:padding 0}]
    [:li
     {:list-style-type :none}]
    ["input::-moz-focus-inner"
     "button::-moz-focus-inner"
     {:border 0
      :padding 0}]
+   [:button
+    {:border 0
+     :background :none}]
    [:button:focus
     {:outline 0}]])
 
@@ -298,6 +314,10 @@
      [:li.space
       {:display :none}]]
 
+    [:.portfolio-link
+     [:button
+      {:display :none}]]
+
     (at-medium
       hamburger
       {:background :none
@@ -317,7 +337,7 @@
          {:margin-right (px 12)}]]
        [:.facebook-link
         {:display :none}]
-       [:li
+       [:li :a
         {:display :inline-block
          :vertical-align :bottom}
         [:&:after
@@ -339,7 +359,10 @@
         [:&:hover
          {:color red}]
         [:&:before
-         {:background green}]]])
+         {:background green}]]]
+      [:.portfolio-link
+       [:button
+        {:display :block}]])
 
     (at-large
       {:clear :both}
@@ -838,6 +861,111 @@
       ["> div"
        {:padding (px 35)}])]])
 
+(defn input-placeholder [& rules]
+  (mapv
+    #(apply vector % rules)
+    ["::input-placeholder"
+     ":-moz-placeholder"
+     "::-moz-placeholder"
+     ":-ms-input-placeholder"
+     "::-webkit-input-placeholder"]))
+
+(def form-card
+  [(input-placeholder
+     {:color (with-alpha green 0.4)
+      :font-family avenir-book-oblique})
+   [:.form-card
+    {:overflow :visible
+     :padding [[(px 10) (px 20) 0]]
+     :border [[(px 1) (with-alpha green 0.4) :solid]]}
+    (card-button)
+    [:p
+     {:font-size (px 18)
+      :line-height (px 28)}]
+    [:button
+     {:margin-bottom (px 25)
+      :background green
+      :border-bottom-color dark-green}
+     [:em
+      {:color white}]]
+    [:&:before
+     {:content :none}]
+    ["> div"
+     {:position :relative}]
+    [:fieldset
+     {:margin 0
+      :padding 0}
+     [:p:first-child
+      {:margin-top (px 10)}]
+     [:p:last-child
+      {:margin-bottom 0}]]
+    [:label
+     {:font-size (px 18)
+      :font-family lubalin-graph-book}]
+    [:input :textarea
+     {:display :block
+      :width (percent 100)
+      :font-size (px 18)
+      :font-family avenir-book
+      :margin-top (px 5)
+      :padding [[(px 4) (px 10)]]
+      :border [[(px 2) :solid (with-alpha green 0.4)]]}
+     [:&:active :&:focus :&:hover
+      {:outline :none
+       :border-color green}]]
+    [:textarea
+     {:min-height (px 100)}]]])
+
+(def dropkick
+  [[:.dk-select
+    {:width (percent 100)}]
+   [:.dk-select-open-down
+    {:margin-bottom (px 2)}
+    [:.dk-selected :.dk-selected:focus
+     {:border-color green
+      :border-bottom-width 0}
+     [:&:before
+      {:border-bottom-color green}]]
+    [:.dk-select-options
+     {:padding 0
+      :border-width (px 2)
+      :border-top-width 0
+      :border-radius 0
+      :border-color green}]]
+   [:.dk-selected
+    {:padding-top (px 2)
+     :padding-bottom (px 1)
+     :font-size (px 18)
+     :line-height (px 26)
+     :border-width (px 2)
+     :border-radius 0
+     :border-color (with-alpha green 0.4)}
+    [:&:before
+     {:border-top-color (with-alpha green 0.4)}]
+    [:&:after
+     {:border :none}]
+    [:&:hover
+     {:border-color green}
+     [:&:before
+      {:border-top-color green}]]]
+   [:.dk-selected:focus
+    {:border-color green}
+    [:&:before
+     {:border-top-color green}]]
+   [".dk-selected:not([aria-activedescendant])"
+    {:color (with-alpha green 0.4)
+     :font-family avenir-book-oblique}]
+   [:.dk-option-disabled
+    {:display :none}]
+   [:.dk-option-selected
+    {:background-color green}]
+   [:.dk-select-options
+    [:.dk-option-highlight
+     {:background-color green}]]
+   [:.dk-option
+    {:font-size (px 18)
+     :line-height (px 26)}]])
+
 (def footer
   [[:footer
     ["> .facebook-link"
@@ -918,18 +1046,24 @@
     tagline-card
     services-card
     quote-card
+    form-card
+    dropkick
     footer))
 
 (defn manifest [config]
-  {"css/out/screen.css" #(css (merge
-                                {:vendors ["webkit" "moz" "ms" "o"]
-                                 :auto-prefix #{:transform
-                                                :transform-origin
-                                                :transition
-                                                :transition-property
-                                                :transition-duration
-                                                :transition-timing-function
-                                                :backface-visibility
-                                                :justify-content}}
-                                config)
-                           screen)})
+  {"css/out/screen.css" (fn []
+                          (str
+                            (slurp (io/resource "cljsjs/dropkick/common/dropkick.css"))
+                            \n
+                            (css (merge
+                                   {:vendors ["webkit" "moz" "ms" "o"]
+                                    :auto-prefix #{:transform
+                                                   :transform-origin
+                                                   :transition
+                                                   :transition-property
+                                                   :transition-duration
+                                                   :transition-timing-function
+                                                   :backface-visibility
+                                                   :justify-content}}
+                                   config)
+                              screen)))})

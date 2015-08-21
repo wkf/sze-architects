@@ -1,27 +1,41 @@
 [:main
  [:div.cards.row
   [:div
-   [:form
-    {:accept-charset "UTF-8"
-     :action "https://formkeep.com/f/c9c5a49de840"
-     :method "POST"}
-    [:input {:name "utf8" :type "hidden" :value "✓"}]
-    [:label {:for "name-field"} "Name"]
-    [:input {:id "name-field" :name "name" :placeholder "Ron Swanson"}]
-    [:label {:for "phone-field"} "Phone"]
-    [:input {:id "phone-field" :name "phone" :type "phone" :placeholder "(401)555-5595"}]
-    [:label {:for "email-field"} "Email"]
-    [:input {:id "email-field" :name "email" :type "email" :placeholder "fake@example.com"}]
-    [:input {:for "project-field"} "Project"]
-    [:select {:id "project-field" :name "project"}
-     [:option {:value "new-homes"} "New Homes"]
-     [:option {:value "additions"} "Additions"]
-     [:option {:value "remodels"} "Remodels"]
-     [:option {:value "condominiums"} "Condominiums"]
-     [:option {:value "commercial"} "Commercial"]
-     [:option {:value "offices"} "Offices"]
-     [:option {:value "retail"} "Retail"]
-     [:option {:value "restaurants"} "Restaurants"]]
-    [:input {:for "note-field"} "Add a Note?"]
-    [:textarea {:id "note-field" :name "note" :placeholder "Add a note?"}]
-    [:button {:type "submit"} "Send Us a Message"]]]]]
+   [:div.card.form-card
+    [:div
+     [:p
+      "Please send us a message with a little more information about how we can help, and we’ll be in touch soon."]
+     [:form
+      {:accept-charset "UTF-8"
+       :action "https://formkeep.com/f/c9c5a49de840"
+       :method "POST"}
+      [:input {:name "utf8" :type "hidden" :value "✓"}]
+      [:fieldset
+       [:p
+        [:label {:for "name-field"} "Name"]
+        [:input {:id "name-field" :name "name" :placeholder "Ron Swanson"}]]
+       [:p
+        [:label {:for "phone-field"} "Phone"]
+        [:input {:id "phone-field" :name "phone" :type "phone" :placeholder "(555)555-5555"}]]
+       [:p
+        [:label {:for "email-field"} "Email"]
+        [:input {:id "email-field" :name "email" :type "email" :placeholder "ron@pawnee.gov"}]]
+       [:p
+        [:label {:for "project-field"} "Project"]
+        [:select {:id "project-field" :name "project"}
+         [:option
+          {:value ""
+           :selected true
+           :disabled true} "Please Select"]
+         [:option {:value "new-homes"} "New Homes"]
+         [:option {:value "additions"} "Additions"]
+         [:option {:value "remodels"} "Remodels"]
+         [:option {:value "condominiums"} "Condominiums"]
+         [:option {:value "commercial"} "Commercial"]
+         [:option {:value "offices"} "Offices"]
+         [:option {:value "retail"} "Retail"]
+         [:option {:value "restaurants"} "Restaurants"]]]
+       [:p
+        [:label {:for "note-field"} "Add a Note?"]
+        [:textarea {:id "note-field" :name "note" :placeholder "Add a note?"}]]]
+      [:button {:type "submit"} [:em "Send Us a Message"]]]]]]]]

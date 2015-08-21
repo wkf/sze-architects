@@ -2,6 +2,7 @@
   (:require [goog.dom :as dom]
             [goog.dom.classlist :as classlist]
             [goog.events :as events]
+            [cljsjs.dropkick]
             [cljsjs.fastclick])
   (:import (goog.fx.dom Scroll)))
 
@@ -62,6 +63,8 @@
   (when-not (:running? @site)
     (swap! site assoc
       :running? true
+      :dropkick (js/window.Dropkick.
+                  "#project-field" #js{"mobile" true})
       :fastclick (.attach js/FastClick body))
 
     (if-not (js* "'ontouchstart' in window")
@@ -83,6 +86,9 @@
   "Stop the site. Attempt to be idempotent. Useful for interactive local development."
   []
   (when (:running? @site)
+    (when-let [dropkick (:dropkick @site)]
+      (.dispose dropkick))
+
     (when-let [fastclick (:fastclick @site)]
       (.destroy fastclick))
 
