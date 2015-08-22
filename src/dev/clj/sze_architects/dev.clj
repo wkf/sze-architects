@@ -16,7 +16,8 @@
   (markup/manifest
     (merge
       site/markup-manifest-config
-      {:scripts ["js/out/goog/base.js"
+      {:base nil
+       :scripts ["js/out/goog/base.js"
                  "js/out/main.js"]
        :requires ["sze_architects.dev"
                   "sze_architects.site"]})))
