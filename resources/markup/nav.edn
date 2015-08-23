@@ -7,19 +7,19 @@
    [:div.column
     [:ul.primary-menu
      [:li
-      [:a {:href "/"} "Home"]]
+      [:a {:href "."} "Home"]]
      " "
      [:li
-      [:a {:href "/our-office"} "Our Office"]]
+      [:a {:href "our-office"} "Our Office"]]
      " "
      [:li
-      [:a {:href "/services"} "Services"]]
+      [:a {:href "services"} "Services"]]
      " "
      [:li
-      [:a {:href "/get-in-touch"} "Get in Touch"]]
+      [:a {:href "get-in-touch"} "Get in Touch"]]
      [:li.space " "]
      [:li.portfolio-link
-      [:a {:href "/portfolio"} "Portfolio"]
+      [:a {:href "portfolio"} "Portfolio"]
       [:button.toggle-menu
        [:div.hamburger]]]
      [:li.facebook-link
@@ -29,34 +29,34 @@
   [:div.portfolio-drawer
    [:div.roof]
    [:span.portfolio-link
-    [:a {:href "/portfolio"} "Portfolio:"]]
+    [:a {:href "portfolio"} "Portfolio:"]]
    " "
    [:div.row
     [:ul.portfolio-menu.column
      [:li
-      [:a {:href "/new-homes"} "New Homes"]]
+      [:a {:href "new-homes"} "New Homes"]]
      " "
      [:li
-      [:a {:href "/additions"} "Additions"]]
+      [:a {:href "additions"} "Additions"]]
      " "
      [:li
-      [:a {:href "/remodels"} "Remodels"]]
+      [:a {:href "remodels"} "Remodels"]]
      " "
      [:li
-      [:a {:href "/condominiums"} "Condominiums"]]]]
+      [:a {:href "condominiums"} "Condominiums"]]]]
    " "
    [:span.divider]
    " "
    [:div.row
     [:ul.portfolio-menu.column
      [:li
-      [:a {:href "/commercial"} "Commercial"]]
+      [:a {:href "commercial"} "Commercial"]]
      " "
      [:li
-      [:a {:href "/offices"} "Offices"]]
+      [:a {:href "offices"} "Offices"]]
      " "
      [:li
-      [:a {:href "/retail"} "Retail"]]
+      [:a {:href "retail"} "Retail"]]
      " "
      [:li
-      [:a {:href "/restaurants"} "Restaurants"]]]]]]]
+      [:a {:href "restaurants"} "Restaurants"]]]]]]]
