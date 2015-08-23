@@ -57,51 +57,97 @@
     (.removeChild parent el)
     (.setTimeout js/window #(.insertBefore parent el sibling) 0)))
 
+(defn no-touch? []
+  (classlist/contains body "no-touch"))
+
+(defn start-site! []
+  (when-not (js* "'ontouchstart' in window")
+    (classlist/enable body "no-touch" true))
+
+  (if (no-touch?)
+    (doseq [el (dom/getElementsByClass "image-card")]
+      (events/listen el "click" #(classlist/toggle el "show-overlay"))))
+
+  (doseq [el [header footer]
+          button-el (get-toggle-menu-buttons el)]
+    (events/listen
+      button-el
+      "click"
+      (fn [e]
+        (classlist/toggle el "show-menu")
+        (when (classlist/contains el "show-menu")
+          (scroll-y (-> el .getBoundingClientRect .-top))))))
+
+  {:fastclick
+   (.attach js/FastClick body)})
+
+(defn stop-site! [ctx]
+  (classlist/enable body "no-touch" false)
+
+  (when-let [fastclick (:fastclick ctx)]
+    (.destroy fastclick))
+
+  (doseq [el (dom/getElementsByClass "image-card")]
+    (events/removeAll el "click"))
+
+  (doseq [tag ["header" "footer"]]
+    (doseq [button (-> tag
+                     get-element-by-tag
+                     get-toggle-menu-buttons)]
+      (events/removeAll button "click"))))
+
+(defn start-services-page! [])
+
+(defn stop-services-page! [ctx])
+
+(defn start-our-office-page! [])
+
+(defn stop-our-office-page! [ctx])
+
+(defn start-get-in-touch-page! []
+  {:dropkick
+   (js/window.Dropkick.
+     "#project-field" #js{"mobile" true})})
+
+(defn stop-get-in-touch-page! [ctx]
+  (when-let [dropkick (:dropkick ctx)]
+    (.dispose dropkick)))
+
+(def pages
+  [[#".*/services" start-services-page! stop-services-page!]
+   [#".*/our-office" start-our-office-page! stop-our-office-page!]
+   [#".*/get-in-touch" start-get-in-touch-page! stop-get-in-touch-page!]])
+
+(defn page []
+  (let [path (-> js/window .-location .-pathname)]
+    (->>
+      pages
+      (filter
+        (fn [[re _ _]]
+          (re-matches re path)))
+      first)))
+
+(defn start-page! []
+  (when-let [[_ start _] (page)] (start)))
+
+(defn stop-page! [ctx]
+  (when-let [[_ _ stop] (page)] (stop ctx)))
+
 (defn start
   "Start the site. Attempt to be idempotent."
   []
   (when-not (:running? @site)
     (swap! site assoc
       :running? true
-      :dropkick (js/window.Dropkick.
-                  "#project-field" #js{"mobile" true})
-      :fastclick (.attach js/FastClick body))
-
-    (if-not (js* "'ontouchstart' in window")
-      (classlist/enable body "no-touch" true)
-      (doseq [el (dom/getElementsByClass "image-card")]
-        (events/listen el "click" #(classlist/toggle el "show-overlay"))))
-
-    (doseq [el [header footer]
-            button-el (get-toggle-menu-buttons el)]
-      (events/listen
-        button-el
-        "click"
-        (fn [e]
-          (classlist/toggle el "show-menu")
-          (when (classlist/contains el "show-menu")
-            (scroll-y (-> el .getBoundingClientRect .-top))))))))
+      :site (start-site!)
+      :page (start-page!))))
 
 (defn stop
   "Stop the site. Attempt to be idempotent. Useful for interactive local development."
   []
   (when (:running? @site)
-    (when-let [dropkick (:dropkick @site)]
-      (.dispose dropkick))
-
-    (when-let [fastclick (:fastclick @site)]
-      (.destroy fastclick))
-
-    (classlist/enable body "no-touch" false)
-    (doseq [el (dom/getElementsByClass "image-card")]
-      (events/removeAll el "click"))
-
-    (doseq [tag ["header" "footer"]]
-      (doseq [button (-> tag
-                       get-element-by-tag
-                       get-toggle-menu-buttons)]
-        (events/removeAll button "click")))
-
-    (swap! site assoc :running? false)))
+    (stop-site! (:site @site))
+    (stop-page! (:page @site))
+    (reset! site {:running? false})))
 
 (start)
