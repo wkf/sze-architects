@@ -108,7 +108,8 @@
   [:head] (html/prepend
             (map
               #(html [:link {:type "text/css" :rel "stylesheet" :href %}]) styles))
-  [:head] (html/append (html [:base {:href (or base ".")}]))
+  [:head] (html/prepend
+            (html [:base {:href (or base ".")}]))
   [:body] (html/append
             (map
               #(html [:script {:type "text/javascript" :src %}]) scripts)
