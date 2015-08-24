@@ -15,6 +15,7 @@
 (def black "#000000")
 (def white "#ffffff")
 (def gray "#bfbfbf")
+(def blue "#3b5998")
 
 (def avenir-book ["'Avenir LT W01 45 Book'" "Arial" "'Helvetica Neue'" "sans-serif"])
 (def avenir-book-oblique ["'AvenirLTW01-45BookObliq'" "Arial" "'Helvetica Neue'" "sans-serif"])
@@ -73,7 +74,8 @@
     {:font-size (px 22)
      :font-family avenir-book}]
    [:h1
-    {:font-family lubalin-graph-book}]
+    {:font-weight :normal
+     :font-family lubalin-graph-book}]
    [:h2
     :h3
     {:font-family avenir-book}]
@@ -669,8 +671,12 @@
      :padding [[(px 10) (px 20)]]}
     [:&:before
      {:content :none}]
+    [:&.get-in-touch
+     {:padding-bottom (px 27)}]
     ["> div"
      {:position :static}]
+    [:h1
+     {:color white}]
     [:p :em
      {:color white
       :font-size (px 24)
@@ -914,7 +920,61 @@
       {:outline :none
        :border-color green}]]
     [:textarea
-     {:min-height (px 100)}]]])
+     {:min-height (px 100)}]
+    [:.overlay
+     {:position :absolute
+      :transition [[:all "200ms" :ease]]
+      :padding [[(px 10) (px 20) 0]]
+      :top 0
+      :bottom 0
+      :left 0
+      :right 0
+      :background green
+      :z-index -1
+      :opacity 0}
+     [:h1
+      {:color white}]]]
+   [:.form-submitted
+    [:.form-card
+     [:.overlay
+      {:z-index 10
+       :opacity 1}]]]])
+
+(def facebook-card
+  [[:.facebook-card
+    {:cursor :pointer
+     :transition [[:all "200ms" :ease]]
+     :background blue}
+    [:&:hover
+     {:background (with-alpha blue 0.8)}]
+    [:&:before
+     {:content :none}]
+    ["> div"
+     (clearfix)
+     {:position :static
+      :padding [[(px 35) (px 20)]]
+      :display :inline-block
+      :text-align :center
+      :width (percent 100)}]
+    [:a
+     {:max-width (px 215)
+      :text-align :left
+      :display :inline-block}
+     [:&:before
+      {:content :none}]]
+    [:h1
+     {:color white
+      :font-size (px 32)
+      :width (percent 75)
+      :margin 0
+      :display :inline-block}]
+    [:span.fa
+     {:width (percent 25)
+      :position :relative
+      :top (px -8)
+      :font-size (px 66)
+      :display :inline-block
+      :color (with-alpha white 0.4)}]]])
 
 (def dropkick
   [[:.dk-select
@@ -1047,6 +1107,7 @@
     services-card
     quote-card
     form-card
+    facebook-card
     dropkick
     footer))
 

@@ -49,13 +49,19 @@
   "markup/cards.edn" [:.contact-card] []
 
   [html/root] (html/add-class "simple")
-  [:p] (substitute nil)
-  [:button] (substitute nil))
+  #{[:p] [:button] [:.fax]} nil)
 
 (defsnippet detailed-contact-card {:parser edn-parser}
   "markup/cards.edn" [:.contact-card] []
 
-  [html/root] (html/add-class :detailed))
+  [html/root] (html/add-class "detailed")
+  #{[:.fax] [:.come-on-by]} nil)
+
+(defsnippet get-in-touch-contact-card {:parser edn-parser}
+  "markup/cards.edn" [:.contact-card] []
+
+  [html/root] (html/add-class "get-in-touch")
+  #{[:button] [:.talk-to-us]} nil)
 
 (defsnippet tagline-card {:parser edn-parser}
   "markup/cards.edn" [:.tagline-card] [])
@@ -66,9 +72,21 @@
 (defsnippet quote-card {:parser edn-parser}
   "markup/cards.edn" [:.quote-card] [])
 
+(defsnippet map-card {:parser edn-parser}
+  "markup/cards.edn" [:.map-card] [src]
+  [:iframe] (html/set-attr :src src))
+
+(defsnippet facebook-card {:parser edn-parser}
+  "markup/cards.edn" [:.facebook-card] [])
+
 (defsnippet image-card {:parser edn-parser}
   "markup/cards.edn" [:.image-card] [title src]
   [:h1] (html/content title)
+  [:img] (html/set-attr :src src :alt ""))
+
+(defsnippet simple-image-card {:parser edn-parser}
+  "markup/cards.edn" [:.image-card] [src]
+  [:.overlay] nil
   [:img] (html/set-attr :src src :alt ""))
 
 (defsnippet home {:parser edn-parser}
@@ -94,7 +112,13 @@
   "markup/our-office.edn" [:main] [])
 
 (defsnippet get-in-touch {:parser edn-parser}
-  "markup/get-in-touch.edn" [:main] [])
+  "markup/get-in-touch.edn" [:main] [images map-src]
+  [:.map-card] (substitute (map-card map-src))
+  [:.contact-card] (substitute (get-in-touch-contact-card) :full :left)
+  [:.facebook-card] (substitute (facebook-card))
+
+  [:.image-card-0] (substitute (simple-image-card (nth images 0)))
+  [:.image-card-1] (substitute (simple-image-card (nth images 1))))
 
 ;;; Templates
 
@@ -128,13 +152,24 @@
    ["Additon & Remodel in Watermill, NY" "img/square-1.jpg"]
    ["Additon & Remodel in Watermill, NY" "img/square-3.jpg"]])
 
+(def get-in-touch-map
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3573.2566413133004!2d-80.0743416!3d26.4151934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d8e04876d20e53%3A0x9d570df1f8e4c4e4!2s700+NE+74th+St%2C+Boca+Raton%2C+FL+33487!5e0!3m2!1sen!2sus!4v1440438057060")
+
+(def get-in-touch-images
+  ["http://www.fillmurray.com/740/740"
+   "http://www.fillmurray.com/740/740"
+   "http://placeimg.com/740/740/arch"
+   "http://placeimg.com/740/740/people"
+   "http://placehold.it/740x740"
+   "http://placehold.it/740x740"])
+
 ;;; Pages
 
 (def pages
   [["SZE Architects" "" home home-images]
    ["SZE Architects - Services" "services" services]
    ["SZE Architects - Our Office" "our-office" our-office]
-   ["SZE Architects - Get in Touch" "get-in-touch" get-in-touch]])
+   ["SZE Architects - Get in Touch" "get-in-touch" get-in-touch get-in-touch-images get-in-touch-map]])
 
 (defn manifest [config]
   (->>

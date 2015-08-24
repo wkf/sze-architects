@@ -1,7 +1,10 @@
 [:div.cards
 
  [:section.card.contact-card
-  [:p
+  [:h1 "Get in touch."]
+  [:p.come-on-by
+   "We'd love to hear about your new project. Give us a call, send an email, or come on by."]
+  [:p.talk-to-us
    "We still respect the time-honored traditions of good business. "
    [:em "Talk to us, not to our voicemail."]]
   [:div.links
@@ -10,7 +13,10 @@
      [:a {:href "tel:+15619999290"} "(561)999-9290"]]]
    [:div.email
     [:span
-     [:a {:href "mailto:info@szearchitects.com"} "info@szearchitects.com"]]]]
+     [:a {:href "mailto:info@szearchitects.com"} "info@szearchitects.com"]]]
+   [:div.fax
+    [:span
+     [:a {:href "tel:+15619990119"} "(561)999-0119 - fax"]]]]
   [:div.address
    [:div.address-1
     [:span "700 NE 74th St"]]
@@ -40,6 +46,21 @@
     [:p "I have been working with Steve and Claudia for almost 20 years now and they are my architects of choice." ]
     [:div.fa.fa-quote-right]
     [:cite "–Frank Litrento, Construction Solutions & Services"]]]]
+
+ [:section.card.map-card
+  [:div
+   [:iframe
+    {:width "100%"
+     :height "100%"
+     :style "border:0"
+     :frameBorder "0"
+     :allowfullscreen true}]]]
+
+ [:section.card.facebook-card
+  [:div
+   [:a {:href "https://www.facebook.com/pages/Steven-Z-Epstein-Architects/101676946574474"}
+    [:span.fa.fa-facebook]
+    [:h1 "Like us on facebook."]]]]
 
  [:section.card.image-card
   [:div.overlay

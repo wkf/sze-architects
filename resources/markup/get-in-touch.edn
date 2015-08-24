@@ -1,12 +1,26 @@
 [:main
+ [:div.contact-card]
+ [:div.cards
+  [:div.map-card]]
+ [:div.cards
+  [:div.image-card-0]]
+ [:div.cards
+  [:div.image-card-1]]
+ [:div.cards
+  [:div.facebook-card]]
  [:div.cards.row
   [:div
    [:div.card.form-card
+    [:div.overlay
+     [:h1
+      "Thank you for your message. We will be in touch shortly."]]
     [:div
      [:p
       "Please send us a message with a little more information about how we can help, and we’ll be in touch soon."]
      [:form
-      {:name "contact" :netlify true}
+      {:name "contact"
+       :method "POST"
+       :netlify true}
       [:fieldset
        [:p
         [:label {:for "name-field"} "Name"]

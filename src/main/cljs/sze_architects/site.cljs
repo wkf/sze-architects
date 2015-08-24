@@ -1,10 +1,13 @@
 (ns sze-architects.site
   (:require [goog.dom :as dom]
+            [goog.dom.forms :as forms]
             [goog.dom.classlist :as classlist]
+            [goog.json :as json]
             [goog.events :as events]
             [cljsjs.dropkick]
             [cljsjs.fastclick])
-  (:import (goog.fx.dom Scroll)))
+  (:import (goog.net XhrIo)
+           (goog.fx.dom Scroll)))
 
 (extend-type js/NodeList
   ISeqable
@@ -105,11 +108,27 @@
 (defn stop-our-office-page! [ctx])
 
 (defn start-get-in-touch-page! []
+  (let [form (get-element-by-tag "form")]
+    (events/listen form "submit"
+      (fn [e]
+        (.preventDefault e)
+        (.send XhrIo
+          (.-action form)
+          #(if (-> % .-target .isSuccess)
+             (classlist/enable body "form-submitted" true)
+             (classlist/enable body "form-failed" true))
+          "POST"
+          (json/serialize
+            (.toObject (forms/getFormDataMap form)))))))
+
   {:dropkick
    (js/window.Dropkick.
      "#project-field" #js{"mobile" true})})
 
 (defn stop-get-in-touch-page! [ctx]
+  (let [form (get-element-by-tag "form")]
+    (events/removeAll form "submit"))
+
   (when-let [dropkick (:dropkick ctx)]
     (.dispose dropkick)))
 
