@@ -6,10 +6,7 @@
      [:p
       "Please send us a message with a little more information about how we can help, and we’ll be in touch soon."]
      [:form
-      {:accept-charset "UTF-8"
-       :action "https://formkeep.com/f/c9c5a49de840"
-       :method "POST"}
-      [:input {:name "utf8" :type "hidden" :value "✓"}]
+      {:name "contact" :netlify true}
       [:fieldset
        [:p
         [:label {:for "name-field"} "Name"]
