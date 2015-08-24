@@ -101,17 +101,13 @@
 (deftemplate page {:parser edn-parser}
   "markup/page.edn"
 
-  [{:keys [scripts requires styles base]} title content]
+  [{:keys [scripts requires styles]} title content]
 
   [html/root] (html/before {:type :dtd :data ["html"]})
   [:title] (html/content title)
   [:head] (html/prepend
             (map
               #(html [:link {:type "text/css" :rel "stylesheet" :href %}]) styles))
-  [:head] (if-not base
-            identity
-            (html/prepend
-              (html [:base {:href base}])))
   [:body] (html/append
             (map
               #(html [:script {:type "text/javascript" :src %}]) scripts)

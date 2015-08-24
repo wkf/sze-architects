@@ -10,11 +10,10 @@
   {:pretty-print? false})
 
 (def markup-manifest-config
-  {:base "http://willfarrell.is/sze-architects/"
-   :styles ["css/out/screen.css"
+  {:styles ["/css/out/screen.css"
             "//fast.fonts.net/cssapi/f5a4bdc2-eb4a-40ed-b8fa-c53138c27cc2.css"
             "//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"]
-   :scripts ["js/out/main.js"]})
+   :scripts ["/js/out/main.js"]})
 
 (defn style-manifest []
   (style/manifest style-manifest-config))
