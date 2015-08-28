@@ -17,6 +17,7 @@
                  [enlive "1.1.5"]
                  [garden "1.2.5"]
                  [org.jodd/jodd-lagarto "3.6.6"]
+                 [cljsjs/google-maps "3.18-1"]
                  #_[cljsjs/dropkick "2.1.7-0"]
                  #_[cljsjs/fastclick "1.0.6-0"]]
   :profiles {:dev {:source-paths ["src/dev/clj"

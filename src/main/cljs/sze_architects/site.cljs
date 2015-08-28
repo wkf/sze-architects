@@ -107,8 +107,47 @@
 
 (defn stop-our-office-page! [ctx])
 
+(defn setup-google-map! []
+  (when (empty?
+          (dom/getElementsByTagNameAndClass
+            "div" nil (first
+                        (dom/getElementsByClass "map"))))
+
+    (let [location #js{"lat" 26.419
+                       "lng" -80.07443}
+          place #js{"placeId" "ChIJmTlnc0jg2IgRgmFN1n6hckk"
+                    "location" #js{"lat" 26.415324
+                                   "lng" -80.07443}}
+          map (google.maps.Map.
+                (first (dom/getElementsByClass "map"))
+                #js{"zoom" 14
+                    "center" location
+                    "scrollwheel" false
+                    "mapTypeControl" false
+                    "streetViewControl" false})
+          marker (google.maps.Marker.
+                   #js{"map" map
+                       "place" place})
+          info-window (google.maps.InfoWindow.
+                        #js{"content"
+                            "<strong>Steven Z Epstein Architects</strong><br><br>700 NE 74th Street<br>Boca Raton, FL 33487<br><br><a href=\"https://www.google.com/maps/dir//Steven+Z+Epstein+Architects,+700+NE+74th+St,+Boca+Raton,+AL+33487/@26.4153235,-80.0744302,17z/data=!4m13!1m4!3m3!1s0x88d8e04873673999:0x4972a17ed64d6182!2sSteven+Z+Epstein+Architects!3b1!4m7!1m0!1m5!1m1!1s0x88d8e04873673999:0x4972a17ed64d6182!2m2!1d-80.0744302!2d26.4153235\">Get directions</a>"})]
+
+      (.addListener marker "click"
+        #(.panTo map location))
+
+      (google.maps.event.addListenerOnce map "idle"
+        #(.open info-window map marker))
+
+      (events/listen js/window "resize"
+        (fn []
+          (.setTimeout js/window #(.panTo map location)))))))
+
 (defn start-get-in-touch-page! []
   (let [form (get-element-by-tag "form")]
+    (events/listen form "invalid"
+      (fn [e]
+        (classlist/enable body "form-invalid" true))
+      true)
     (events/listen form "submit"
       (fn [e]
         (.preventDefault e)
@@ -121,12 +160,17 @@
           (json/serialize
             (.toObject (forms/getFormDataMap form)))))))
 
+  (setup-google-map!)
+
   {:dropkick
    (js/window.Dropkick.
      "#project-field" #js{"mobile" true})})
 
 (defn stop-get-in-touch-page! [ctx]
+  (classlist/enable body "form-invalid" false)
+
   (let [form (get-element-by-tag "form")]
+    (events/removeAll form "invalid")
     (events/removeAll form "submit"))
 
   (when-let [dropkick (:dropkick ctx)]

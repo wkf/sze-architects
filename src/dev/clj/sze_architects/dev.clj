@@ -14,12 +14,12 @@
 
 (defn markup-manifest []
   (markup/manifest
-    (merge
-      site/markup-manifest-config
-      {:scripts ["/js/out/goog/base.js"
-                 "/js/out/main.js"]
+    (merge-with
+      concat
+      {:scripts ["/js/out/goog/base.js"]
        :requires ["sze_architects.dev"
-                  "sze_architects.site"]})))
+                  "sze_architects.site"]}
+      site/markup-manifest-config)))
 
 (defsystem* dev
   :serve (serve

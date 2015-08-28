@@ -21,32 +21,35 @@
       {:name "contact"
        :method "POST"
        :netlify true}
-      [:fieldset
-       [:p
-        [:label {:for "name-field"} "Name"]
-        [:input {:id "name-field" :name "name" :placeholder "Ron Swanson"}]]
-       [:p
-        [:label {:for "phone-field"} "Phone"]
-        [:input {:id "phone-field" :name "phone" :type "phone" :placeholder "(555)555-5555"}]]
-       [:p
-        [:label {:for "email-field"} "Email"]
-        [:input {:id "email-field" :name "email" :type "email" :placeholder "ron@pawnee.gov"}]]
-       [:p
-        [:label {:for "project-field"} "Project"]
-        [:select {:id "project-field" :name "project"}
-         [:option
-          {:value ""
-           :selected true
-           :disabled true} "Please Select"]
-         [:option {:value "new-homes"} "New Homes"]
-         [:option {:value "additions"} "Additions"]
-         [:option {:value "remodels"} "Remodels"]
-         [:option {:value "condominiums"} "Condominiums"]
-         [:option {:value "commercial"} "Commercial"]
-         [:option {:value "offices"} "Offices"]
-         [:option {:value "retail"} "Retail"]
-         [:option {:value "restaurants"} "Restaurants"]]]
-       [:p
-        [:label {:for "note-field"} "Add a Note?"]
-        [:textarea {:id "note-field" :name "note" :placeholder "Add a note?"}]]]
+      [:small
+       [:em "* Required fields"]]
+      [:p
+       [:label {:for "name-field"} "Name*"]
+       [:input {:id "name-field" :name "name" :placeholder "Ron Swanson" :required ""}]]
+      [:p
+       [:label {:for "phone-field"} "Phone*"]
+       [:input {:id "phone-field" :name "phone" :type "phone" :placeholder "(555)555-5555" :required ""}]]
+      [:p
+       [:label {:for "email-field"} "Email*"]
+       [:input {:id "email-field" :name "email" :type "email" :placeholder "ron@pawnee.gov" :required ""}]]
+      [:p
+       [:label {:for "project-field"} "Project"]
+       [:select {:id "project-field" :name "project"}
+        [:option
+         {:value ""
+          :selected true
+          :disabled true} "Please Select"]
+        [:option {:value "new-homes"} "New Homes"]
+        [:option {:value "additions"} "Additions"]
+        [:option {:value "remodels"} "Remodels"]
+        [:option {:value "condominiums"} "Condominiums"]
+        [:option {:value "commercial"} "Commercial"]
+        [:option {:value "offices"} "Offices"]
+        [:option {:value "retail"} "Retail"]
+        [:option {:value "restaurants"} "Restaurants"]]]
+      [:p
+       [:label {:for "note-field"} "Add a Note?"]
+       [:textarea {:id "note-field" :name "note" :placeholder "Add a note?"}]]
+      [:small.error
+       [:em "Please fill out required fields."]]
       [:button {:type "submit"} [:em "Send Us a Message"]]]]]]]]

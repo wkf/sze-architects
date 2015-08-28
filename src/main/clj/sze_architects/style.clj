@@ -16,6 +16,7 @@
 (def white "#ffffff")
 (def gray "#bfbfbf")
 (def blue "#3b5998")
+(def dark-blue "#2e4b7f")
 
 (def avenir-book ["'Avenir LT W01 45 Book'" "Arial" "'Helvetica Neue'" "sans-serif"])
 (def avenir-book-oblique ["'AvenirLTW01-45BookObliq'" "Arial" "'Helvetica Neue'" "sans-serif"])
@@ -878,8 +879,10 @@
 
 (def form-card
   [(input-placeholder
-     {:color (with-alpha green 0.4)
+     {:color gray
       :font-family avenir-book-oblique})
+   ["::-webkit-validation-bubble-message"
+    {:display :none}]
    [:.form-card
     {:overflow :visible
      :padding [[(px 10) (px 20) 0]]
@@ -933,12 +936,38 @@
       :z-index -1
       :opacity 0}
      [:h1
-      {:color white}]]]
+      {:color white}]]
+    [:small
+     {:color gray}
+     [:&.error
+      {:color red
+       :max-height 0
+       :margin-top (px 20)
+       :overflow :hidden
+       :display :block
+       :transition [[:all "200ms" :ease]]}]]]
+   [:.form-invalid
+    [:.form-card
+     [:input :textarea
+      [:&:invalid
+       {:border-color light-red}]]
+     [:small.error
+      {:max-height (px 20)}]]]
    [:.form-submitted
     [:.form-card
      [:.overlay
       {:z-index 10
        :opacity 1}]]]])
+
+(def map-card
+  [[:.map-card
+    [:.map
+     {:width (percent 100)
+      :height (percent 100)}
+     [:a
+      {:color red
+       :font-style :italic
+       :text-decoration :underline}]]]])
 
 (def facebook-card
   [[:.facebook-card
@@ -946,7 +975,7 @@
      :transition [[:all "200ms" :ease]]
      :background blue}
     [:&:hover
-     {:background (with-alpha blue 0.8)}]
+     {:background dark-blue}]
     [:&:before
      {:content :none}]
     ["> div"
@@ -1013,7 +1042,7 @@
     [:&:before
      {:border-top-color green}]]
    [".dk-selected:not([aria-activedescendant])"
-    {:color (with-alpha green 0.4)
+    {:color gray
      :font-family avenir-book-oblique}]
    [:.dk-option-disabled
     {:display :none}]
@@ -1108,6 +1137,7 @@
     quote-card
     form-card
     facebook-card
+    map-card
     dropkick
     footer))
 

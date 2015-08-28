@@ -49,13 +49,13 @@
   "markup/cards.edn" [:.contact-card] []
 
   [html/root] (html/add-class "simple")
-  #{[:p] [:button] [:.fax]} nil)
+  #{[:h1] [:p] [:button] [:.fax]} nil)
 
 (defsnippet detailed-contact-card {:parser edn-parser}
   "markup/cards.edn" [:.contact-card] []
 
   [html/root] (html/add-class "detailed")
-  #{[:.fax] [:.come-on-by]} nil)
+  #{[:h1] [:.fax] [:.come-on-by]} nil)
 
 (defsnippet get-in-touch-contact-card {:parser edn-parser}
   "markup/cards.edn" [:.contact-card] []
@@ -112,8 +112,9 @@
   "markup/our-office.edn" [:main] [])
 
 (defsnippet get-in-touch {:parser edn-parser}
-  "markup/get-in-touch.edn" [:main] [images map-src]
-  [:.map-card] (substitute (map-card map-src))
+  "markup/get-in-touch.edn" [:main] [images map]
+
+  [:.map-card] (substitute (map-card map))
   [:.contact-card] (substitute (get-in-touch-contact-card) :full :left)
   [:.facebook-card] (substitute (facebook-card))
 
@@ -152,28 +153,41 @@
    ["Additon & Remodel in Watermill, NY" "img/square-1.jpg"]
    ["Additon & Remodel in Watermill, NY" "img/square-3.jpg"]])
 
+(def google-api-key
+  "AIzaSyAVxaq9DkcHq38ZyPbKLaKzkBl5kg8ejs0")
+
 (def get-in-touch-map
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3573.2566413133004!2d-80.0743416!3d26.4151934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d8e04876d20e53%3A0x9d570df1f8e4c4e4!2s700+NE+74th+St%2C+Boca+Raton%2C+FL+33487!5e0!3m2!1sen!2sus!4v1440438057060")
+  #_"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3573.2566413133004!2d-80.0743416!3d26.4151934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d8e04876d20e53%3A0x9d570df1f8e4c4e4!2s700+NE+74th+St%2C+Boca+Raton%2C+FL+33487!5e0!3m2!1sen!2sus!4v1440438057060"
+  "https://a.tiles.mapbox.com/v4/wkf.n8mj0g4f/attribution,zoompan.html?access_token=pk.eyJ1Ijoid2tmIiwiYSI6IjdiYmJkNDc4M2QzOGE1OTY5ZDRmZjk4YzYxOGUyYzE3In0.iUVHFqLTKDmJ4YPrnIllNg")
 
 (def get-in-touch-images
-  ["http://www.fillmurray.com/740/740"
-   "http://www.fillmurray.com/740/740"
-   "http://placeimg.com/740/740/arch"
+  ["http://placeimg.com/740/740/arch"
    "http://placeimg.com/740/740/people"
    "http://placehold.it/740x740"
    "http://placehold.it/740x740"])
 
+
 ;;; Pages
 
 (def pages
-  [["SZE Architects" "" home home-images]
-   ["SZE Architects - Services" "services" services]
-   ["SZE Architects - Our Office" "our-office" our-office]
-   ["SZE Architects - Get in Touch" "get-in-touch" get-in-touch get-in-touch-images get-in-touch-map]])
+  [{:title "SZE Architects"
+    :path ""
+    :snippet home
+    :content [home-images]}
+   {:title "SZE Architects - Services"
+    :path "services"
+    :snippet services}
+   {:title "SZE Architects - Our Office"
+    :path "our-office"
+    :snippet our-office}
+   {:title "SZE Architects - Get in Touch" :path "get-in-touch"
+    :scripts [(str "//maps.googleapis.com/maps/api/js?key=" google-api-key)]
+    :snippet get-in-touch
+    :content [get-in-touch-images get-in-touch-map]}])
 
 (defn manifest [config]
   (->>
     pages
-    (map (fn [[title path snippet & content]]
-           [path #(render (page config title (apply snippet content)))]))
+    (map (fn [{:keys [title path scripts snippet content] :as spec}]
+           [path #(render (page (merge-with concat config spec) title (apply snippet content)))]))
     (into {})))
