@@ -918,7 +918,9 @@
       :font-family avenir-book
       :margin-top (px 5)
       :padding [[(px 4) (px 10)]]
-      :border [[(px 2) :solid (with-alpha green 0.4)]]}
+      :border [[(px 2) :solid (with-alpha green 0.4)]]
+      :border-radius 0
+      :-webkit-appearance :none}
      [:&:active :&:focus :&:hover
       {:outline :none
        :border-color green}]]
