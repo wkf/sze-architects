@@ -64,6 +64,9 @@
 (defn no-touch? []
   (classlist/contains body "no-touch"))
 
+(defn touch? []
+  (complement no-touch?))
+
 (defn start-site! []
   (when-not (js* "'ontouchstart' in window")
     (classlist/enable body "no-touch" true))
@@ -123,6 +126,7 @@
                 (first (dom/getElementsByClass "map"))
                 #js{"zoom" 14
                     "center" location
+                    "draggable" (no-touch?)
                     "scrollwheel" false
                     "mapTypeControl" false
                     "streetViewControl" false})
@@ -164,7 +168,8 @@
   (setup-google-map!)
 
   {:dropkick
-   (js/window.Dropkick. "#project-field")})
+   (js/window.Dropkick.
+     "#project-field" #js{"mobile" true})})
 
 (defn stop-get-in-touch-page! [ctx]
   (classlist/enable body "form-invalid" false)
