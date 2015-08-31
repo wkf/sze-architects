@@ -20,7 +20,7 @@
      [:form
       {:name "contact"
        :method "POST"
-       :netlify true}
+       :netlify ""}
       [:small
        [:em "* Required fields"]]
       [:p

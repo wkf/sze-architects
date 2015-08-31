@@ -164,8 +164,9 @@
                (classlist/enable body "form-submitted" true)
                (classlist/enable body "form-failed" true))
             "POST"
-            (json/serialize
-              (.toObject (forms/getFormDataMap form))))))))
+            (forms/getFormDataString form)
+            #_(json/serialize
+                (.toObject (forms/getFormDataMap form))))))))
 
   (setup-google-map!)
 
