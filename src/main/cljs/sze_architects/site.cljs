@@ -164,8 +164,7 @@
   (setup-google-map!)
 
   {:dropkick
-   (js/window.Dropkick.
-     "#project-field" #js{"mobile" true})})
+   (js/window.Dropkick. "#project-field")})
 
 (defn stop-get-in-touch-page! [ctx]
   (classlist/enable body "form-invalid" false)
