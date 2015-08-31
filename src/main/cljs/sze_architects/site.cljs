@@ -156,14 +156,16 @@
     (events/listen form "submit"
       (fn [e]
         (.preventDefault e)
-        (.send XhrIo
-          (.-action form)
-          #(if (-> % .-target .isSuccess)
-             (classlist/enable body "form-submitted" true)
-             (classlist/enable body "form-failed" true))
-          "POST"
-          (json/serialize
-            (.toObject (forms/getFormDataMap form)))))))
+        (if-not (.checkValidity form)
+          (classlist/enable body "form-invalid" true)
+          (.send XhrIo
+            (.-action form)
+            #(if (-> % .-target .isSuccess)
+               (classlist/enable body "form-submitted" true)
+               (classlist/enable body "form-failed" true))
+            "POST"
+            (json/serialize
+              (.toObject (forms/getFormDataMap form))))))))
 
   (setup-google-map!)
 
