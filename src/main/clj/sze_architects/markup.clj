@@ -73,8 +73,7 @@
   "markup/cards.edn" [:.quote-card] [])
 
 (defsnippet map-card {:parser edn-parser}
-  "markup/cards.edn" [:.map-card] [src]
-  [:iframe] (html/set-attr :src src))
+  "markup/cards.edn" [:.map-card] [])
 
 (defsnippet facebook-card {:parser edn-parser}
   "markup/cards.edn" [:.facebook-card] [])
@@ -112,9 +111,9 @@
   "markup/our-office.edn" [:main] [])
 
 (defsnippet get-in-touch {:parser edn-parser}
-  "markup/get-in-touch.edn" [:main] [images map]
+  "markup/get-in-touch.edn" [:main] [images]
 
-  [:.map-card] (substitute (map-card map))
+  [:.map-card] (substitute (map-card))
   [:.contact-card] (substitute (get-in-touch-contact-card) :full :left)
   [:.facebook-card] (substitute (facebook-card))
 
@@ -156,16 +155,9 @@
 (def google-api-key
   "AIzaSyAVxaq9DkcHq38ZyPbKLaKzkBl5kg8ejs0")
 
-(def get-in-touch-map
-  #_"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3573.2566413133004!2d-80.0743416!3d26.4151934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d8e04876d20e53%3A0x9d570df1f8e4c4e4!2s700+NE+74th+St%2C+Boca+Raton%2C+FL+33487!5e0!3m2!1sen!2sus!4v1440438057060"
-  "https://a.tiles.mapbox.com/v4/wkf.n8mj0g4f/attribution,zoompan.html?access_token=pk.eyJ1Ijoid2tmIiwiYSI6IjdiYmJkNDc4M2QzOGE1OTY5ZDRmZjk4YzYxOGUyYzE3In0.iUVHFqLTKDmJ4YPrnIllNg")
-
 (def get-in-touch-images
-  ["http://placeimg.com/740/740/arch"
-   "http://placeimg.com/740/740/people"
-   "http://placehold.it/740x740"
-   "http://placehold.it/740x740"])
-
+  ["img/contact-1.jpg"
+   "img/contact-2.jpg"])
 
 ;;; Pages
 
@@ -183,7 +175,7 @@
    {:title "SZE Architects - Get in Touch" :path "get-in-touch"
     :scripts [(str "//maps.googleapis.com/maps/api/js?key=" google-api-key)]
     :snippet get-in-touch
-    :content [get-in-touch-images get-in-touch-map]}])
+    :content [get-in-touch-images]}])
 
 (defn manifest [config]
   (->>
