@@ -181,5 +181,6 @@
   (->>
     pages
     (map (fn [{:keys [title path scripts snippet content] :as spec}]
-           [path #(render (page (merge-with concat config spec) title (apply snippet content)))]))
+           [path (fn []
+                   (render (page (merge-with #(concat %2 %1) config spec) title (apply snippet content))))]))
     (into {})))

@@ -4,6 +4,7 @@
             [goog.dom.classlist :as classlist]
             [goog.json :as json]
             [goog.events :as events]
+
             [cljsjs.dropkick]
             [cljsjs.fastclick])
   (:import (goog.net XhrIo)
