@@ -1003,7 +1003,7 @@
        :opacity 1}]
      (in-small
        {:overflow :hidden
-        :max-height (px 240)
+        :max-height (px 258)
         :transition [[:max-height "500ms" :ease]]})]]])
 
 (def map-card
