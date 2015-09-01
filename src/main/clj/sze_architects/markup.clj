@@ -61,7 +61,10 @@
   "markup/cards.edn" [:.contact-card] []
 
   [html/root] (html/add-class "get-in-touch")
-  #{[:button] [:.talk-to-us]} nil)
+  #{[:button] [:.talk-to-us]} nil
+
+  [:.address] (html/append
+                (html [:div.address-3 [:span (char 160)]])))
 
 (defsnippet tagline-card {:parser edn-parser}
   "markup/cards.edn" [:.tagline-card] [])
@@ -78,14 +81,16 @@
 (defsnippet facebook-card {:parser edn-parser}
   "markup/cards.edn" [:.facebook-card] [])
 
+(defsnippet form-card {:parser edn-parser}
+  "markup/cards.edn" [:.form-card] [])
+
 (defsnippet image-card {:parser edn-parser}
   "markup/cards.edn" [:.image-card] [title src]
   [:h1] (html/content title)
   [:img] (html/set-attr :src src :alt ""))
 
 (defsnippet simple-image-card {:parser edn-parser}
-  "markup/cards.edn" [:.image-card] [src]
-  [:.overlay] nil
+  "markup/cards.edn" [:.simple-image-card] [src]
   [:img] (html/set-attr :src src :alt ""))
 
 (defsnippet home {:parser edn-parser}
@@ -114,11 +119,12 @@
   "markup/get-in-touch.edn" [:main] [images]
 
   [:.map-card] (substitute (map-card))
-  [:.contact-card] (substitute (get-in-touch-contact-card) :full :left)
+  [:.contact-card] (substitute (get-in-touch-contact-card))
   [:.facebook-card] (substitute (facebook-card))
+  [:.form-card] (substitute (form-card))
 
-  [:.image-card-0] (substitute (simple-image-card (nth images 0)))
-  [:.image-card-1] (substitute (simple-image-card (nth images 1))))
+  [:.image-card-0] (substitute (simple-image-card (nth images 0)) :image-card-0)
+  [:.image-card-1] (substitute (simple-image-card (nth images 1)) :image-card-1))
 
 ;;; Templates
 

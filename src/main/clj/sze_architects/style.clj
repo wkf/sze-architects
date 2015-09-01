@@ -124,6 +124,20 @@
 (def at-large
   (partial at-size large-breakpoint))
 
+(defn in-size [min max & rules]
+  (at-media
+    {:min-width min
+     :max-width max}
+    (apply vector :& rules)))
+
+(def in-small
+  (partial in-size
+    (px 0) (units/px- medium-breakpoint 1)))
+
+(def in-medium
+  (partial in-size
+    medium-breakpoint (units/px- large-breakpoint 1)))
+
 (defn with-alpha [color alpha]
   (let [color (if (rgb? color) color (color/hex->rgb color))]
     (color/as-color
@@ -694,6 +708,8 @@
      {:bottom (px 4)}]
     [:span
      (underline white (px -12))]
+    [:.address-3
+     {:display :none}]
     (at-medium
       {:margin-top (px 20)
        :padding {:left (px 40)
@@ -710,7 +726,9 @@
         {:background green}]]
       [:button
        [:em.continued
-        {:display :inline}]])
+        {:display :inline}]]
+      [:.address-3
+       {:display :block}])
     (at-large
       [:&.simple
        {:display :none}]
@@ -801,6 +819,14 @@
        [:&.rectangle:hover
         [:img
          {:transform "scale(1.75)"}]])]]])
+
+(def simple-image-card
+  [[:.simple-image-card
+    {:border [[(px 1) :solid (with-alpha green 0.4)]]}
+    [:&:before
+     {:content :none}]
+    [:img
+     {:width (percent 100)}]]])
 
 (def tagline-card
   [[:.tagline-card
@@ -947,7 +973,22 @@
        :margin-top (px 20)
        :overflow :hidden
        :display :block
-       :transition [[:all "200ms" :ease]]}]]]
+       :transition [[:all "200ms" :ease]]}]]
+    (in-small
+      {:max-height (px 800)})
+    (at-medium
+      [:p
+       (clearfix)]
+      [:label
+       {:position :relative
+        :top (px 8)}]
+      [:input
+       :textarea
+       {:float :right
+        :width (percent 80)}]
+      ["label[for=\"note-field\"]"
+       {:width (px 60)
+        :display :inline-block}])]
    [:.form-invalid
     [:.form-card
      [:input :textarea
@@ -959,17 +1000,26 @@
     [:.form-card
      [:.overlay
       {:z-index 10
-       :opacity 1}]]]])
+       :opacity 1}]
+     (in-small
+       {:overflow :hidden
+        :max-height (px 240)
+        :transition [[:max-height "500ms" :ease]]})]]])
 
 (def map-card
   [[:.map-card
     [:.map
      {:width (percent 100)
-      :height (percent 100)}
+      :height (percent 100)
+      :border [[(px 1) (with-alpha green 0.4) :solid]]}
      [:a
       {:color red
        :font-style :italic
-       :text-decoration :underline}]]]])
+       :text-decoration :underline}]]
+    (at-large
+      {:height (percent 100)}
+      [:&:before
+       {:content :none}])]])
 
 (def facebook-card
   [[:.facebook-card
@@ -981,7 +1031,7 @@
     [:&:before
      {:content :none}]
     ["> div"
-     (clearfix)
+     ;; (clearfix)
      {:position :static
       :padding [[(px 35) (px 20)]]
       :display :inline-block
@@ -1005,11 +1055,29 @@
       :top (px -8)
       :font-size (px 66)
       :display :inline-block
-      :color (with-alpha white 0.4)}]]])
+      :color (with-alpha white 0.4)}]
+    (in-size (px 500) (units/px- medium-breakpoint 1)
+      [:a
+       {:max-width (px 415)}]
+      [:h1
+       {:width (percent 90)
+        :position :relative
+        :top (px -6)
+        :left (px 6)}]
+      [:span.fa
+       {:width (percent 10)
+        :font-size (px 66)
+        :position :relative
+        :left (px -12)
+        :top (px 8)}])]])
 
 (def dropkick
   [[:.dk-select
-    {:width (percent 100)}]
+    {:width (percent 100)}
+    (at-medium
+      {:float :right
+       :width (percent 80)
+       :padding-top (px 4)})]
    [:.dk-select-open-down
     {:margin-bottom (px 2)}
     [:.dk-selected :.dk-selected:focus
@@ -1022,10 +1090,13 @@
       :border-width (px 2)
       :border-top-width 0
       :border-radius 0
-      :border-color green}]]
+      :border-color green
+      :max-height (em 12)
+      :opacity 1}]]
    [:.dk-selected
     {:padding-top (px 2)
      :padding-bottom (px 1)
+     :margin 0
      :font-size (px 18)
      :line-height (px 26)
      :border-width (px 2)
@@ -1050,7 +1121,21 @@
     {:display :none}]
    [:.dk-option-selected
     {:background-color green}]
+   [:.dk-select
+    [:.dk-select-options
+     {:display :block
+      :overflow :hidden}]]
    [:.dk-select-options
+    {:display :inline-block
+     :max-height 0
+     :border-width 0
+     :border-radius 0
+     :margin [[(em 0.25) 0]]
+     :padding 0
+     :opacity 0
+     :overflow :hidden
+     :transition [[:max-height "200ms" :ease]
+                  [:opacity "200ms" :ease]]}
     [:.dk-option-highlight
      {:background-color green}]]
    [:.dk-option
@@ -1118,6 +1203,104 @@
        :margin {:left :auto
                 :right :auto}})]])
 
+(def get-in-touch
+  [[:main.get-in-touch
+    (in-small
+
+      [:.card
+       {:margin-top (px 20)
+        :margin-bottom (px 20)}]
+
+      [:.simple-image-card
+       (aspect)
+       [:img
+        {:position :absolute
+         :top 0
+         :bottom 0
+         :left 0
+         :right 0}]])
+
+    (in-medium
+      (clearfix)
+
+      [:.column-0
+       :.column-1
+       :.column-2
+       :.column-3
+       {:float :left}]
+
+      [:.column-1
+       :.column-2
+       {:width "calc(50% - 20px)"
+        :height (px 800)}]
+
+      [:.column-1
+       {:margin-right (px 20)}]
+
+      [:.column-2
+       {:margin-left (px 20)}]
+
+      [:.column-3
+       {:width (percent 100)
+        :height (px 632)}]
+
+      [:.image-card-0
+       {:height "calc(100% - 236px)"}]
+
+      [:.facebook-card
+       {:margin-top (px 40)}]
+
+      [:.image-card-1
+       {:height "calc(100% - 40px)"}]
+
+      [:.map-card
+       {:max-height (px 300)
+        :margin-top (px 40)}])
+
+    (at-large
+      [:.column-0
+       :.column-1
+       {:float :left
+        :height (px 800)}]
+
+      [:.column-2
+       :.column-3
+       {:float :left
+        :height (px 632)
+        :margin-top (px 20)}]
+
+      [:.column-0
+       {:display :table}]
+
+      [:.card-wrap
+       {:display :table-row}]
+
+      [".card-wrap:nth-child(1)"
+       {:height 0}]
+
+      [:.column-0
+       {:width "calc(100% - 372px - 40px)"
+        :margin-right (px 40)}]
+
+      [:.column-1
+       {:width (px 372)}]
+
+      [:.facebook-card
+       {:margin-top (px 40)}]
+
+      [:.map-card
+       {:height "calc(100% - 20px)"}]
+
+      [:.column-2
+       {:width "calc(100% - 628px - 40px)"
+        :margin-right (px 40)}]
+
+      [:.column-3
+       {:width (px 628)}]
+
+      [:.image-card-1
+       {:height (px 610)}])]])
+
 (def screen
   (concat
     reset
@@ -1134,12 +1317,14 @@
     cards
     contact-card
     image-card
+    simple-image-card
     tagline-card
     services-card
     quote-card
     form-card
     facebook-card
     map-card
+    get-in-touch
     dropkick
     footer))
 

@@ -1,4 +1,4 @@
-[:main
+[:main.home
  [:div.simple-contact-card]
  [:div.cards.row.thirds
   [:div

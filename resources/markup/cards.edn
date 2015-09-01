@@ -65,4 +65,51 @@
   [:div.mask
    [:img]]]
 
+ [:section.card.simple-image-card
+  [:img]]
+
+ [:section.card.form-card
+  [:div.overlay
+   [:h1
+    "Thank you for your message. We will be in touch shortly."]]
+  [:div
+   [:p
+    "Please send us a message with a little more information about how we can help, and we’ll be in touch soon."]
+   [:form
+    {:name "contact"
+     :method "POST"
+     :netlify ""}
+    [:small
+     [:em "* Required fields"]]
+    [:p
+     [:label {:for "name-field"} "Name*"]
+     [:input {:id "name-field" :name "name" :placeholder "Ron Swanson" :required ""}]]
+    [:p
+     [:label {:for "phone-field"} "Phone*"]
+     [:input {:id "phone-field" :name "phone" :type "phone" :placeholder "(555)555-5555" :required ""}]]
+    [:p
+     [:label {:for "email-field"} "Email*"]
+     [:input {:id "email-field" :name "email" :type "email" :placeholder "ron@pawnee.gov" :required ""}]]
+    [:p
+     [:label {:for "project-field"} "Project"]
+     [:select {:id "project-field" :name "project"}
+      [:option
+       {:value ""
+        :selected true
+        :disabled true} "Please Select"]
+      [:option {:value "new-homes"} "New Homes"]
+      [:option {:value "additions"} "Additions"]
+      [:option {:value "remodels"} "Remodels"]
+      [:option {:value "condominiums"} "Condominiums"]
+      [:option {:value "commercial"} "Commercial"]
+      [:option {:value "offices"} "Offices"]
+      [:option {:value "retail"} "Retail"]
+      [:option {:value "restaurants"} "Restaurants"]]]
+    [:p
+     [:label {:for "note-field"} "Add a Note?"]
+     [:textarea {:id "note-field" :name "note"}]]
+    [:small.error
+     [:em "Please fill out required fields."]]
+    [:button {:type "submit"} [:em "Send Us a Message"]]]]]
+
  ]

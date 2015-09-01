@@ -2,9 +2,7 @@
   (:require [goog.dom :as dom]
             [goog.dom.forms :as forms]
             [goog.dom.classlist :as classlist]
-            [goog.json :as json]
             [goog.events :as events]
-
             [cljsjs.dropkick]
             [cljsjs.fastclick])
   (:import (goog.net XhrIo)
@@ -138,7 +136,7 @@
                             "<strong>Steven Z Epstein Architects</strong><br><br>700 NE 74th Street<br>Boca Raton, FL 33487<br><br><a href=\"https://www.google.com/maps/dir//Steven+Z+Epstein+Architects,+700+NE+74th+St,+Boca+Raton,+AL+33487/@26.4153235,-80.0744302,17z/data=!4m13!1m4!3m3!1s0x88d8e04873673999:0x4972a17ed64d6182!2sSteven+Z+Epstein+Architects!3b1!4m7!1m0!1m5!1m1!1s0x88d8e04873673999:0x4972a17ed64d6182!2m2!1d-80.0744302!2d26.4153235\">Get directions</a>"})]
 
       (.addListener marker "click"
-        #(.panTo map location))
+        #(.open info-window map marker))
 
       (google.maps.event.addListenerOnce map "idle"
         #(.open info-window map marker))
@@ -164,9 +162,7 @@
                (classlist/enable body "form-submitted" true)
                (classlist/enable body "form-failed" true))
             "POST"
-            (forms/getFormDataString form)
-            #_(json/serialize
-                (.toObject (forms/getFormDataMap form))))))))
+            (forms/getFormDataString form))))))
 
   (setup-google-map!)
 
