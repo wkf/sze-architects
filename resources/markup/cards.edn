@@ -83,13 +83,13 @@
      [:em "* Required fields"]]
     [:p
      [:label {:for "name-field"} "Name*"]
-     [:input {:id "name-field" :name "name" :placeholder "Ron Swanson" :required ""}]]
+     [:input {:id "name-field" :name "name" :required ""}]]
     [:p
      [:label {:for "phone-field"} "Phone*"]
-     [:input {:id "phone-field" :name "phone" :type "phone" :placeholder "(555)555-5555" :required ""}]]
+     [:input {:id "phone-field" :name "phone" :type "phone" :required ""}]]
     [:p
      [:label {:for "email-field"} "Email*"]
-     [:input {:id "email-field" :name "email" :type "email" :placeholder "ron@pawnee.gov" :required ""}]]
+     [:input {:id "email-field" :name "email" :type "email" :required ""}]]
     [:p
      [:label {:for "project-field"} "Project"]
      [:select {:id "project-field" :name "project"}
