@@ -639,8 +639,13 @@
       [:&.column
        [:&.third
         [:.card:before
-         {:padding-top (percent 130)}]]])
+         {:padding-top (percent 140)}]]])
     (at-size (px 860)
+      [:&.column
+       [:&.third
+        [:.card:before
+         {:padding-top (percent 130)}]]])
+    (at-size (px 940)
       [:&.column
        [:&.third
         [:.card:before
@@ -740,7 +745,6 @@
   [[:.image-card
     (card-button)
     {:width (percent 100)
-     :text-align :center
      :position :relative
      :border [[(px 1) :solid (with-alpha green 0.4)]]}
     [:&.extra
@@ -826,7 +830,9 @@
     [:&:before
      {:content :none}]
     [:img
-     {:width (percent 100)}]]])
+     {:display :block
+      :width (percent 100)
+      :transform "scale(1.01)"}]]])
 
 (def tagline-card
   [[:.tagline-card
@@ -879,6 +885,8 @@
     [:p
      {:margin-top (px 15)
       :margin-bottom (px 15)}]
+    [:blockquote
+     {:margin 0}]
     [:cite
      {:margin-top (px 20)
       :display :inline-block
@@ -1231,8 +1239,7 @@
 
       [:.column-1
        :.column-2
-       {:width "calc(50% - 20px)"
-        :height (px 800)}]
+       {:width "calc(50% - 20px)"}]
 
       [:.column-1
        {:margin-right (px 20)}]
@@ -1241,8 +1248,7 @@
        {:margin-left (px 20)}]
 
       [:.column-3
-       {:width (percent 100)
-        :height (px 632)}]
+       {:width (percent 100)}]
 
       [:.image-card-0
        {:height "calc(100% - 236px)"}]
@@ -1257,11 +1263,25 @@
        {:max-height (px 300)
         :margin-top (px 40)}])
 
+    (in-size
+      medium-breakpoint
+      (units/px+ medium-breakpoint 200)
+      [:.column-1
+       :.column-2
+       {:height (px 600)}])
+
+    (in-size
+      (units/px+ medium-breakpoint 201)
+      (units/px- large-breakpoint 1)
+      [:.column-1
+       :.column-2
+       {:height (px 800)}])
+
     (at-large
       [:.column-0
        :.column-1
        {:float :left
-        :height (px 800)}]
+        :height (px 794)}]
 
       [:.column-2
        :.column-3
