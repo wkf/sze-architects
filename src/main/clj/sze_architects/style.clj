@@ -241,9 +241,11 @@
     {:padding-top (px 25)}
     [:.logo
      {:width (px 182)
-      :margin [[0 :auto (px 28)]]}]
+      :margin [[0 :auto (px 14)]]}]
     (at-medium
-      {:padding [[(px 40) 0 0]]})
+      {:padding [[(px 40) 0 0]]}
+      [:.logo
+       {:margin-bottom (px -28)}])
     (at-large
       {:padding-top (px 25)
        :max-width max-width
@@ -253,7 +255,7 @@
        {:float :left
         :margin-top (px 38)
         :margin-left (px 68)
-        :margin-bottom (px -57)
+        :margin-bottom (px -81)
         :width (px 242)
         :z-index 2
         :position :relative}])]])
