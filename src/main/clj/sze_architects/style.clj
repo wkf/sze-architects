@@ -5,8 +5,7 @@
             [garden.color :as color :refer [rgb rgb? rgba]]
             [garden.core :refer [css]]
             [garden.stylesheet :refer [at-media]]
-            [garden.units :refer [px em percent] :as units])
-  (:import (jodd.csselly CSSelly CssSelector Combinator Selector$Type)))
+            [garden.units :refer [px em percent] :as units]))
 
 (def red "#ef4639")
 (def light-red "#ff6f6c")
@@ -1150,6 +1149,55 @@
     {:font-size (px 18)
      :line-height (px 26)}]])
 
+(def service-list-card
+  [[:.service-list-card
+    {:color white
+     :background green}
+    ["> div"
+     {:padding [[(px 26) (px 20) (px 30)]]
+      :position :static}]
+    [:&:before
+     {:content :none}]
+    [:h1
+     {:color white
+      :margin-top 0
+      :margin-bottom (px 20)}]
+    [:ul
+     {:margin 0}]
+    [:li
+     {:font-size (px 16)
+      :line-height (px 22)
+      :padding-left (em 1)
+      :text-indent (em -1)}
+     [:&:before
+      {:content "'• '"}]]]])
+
+(def copy-card
+  [[:.copy-card
+    {:border [[(px 1) (with-alpha green 0.4) :solid]]}
+    ["> div"
+     {:padding [[(px 30) (px 20) (px 10)]]
+      :position :static}]
+    [:&:before
+     {:content :none}]
+    [:h2
+     {:font-family lubalin-graph-book
+      :font-size (px 21)
+      :line-height (px 21)
+      :font-weight :normal
+      :margin-top 0}]
+    [:p
+     {:font-size (px 16)
+      :line-height (px 22)}]
+    [:li
+     {:font-size (px 16)
+      :line-height (px 22)
+      :padding-left (em 1)
+      :text-indent (em -1)}
+     [:&:before
+      {:color (with-alpha green 0.6)
+       :content "'• '"}]]]])
+
 (def footer
   [[:footer
     ["> .facebook-link"
@@ -1321,6 +1369,14 @@
       [:.image-card-1
        {:height (px 610)}])]])
 
+(def services
+  [[:main.services
+    [:.quote-card
+     ["> div"
+      {:position :static}]
+     [:&:before
+      {:content :none}]]]])
+
 (def screen
   (concat
     reset
@@ -1346,6 +1402,9 @@
     map-card
     get-in-touch
     dropkick
+    service-list-card
+    copy-card
+    services
     footer))
 
 (defn manifest [config]

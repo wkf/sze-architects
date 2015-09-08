@@ -1,1 +1,16 @@
-[:main "Services!"]
+[:main.services
+ [:div.column-0
+  [:section.service-list-card]]
+ [:div.column-1
+  [:section.copy-card-0]]
+ [:div.column-2
+  [:section.image-card-0]]
+ [:div.column-3
+  [:section.copy-card-1]]
+ [:div.column-4
+  [:section.copy-card-2]
+  [:section.image-card-1]]
+ [:div.column-5
+  [:section.detailed-contact-card]]
+ [:div.column-6
+  [:section.quote-card]]]

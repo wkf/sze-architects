@@ -1,7 +1,10 @@
 (ns sze-architects.markup
   (:require [clojure.edn :as edn]
             [clojure.string :as str]
-            [net.cgrand.enlive-html :as html :refer [html defsnippet deftemplate]]))
+            [markdown.core :as markdown]
+            [net.cgrand.tagsoup :as tagsoup]
+            [net.cgrand.enlive-html :as html :refer [html defsnippet deftemplate]])
+  (:import (java.io StringReader)))
 
 ;;; Helpers
 
@@ -13,6 +16,28 @@
   "Parse edn files into enlive-compatible nodes."
   [stream]
   (-> stream slurp edn/read-string html))
+
+(defn- markdown-parser [stream]
+  (with-open [stream (StringReader.
+                       (-> stream
+                         slurp
+                         markdown/md-to-html-string))]
+    (-> stream
+      tagsoup/parser
+      (html/select [:body :> :*]))))
+
+(defn content [path]
+  (fn []
+    (->>
+      (html/html-resource
+        path {:parser markdown-parser})
+      (partition-by
+        (comp #{:hr} :tag))
+      (remove
+        (comp #{:hr} :tag first)))))
+
+(defmacro defcontent [n & forms]
+  `(def ~n (content ~@forms)))
 
 (defn- add-class
   "Allow classes to be keywords."
@@ -73,7 +98,10 @@
   "markup/cards.edn" [:.services-card] [])
 
 (defsnippet quote-card {:parser edn-parser}
-  "markup/cards.edn" [:.quote-card] [])
+  "markup/cards.edn" [:.quote-card] [quote citation]
+
+  [:cite] (html/content (str "–" citation))
+  [:blockquote :p] (html/content quote))
 
 (defsnippet map-card {:parser edn-parser}
   "markup/cards.edn" [:.map-card] [])
@@ -83,6 +111,17 @@
 
 (defsnippet form-card {:parser edn-parser}
   "markup/cards.edn" [:.form-card] [])
+
+(defsnippet copy-card {:parser edn-parser}
+  "markup/cards.edn" [:.copy-card] [copy]
+  [:div] (html/content copy))
+
+(defsnippet service-list-card {:parser edn-parser}
+  "markup/cards.edn" [:.copy-card] [copy]
+  [:div] (html/content copy)
+  [:.copy-card] (html/do->
+                  (html/remove-class "copy-card")
+                  (html/add-class "service-list-card")))
 
 (defsnippet image-card {:parser edn-parser}
   "markup/cards.edn" [:.image-card] [title src]
@@ -94,13 +133,13 @@
   [:img] (html/set-attr :src src :alt ""))
 
 (defsnippet home {:parser edn-parser}
-  "markup/home.edn" [:main] [images]
+  "markup/home.edn" [:main] [images quotes]
 
   [:.simple-contact-card] (substitute (simple-contact-card) :full :left)
   [:.detailed-contact-card] (substitute (detailed-contact-card) :full :left)
   [:.tagline-card] (substitute (tagline-card) :third :left)
   [:.services-card] (substitute (services-card) :full :left)
-  [:.quote-card] (substitute (quote-card) :third :left)
+  [:.quote-card] (substitute (apply quote-card (nth quotes 0)) :third :left)
   [:.image-card-0] (substitute (apply image-card (nth images 0)) :full :left)
   [:.image-card-1] (substitute (apply image-card (nth images 1)) :third :right)
   [:.image-card-2] (substitute (apply image-card (nth images 2)) :half :right :rectangle)
@@ -109,8 +148,19 @@
   [:.image-card-5] (substitute (apply image-card (nth images 5)) :full :right)
   [:.image-card-6] (substitute (apply image-card (nth images 6)) :third :right :extra))
 
+(defcontent services-copy "content/services.md")
+
 (defsnippet services {:parser edn-parser}
-  "markup/services.edn" [:main] [])
+  "markup/services.edn" [:main] [images quotes]
+
+  [:.detailed-contact-card] (substitute (detailed-contact-card))
+  [:.quote-card] (substitute (apply quote-card (nth quotes 0)))
+  [:.image-card-0] (substitute (simple-image-card (nth images 0)))
+  [:.image-card-1] (substitute (simple-image-card (nth images 1)))
+  [:.service-list-card] (substitute (service-list-card (nth (services-copy) 0)))
+  [:.copy-card-0] (substitute (copy-card (nth (services-copy) 1)))
+  [:.copy-card-1] (substitute (copy-card (nth (services-copy) 2)))
+  [:.copy-card-2] (substitute (copy-card (nth (services-copy) 3))))
 
 (defsnippet our-office {:parser edn-parser}
   "markup/our-office.edn" [:main] [])
@@ -158,6 +208,10 @@
    ["Additon & Remodel in Watermill, NY" "img/square-1.jpg"]
    ["Additon & Remodel in Watermill, NY" "img/square-3.jpg"]])
 
+(def home-quotes
+  [["I have been working with Steve and Claudia for almost 20 years now and they are my architects of choice."
+    "Frank Litrento, Construction Solutions & Services"]])
+
 (def google-api-key
   "AIzaSyAVxaq9DkcHq38ZyPbKLaKzkBl5kg8ejs0")
 
@@ -165,16 +219,25 @@
   ["img/contact-1.jpg"
    "img/contact-2.jpg"])
 
+(def services-images
+  ["http://placehold.it/960x290"
+   "http://placehold.it/450x450"])
+
+(def services-quotes
+  [["Steve made wonderful recommendations towards realizing our dreams and meeting our remodel/expansion needs. His expertise allowed him to envision ideas and make suggestions that frankly we would never have thought of...I am honored to give Steve and Claudia Epstein my highest recommendation without any reservations.  He is a master of his profession."
+    "Daryl Wilmoth, Boca Raton, FL"]])
+
 ;;; Pages
 
 (def pages
   [{:title "SZE Architects"
     :path ""
     :snippet home
-    :content [home-images]}
+    :content [home-images home-quotes]}
    {:title "SZE Architects - Services"
     :path "services"
-    :snippet services}
+    :snippet services
+    :content [services-images services-quotes]}
    {:title "SZE Architects - Our Office"
     :path "our-office"
     :snippet our-office}

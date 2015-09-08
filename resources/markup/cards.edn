@@ -43,9 +43,9 @@
   [:div
    [:blockquote
     [:div.fa.fa-quote-left]
-    [:p "I have been working with Steve and Claudia for almost 20 years now and they are my architects of choice." ]
+    [:p]
     [:div.fa.fa-quote-right]
-    [:cite "–Frank Litrento, Construction Solutions & Services"]]]]
+    [:cite]]]]
 
  [:section.card.map-card
   [:div
@@ -67,6 +67,9 @@
 
  [:section.card.simple-image-card
   [:img]]
+
+ [:section.card.copy-card
+  [:div.copy]]
 
  [:section.card.form-card
   [:div.overlay
