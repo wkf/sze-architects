@@ -220,8 +220,8 @@
    "img/contact-2.jpg"])
 
 (def services-images
-  ["http://placehold.it/960x290"
-   "http://placehold.it/450x450"])
+  ["http://placehold.it/450x450"
+   "http://placehold.it/960x290"])
 
 (def services-quotes
   [["Steve made wonderful recommendations towards realizing our dreams and meeting our remodel/expansion needs. His expertise allowed him to envision ideas and make suggestions that frankly we would never have thought of...I am honored to give Steve and Claudia Epstein my highest recommendation without any reservations.  He is a master of his profession."

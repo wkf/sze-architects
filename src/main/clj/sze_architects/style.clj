@@ -1183,7 +1183,7 @@
     [:h2
      {:font-family lubalin-graph-book
       :font-size (px 21)
-      :line-height (px 21)
+      :line-height (px 32)
       :font-weight :normal
       :margin-top 0}]
     [:p

@@ -14,10 +14,10 @@
 
 ## Our projects include...
 
-- New construction: Custom single family homes, duplexes and townhomes, new retail and office buildings, warehouse and office/warehouse buildings, horse barns
-- Commercial and retail: Office space (tenant improvement), doctors’ and professional offices, large retail stores, small retail bays, restaurants, theaters
-- Additions: From single room to suites to two story, new garage or carport, new entry, new covered patio, new kitchens and baths
-- Remodels: Clubhouses, public spaces and lobbies, gyms, interior spaces of existing homes and condominiums, reconfigure existing rooms, update kitchens and baths
+- *New construction:* Custom single family homes, duplexes and townhomes, new retail and office buildings, warehouse and office/warehouse buildings, horse barns
+- *Commercial and retail:* Office space (tenant improvement), doctors’ and professional offices, large retail stores, small retail bays, restaurants, theaters
+- *Additions:* From single room to suites to two story, new garage or carport, new entry, new covered patio, new kitchens and baths
+- *Remodels:* Clubhouses, public spaces and lobbies, gyms, interior spaces of existing homes and condominiums, reconfigure existing rooms, update kitchens and baths
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
