@@ -71,6 +71,10 @@
  [:section.card.copy-card
   [:div.copy]]
 
+ [:section.card.statement-card
+  [:div.statement
+   [:h1]]]
+
  [:section.card.form-card
   [:div.overlay
    [:h1

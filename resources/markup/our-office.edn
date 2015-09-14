@@ -1,1 +1,22 @@
-[:main "Our Office!"]
+[:main.our-office
+ [:div.column-0
+  [:section.statement-card-0]
+  [:section.copy-card-0]]
+ [:div.column-1
+  [:section.image-card-0]
+  [:section.image-card-1]]
+ [:div.column-2
+  [:section.statement-card-1]
+  [:section.copy-card-1]]
+ [:div.column-3
+  [:section.image-card-2]
+  [:section.copy-card-2]]
+ [:div.column-4
+  [:section.image-card-3]
+  [:section.copy-card-3]]
+ [:div.column-5
+  [:section.copy-card-4]
+  [:section.client-list-card]]
+ [:div.column-6
+  [:section.detailed-contact-card]
+  [:section.image-card-4]]]

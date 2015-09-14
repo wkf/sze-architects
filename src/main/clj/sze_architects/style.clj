@@ -1182,12 +1182,32 @@
       :position :static}]
     [:&:before
      {:content :none}]
+    [:h1
+     {:color (with-alpha green 0.6)
+      :font-size (px 36)
+      :line-height (px 43)
+      :font-weight :normal
+      :margin-bottom 0}]
     [:h2
      {:font-family lubalin-graph-book
       :font-size (px 21)
       :line-height (px 32)
       :font-weight :normal
       :margin-top 0}]
+    [:h3
+     {:font-family avenir-book-oblique
+      :font-size (px 21)
+      :line-height (px 28)
+      :font-weight :normal
+      :margin-top 0}]
+    [:h4
+     {:font-family lubalin-graph-book
+      :font-size (px 21)
+      :line-height (px 32)
+      :font-weight :normal
+      :margin-bottom 0}]
+    ["*:first-child"
+     {:margin-top 0}]
     [:p
      {:font-size (px 16)
       :line-height (px 22)}]
@@ -1199,6 +1219,22 @@
      [:&:before
       {:color (with-alpha green 0.6)
        :content "'• '"}]]]])
+
+(def statement-card
+  [[:.statement-card
+   {:background green}
+   ["> div"
+    {:padding [[(px 30) (px 20) (px 10)]]
+     :position :static}]
+   [:&:before
+    {:content :none}]
+   [:h1
+    {:color white
+     :font-family lubalin-graph-book
+     :font-size (px 36)
+     :line-height (px 43)
+     :font-weight :normal
+     :margin-top 0}]]])
 
 (def footer
   [[:footer
@@ -1373,11 +1409,20 @@
 
 (def services
   [[:main.services
+    [:.card
+     {:margin-top (px 20)
+      :margin-bottom (px 20)}]
     [:.quote-card
      ["> div"
       {:position :static}]
      [:&:before
       {:content :none}]]]])
+
+(def our-office
+  [[:main.our-office
+    [:.card
+     {:margin-top (px 20)
+      :margin-bottom (px 20)}]]])
 
 (def screen
   (concat
@@ -1406,7 +1451,9 @@
     dropkick
     service-list-card
     copy-card
+    statement-card
     services
+    our-office
     footer))
 
 (defn manifest [config]

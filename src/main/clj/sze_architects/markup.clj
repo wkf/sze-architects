@@ -116,12 +116,23 @@
   "markup/cards.edn" [:.copy-card] [copy]
   [:div] (html/content copy))
 
+(defsnippet statement-card {:parser edn-parser}
+  "markup/cards.edn" [:.statement-card] [statement]
+  [:h1] (html/content statement))
+
 (defsnippet service-list-card {:parser edn-parser}
   "markup/cards.edn" [:.copy-card] [copy]
   [:div] (html/content copy)
   [:.copy-card] (html/do->
                   (html/remove-class "copy-card")
                   (html/add-class "service-list-card")))
+
+(defsnippet client-list-card {:parser edn-parser}
+  "markup/cards.edn" [:.copy-card] [copy]
+  [:div] (html/content copy)
+  [:.copy-card] (html/do->
+                  (html/remove-class "copy-card")
+                  (html/add-class "client-list-card")))
 
 (defsnippet image-card {:parser edn-parser}
   "markup/cards.edn" [:.image-card] [title src]
@@ -162,8 +173,26 @@
   [:.copy-card-1] (substitute (copy-card (nth (services-copy) 2)))
   [:.copy-card-2] (substitute (copy-card (nth (services-copy) 3))))
 
+(defcontent our-office-copy "content/our-office.md")
+
 (defsnippet our-office {:parser edn-parser}
-  "markup/our-office.edn" [:main] [])
+  "markup/our-office.edn" [:main] [images]
+
+  [:.detailed-contact-card] (substitute (detailed-contact-card))
+  [:.image-card-0] (substitute (simple-image-card (nth images 0)))
+  [:.image-card-1] (substitute (simple-image-card (nth images 1)))
+  [:.image-card-2] (substitute (simple-image-card (nth images 2)))
+  [:.image-card-3] (substitute (simple-image-card (nth images 3)))
+  [:.image-card-4] (substitute (simple-image-card (nth images 4)))
+  [:.copy-card-0] (substitute (copy-card (nth (our-office-copy) 0)))
+
+  [:.copy-card-1] (substitute (copy-card (nth (our-office-copy) 1)))
+  [:.copy-card-2] (substitute (copy-card (nth (our-office-copy) 2)))
+  [:.copy-card-3] (substitute (copy-card (nth (our-office-copy) 3)))
+  [:.copy-card-4] (substitute (copy-card (nth (our-office-copy) 4)))
+  [:.client-list-card] (substitute (copy-card (nth (our-office-copy) 5)) :client-list-card)
+  [:.statement-card-0] (substitute (statement-card "Welcome to our office."))
+  [:.statement-card-1] (substitute (statement-card "We've been in business for over 25 years.")))
 
 (defsnippet get-in-touch {:parser edn-parser}
   "markup/get-in-touch.edn" [:main] [images]
@@ -227,6 +256,13 @@
   [["Steve made wonderful recommendations towards realizing our dreams and meeting our remodel/expansion needs. His expertise allowed him to envision ideas and make suggestions that frankly we would never have thought of...I am honored to give Steve and Claudia Epstein my highest recommendation without any reservations.  He is a master of his profession."
     "Daryl Wilmoth, Boca Raton, FL"]])
 
+(def our-office-images
+  ["http://placehold.it/460x460"
+   "http://placehold.it/460x460"
+   "http://placehold.it/291x291"
+   "http://placehold.it/291x291"
+   "http://placehold.it/291x291"])
+
 ;;; Pages
 
 (def pages
@@ -240,7 +276,8 @@
     :content [services-images services-quotes]}
    {:title "SZE Architects - Our Office"
     :path "our-office"
-    :snippet our-office}
+    :snippet our-office
+    :content [our-office-images]}
    {:title "SZE Architects - Get in Touch" :path "get-in-touch"
     :scripts [(str "//maps.googleapis.com/maps/api/js?key=" google-api-key)]
     :snippet get-in-touch
