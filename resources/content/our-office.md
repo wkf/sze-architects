@@ -1,4 +1,6 @@
-Steven Z Epstein Architects specializes in residential, retail, restaurant, corporate offices and commercial architectural projects.  We have provided a full range of architectural services for our clients for over 25 years, in South Florida and nationwide, from preliminary design through construction administration. We have designed many unique projects, such as polo horse stables complete with grooms’ quarters, and a regional playhouse. Our current projects include custom homes and residential and retail remodels.
+#### Steven Z Epstein Architects specializes in residential, retail, restaurant, corporate offices and commercial architectural projects. ####
+
+We have provided a full range of architectural services for our clients for over 25 years, in South Florida and nationwide, from preliminary design through construction administration. We have designed many unique projects, such as polo horse stables complete with grooms’ quarters, and a regional playhouse. Our current projects include custom homes and residential and retail remodels.
 
 At SZE Architects, we value customer satisfaction, from our smallest residential remodel to our largest national retail client. We provide service that is competitively priced, on time, and accurate. Our staff is creative, experienced, and reliable.
 
@@ -44,7 +46,6 @@ Our motto is “Building Connections”, because we have found that our clients 
 
 #### Retail clients: ####
 
-- These are just placeholders
 - Mars Music (30 stores)
 - Walgreens
 - Eyeglass World

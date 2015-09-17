@@ -1,6 +1,7 @@
 [:main.our-office
  [:div.column-0
   [:section.statement-card-0]
+  [:section.image-card-0]
   [:section.copy-card-0]]
  [:div.column-1
   [:section.image-card-0]

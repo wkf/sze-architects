@@ -1413,6 +1413,7 @@
      {:margin-top (px 20)
       :margin-bottom (px 20)}]
     [:.quote-card
+     {:display :none}
      ["> div"
       {:position :static}]
      [:&:before
@@ -1422,7 +1423,12 @@
   [[:main.our-office
     [:.card
      {:margin-top (px 20)
-      :margin-bottom (px 20)}]]])
+      :margin-bottom (px 20)}]
+    [:.column-1
+     [:.image-card-0
+      {:display :none}]]
+    [:.image-card-4
+     {:display :none}]]])
 
 (def screen
   (concat

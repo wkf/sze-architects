@@ -179,13 +179,12 @@
   "markup/our-office.edn" [:main] [images]
 
   [:.detailed-contact-card] (substitute (detailed-contact-card))
-  [:.image-card-0] (substitute (simple-image-card (nth images 0)))
+  [:.image-card-0] (substitute (simple-image-card (nth images 0)) :image-card-0)
   [:.image-card-1] (substitute (simple-image-card (nth images 1)))
   [:.image-card-2] (substitute (simple-image-card (nth images 2)))
   [:.image-card-3] (substitute (simple-image-card (nth images 3)))
-  [:.image-card-4] (substitute (simple-image-card (nth images 4)))
+  [:.image-card-4] (substitute (simple-image-card (nth images 4)) :image-card-4)
   [:.copy-card-0] (substitute (copy-card (nth (our-office-copy) 0)))
-
   [:.copy-card-1] (substitute (copy-card (nth (our-office-copy) 1)))
   [:.copy-card-2] (substitute (copy-card (nth (our-office-copy) 2)))
   [:.copy-card-3] (substitute (copy-card (nth (our-office-copy) 3)))
