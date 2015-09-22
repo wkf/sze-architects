@@ -128,11 +128,10 @@
                   (html/add-class "service-list-card")))
 
 (defsnippet client-list-card {:parser edn-parser}
-  "markup/cards.edn" [:.copy-card] [copy]
-  [:div] (html/content copy)
-  [:.copy-card] (html/do->
-                  (html/remove-class "copy-card")
-                  (html/add-class "client-list-card")))
+  "markup/cards.edn" [:.client-list-card] [copy]
+  [:div.left] (html/content (take 4 copy))
+  [:div.right] (html/content (drop 4 copy))
+  [:.client-list-card] (html/add-class "copy-card"))
 
 (defsnippet image-card {:parser edn-parser}
   "markup/cards.edn" [:.image-card] [title src]
@@ -186,12 +185,13 @@
   [:.image-card-4] (substitute (simple-image-card (nth images 4)) :image-card-4)
   [:.copy-card-0] (substitute (copy-card (nth (our-office-copy) 0)))
   [:.copy-card-1] (substitute (copy-card (nth (our-office-copy) 1)))
-  [:.copy-card-2] (substitute (copy-card (nth (our-office-copy) 2)))
+  [:.copy-card-2] (substitute (copy-card (nth (our-office-copy) 2)) :copy-card-2)
   [:.copy-card-3] (substitute (copy-card (nth (our-office-copy) 3)))
   [:.copy-card-4] (substitute (copy-card (nth (our-office-copy) 4)))
-  [:.client-list-card] (substitute (copy-card (nth (our-office-copy) 5)) :client-list-card)
+  [:.client-list-card] (substitute (client-list-card (nth (our-office-copy) 5)))
   [:.statement-card-0] (substitute (statement-card "Welcome to our office."))
   [:.statement-card-1] (substitute (statement-card "We've been in business for over 25 years.")))
+
 
 (defsnippet get-in-touch {:parser edn-parser}
   "markup/get-in-touch.edn" [:main] [images]

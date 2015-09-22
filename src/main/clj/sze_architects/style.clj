@@ -1176,6 +1176,7 @@
 
 (def copy-card
   [[:.copy-card
+    (card-link red)
     {:border [[(px 1) (with-alpha green 0.4) :solid]]}
     ["> div"
      {:padding [[(px 30) (px 20) (px 10)]]
@@ -1219,6 +1220,17 @@
      [:&:before
       {:color (with-alpha green 0.6)
        :content "'• '"}]]]])
+
+(def client-list-card
+  [[:.client-list-card
+    (in-medium
+      [:.left
+       :.right
+       {:display :inline-block
+        :width "calc(50% - 40px)"
+        :vertical-align :top}]
+      [:.left
+       {:margin-right (px 80)}])]])
 
 (def statement-card
   [[:.statement-card
@@ -1428,7 +1440,48 @@
      [:.image-card-0
       {:display :none}]]
     [:.image-card-4
-     {:display :none}]]])
+     {:display :none}]
+    (in-medium
+      [:.column-0
+       :.column-2
+       [:.image-card-0
+        {:display :none}]
+       [:.card:first-child
+        :.card:last-child
+        {:margin-bottom (px 30)}]]
+      [:.column-1
+       {:margin [[(px 30) 0]]}
+       [:.image-card-0
+        {:display :inline-block}]
+       [:.card
+        {:display :inline-block
+         :width "calc(50% - 15px)"
+         :margin 0}
+        [:&:first-child
+         {:margin-right (px 30)}]]]
+      [:.column-3
+       :.column-4
+       {:display :inline-block
+        :width "calc(50% - 15px)"
+        :vertical-align :top}
+       [:&.column-3
+        {:margin-right (px 30)}]
+       [:.card:first-child
+        {:margin [[0 0 (px 30)]]}]
+       [:.card:last-child
+        {:position :relative
+         :margin-bottom 0
+         :min-height (px 428)}
+        ["> div"
+         {:position :absolute}]
+        [:&:before
+         {:content "''"}]]]
+      [:.column-5
+       :.column-6
+       [:.card
+        {:margin [[(px 30) 0]]}]]
+      [:.detailed.contact-card
+       {:margin-bottom 0}])]])
 
 (def screen
   (concat
@@ -1456,6 +1509,7 @@
     get-in-touch
     dropkick
     service-list-card
+    client-list-card
     copy-card
     statement-card
     services
