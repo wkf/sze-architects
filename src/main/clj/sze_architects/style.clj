@@ -1503,6 +1503,10 @@
         :margin-bottom 0}]
       [:.column-0
        :.column-1
+       [:.card
+        {:margin-top (px 20)}]]
+      [:.column-0
+       :.column-1
        :.column-3
        :.column-4
        :.column-5
