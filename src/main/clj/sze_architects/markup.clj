@@ -270,7 +270,7 @@
    "http://placehold.it/460x460"
    "http://placehold.it/291x291"
    "http://placehold.it/291x291"
-   "http://placehold.it/291x291"])
+   "http://placehold.it/300x331"])
 
 ;;; Pages
 

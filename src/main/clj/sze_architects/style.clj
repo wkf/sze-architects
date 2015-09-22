@@ -1233,7 +1233,7 @@
 
 (def client-list-card
   [[:.client-list-card
-    (in-medium
+    (at-medium
       [:.left
        :.right
        {:display :inline-block
@@ -1627,7 +1627,94 @@
        [:.card
         {:margin [[(px 30) 0]]}]]
       [:.detailed.contact-card
-       {:margin-bottom 0}])]])
+       {:margin-bottom 0}])
+    (at-large
+      [:.column-0
+       [:.image-card-0
+        {:display :none}]]
+      [:.column-1
+       [:.image-card-0
+        {:display :block}]]
+      [:.column-6
+       [:.image-card-4
+        {:display :block}]]
+      [:.card
+       {:margin-top (px 40)
+        :margin-bottom 0}]
+      [:.column-0
+       :.column-1
+       [:.card
+        {:margin-top (px 20)}]]
+      [:.column-0
+       :.column-1
+       :.column-3
+       :.column-4
+       :.column-5
+       :.column-6
+       {:display :inline-block
+        :vertical-align :top}]
+      [:.column-0
+       :.column-1
+       {:width "calc(50% - 20px)"}]
+      [:.column-0
+       {:margin-right (px 40)}]
+      [:.column-2
+       :.column-4
+       :.column-5
+       {:width (percent 100)}
+       [:.card
+        {:display :inline-block
+         :vertical-align :top}]
+       [:.card:first-child
+        {:width (px 291)
+         :margin-right (px 40)}]
+       [:.card:last-child
+        {:width "calc(100% - 40px - 291px)"}]]
+      [:.column-3
+       {:width (percent 100)}
+       [:.card
+        {:display :inline-block
+         :vertical-align :top}]
+       [:.card:last-child
+        {:width "calc(100% - 40px - 291px)"
+         :margin-right (px 40)}]
+       [:.card:first-child
+        {:width (px 291)
+         :float :right}]]
+      [:.column-6
+       {:width (percent 100)}
+       [:.card
+        {:display :inline-block
+         :vertical-align :top}]
+       [:.card:first-child
+        {:width "calc(66.6666667% - 20px)"
+         :margin-right (px 40)}]
+       [:.card:last-child
+        {:width "calc(33.3333333% - 20px)"}]]
+
+      [:.column-0
+       [:.card:first-child
+        {:margin-bottom (px 40)}]
+       [:.card:last-child
+        {:height (px 494)}]]
+      [:.column-1
+       [:.card:first-child
+        {:margin-bottom (px 40)}]
+       [:.card
+        {:max-height (px 304)}]
+       [:img
+        {:transform "translateY(-20%)"}]]
+      [:.column-2
+       :.column-3
+       :.column-4
+       [:.card
+        {:height (px 291)}]]
+      [:.column-5
+       [:.card
+        {:height (px 560)}]]
+      [:.column-6
+       [:.card
+        {:height (px 331)}]])]])
 
 (def screen
   (concat
