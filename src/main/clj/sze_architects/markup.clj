@@ -165,10 +165,10 @@
 
   [:.detailed-contact-card] (substitute (detailed-contact-card))
   [:.quote-card] (substitute (apply quote-card (nth quotes 0)))
-  [:.image-card-0] (substitute (simple-image-card (nth images 0)))
+  [:.image-card-0] (substitute (simple-image-card (nth images 0)) :image-card-0)
   [:.image-card-1] (substitute (simple-image-card (nth images 1)))
   [:.service-list-card] (substitute (service-list-card (nth (services-copy) 0)))
-  [:.copy-card-0] (substitute (copy-card (nth (services-copy) 1)))
+  [:.copy-card-0] (substitute (copy-card (nth (services-copy) 1)) :copy-card-0)
   [:.copy-card-1] (substitute (copy-card (nth (services-copy) 2)))
   [:.copy-card-2] (substitute (copy-card (nth (services-copy) 3))))
 

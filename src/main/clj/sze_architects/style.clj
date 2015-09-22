@@ -1429,7 +1429,48 @@
      ["> div"
       {:position :static}]
      [:&:before
-      {:content :none}]]]])
+      {:content :none}]]
+    [:.column-1
+     [:.image-card-0
+      {:display :none}]]
+    [:.column-2
+     [:.copy-card-0
+      {:display :none}]]
+    (in-medium
+      [:.column-1
+       [:.copy-card-0
+        {:display :none}]
+       [:.image-card-0
+        {:display :block}]]
+      [:.column-2
+       [:.image-card-0
+        {:display :none}]
+       [:.copy-card-0
+        {:display :block}]]
+      [:.card
+       {:margin-top (px 30)
+        :margin-bottom (px 30)}]
+      [:.column-0
+       :.column-1
+       {:display :inline-block
+        :width "calc(50% - 15px)"
+        :vertical-align :top}
+       [:.card
+        {:min-height (px 340)
+         :margin-bottom 0}
+        [:img
+         {:width :auto
+          :height (percent 100)}]
+        ["> div" :img
+         {:position :absolute
+          :top 0
+          :bottom 0
+          :left 0
+          :right 0}]
+        [:&:before
+         {:content "''"}]]]
+      [:.column-0
+       {:margin-right (px 30)}])]])
 
 (def our-office
   [[:main.our-office
