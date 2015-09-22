@@ -82,6 +82,16 @@
   [html/root] (html/add-class "detailed")
   #{[:h1] [:.fax] [:.come-on-by]} nil)
 
+(defsnippet small-detailed-contact-card {:parser edn-parser}
+  "markup/cards.edn" [:.contact-card] []
+
+  [html/root] (html/add-class "detailed")
+  #{[:h1] [:.fax] [:.come-on-by]} nil
+
+  [:.contact-card] (html/do->
+                     (html/remove-class "contact-card")
+                     (html/add-class "small-contact-card")))
+
 (defsnippet get-in-touch-contact-card {:parser edn-parser}
   "markup/cards.edn" [:.contact-card] []
 
@@ -163,10 +173,10 @@
 (defsnippet services {:parser edn-parser}
   "markup/services.edn" [:main] [images quotes]
 
-  [:.detailed-contact-card] (substitute (detailed-contact-card))
+  [:.detailed-contact-card] (substitute (small-detailed-contact-card))
   [:.quote-card] (substitute (apply quote-card (nth quotes 0)))
   [:.image-card-0] (substitute (simple-image-card (nth images 0)) :image-card-0)
-  [:.image-card-1] (substitute (simple-image-card (nth images 1)))
+  [:.image-card-1] (substitute (simple-image-card (nth images 1)) :image-card-1)
   [:.service-list-card] (substitute (service-list-card (nth (services-copy) 0)))
   [:.copy-card-0] (substitute (copy-card (nth (services-copy) 1)) :copy-card-0)
   [:.copy-card-1] (substitute (copy-card (nth (services-copy) 2)))

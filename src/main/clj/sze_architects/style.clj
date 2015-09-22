@@ -684,38 +684,48 @@
        [:&.row.thirds
         (aspect "calc(66.6666667% - -40px)")]])]])
 
+(def contact-card-at-small
+  [:&
+   (card-button)
+   {:position :static
+    :background green
+    :padding [[(px 10) (px 20)]]}
+   [:&:before
+    {:content :none}]
+   [:&.get-in-touch
+    {:padding-bottom (px 27)}]
+   ["> div"
+    {:position :static}]
+   [:h1
+    {:color white}]
+   [:p :em
+    {:color white
+     :font-size (px 24)
+     :line-height (px 32)}]
+   [:p
+    {:margin-top (px 18)
+     :margin-bottom (px 25)}]
+   [:a :span
+    {:color white
+     :font-size (px 21)
+     :line-height (px 40)
+     :font-family lubalin-graph-book}]
+   [:a:before
+    {:bottom (px 4)}]
+   [:span
+    (underline white (px -12))]
+   [:.address-3
+    {:display :none}]])
+
+(def small-contact-card
+  [[:.small-contact-card
+    contact-card-at-small
+    (at-medium
+      {:padding [[(px 40) (px 40) (px 15)]]})]])
+
 (def contact-card
   [[:.contact-card
-    (card-button)
-    {:position :static
-     :background green
-     :padding [[(px 10) (px 20)]]}
-    [:&:before
-     {:content :none}]
-    [:&.get-in-touch
-     {:padding-bottom (px 27)}]
-    ["> div"
-     {:position :static}]
-    [:h1
-     {:color white}]
-    [:p :em
-     {:color white
-      :font-size (px 24)
-      :line-height (px 32)}]
-    [:p
-     {:margin-top (px 18)
-      :margin-bottom (px 25)}]
-    [:a :span
-     {:color white
-      :font-size (px 21)
-      :line-height (px 40)
-      :font-family lubalin-graph-book}]
-    [:a:before
-     {:bottom (px 4)}]
-    [:span
-     (underline white (px -12))]
-    [:.address-3
-     {:display :none}]
+    contact-card-at-small
     (at-medium
       {:margin-top (px 20)
        :padding {:left (px 40)
@@ -1234,19 +1244,19 @@
 
 (def statement-card
   [[:.statement-card
-   {:background green}
-   ["> div"
-    {:padding [[(px 30) (px 20) (px 10)]]
-     :position :static}]
-   [:&:before
-    {:content :none}]
-   [:h1
-    {:color white
-     :font-family lubalin-graph-book
-     :font-size (px 36)
-     :line-height (px 43)
-     :font-weight :normal
-     :margin-top 0}]]])
+    {:background green}
+    ["> div"
+     {:padding [[(px 30) (px 20) (px 10)]]
+      :position :static}]
+    [:&:before
+     {:content :none}]
+    [:h1
+     {:color white
+      :font-family lubalin-graph-book
+      :font-size (px 36)
+      :line-height (px 43)
+      :font-weight :normal
+      :margin-top 0}]]])
 
 (def footer
   [[:footer
@@ -1435,6 +1445,10 @@
       {:display :none}]]
     [:.column-2
      [:.copy-card-0
+      :.image-card-1
+      {:display :none}]]
+    [:.column-4
+     [:.image-card-0
       {:display :none}]]
     (in-medium
       [:.column-1
@@ -1470,7 +1484,94 @@
         [:&:before
          {:content "''"}]]]
       [:.column-0
-       {:margin-right (px 30)}])]])
+       {:margin-right (px 30)}])
+    (at-large
+      [:.column-2
+       [:.image-card-0
+        {:display :none}]
+       [:.image-card-1
+        {:display :block}]]
+      [:.column-4
+       [:.image-card-0
+        {:display :block}]
+       [:.image-card-1
+        {:display :none}]]
+      [:.quote-card
+       {:display :block}]
+      [:.card
+       {:margin-top (px 40)
+        :margin-bottom 0}]
+      [:.column-0
+       :.column-1
+       :.column-3
+       :.column-4
+       :.column-5
+       :.column-6
+       {:display :inline-block
+        :vertical-align :top}]
+      [:.column-0
+       {:width "calc(33.3333333% - 20px)"
+        :margin-right (px 40)}]
+      [:.column-1
+       {:width "calc(66.6666667% - 20px)"}]
+      [:.column-3
+       :.column-5
+       {:width "calc(50% - 20px)"
+        :margin-right (px 40)}]
+      [:.column-4
+       :.column-6
+       {:width "calc(50% - 20px)"}]
+      [:.column-0
+       :.column-1
+       [:.card
+        {:height (px 338)}]]
+      [:.column-3
+       [:.card
+        {:height (px 1067)}]]
+      [:.column-4
+       [:.card:first-child
+        {:height (px 627)}]
+       [:.image-card-0
+        {:max-height (px 400)}
+        [:img
+         {:transform "translateY(-5%)"}]]]
+      [:.column-5
+       :.column-6
+       [:.card
+        {:height (px 475)}]])
+    (at-size (px 1200)
+      [:.column-3
+       [:.card
+        {:height (px 978)}]]
+      [:.column-4
+       [:.card:first-child
+        {:height (px 580)}]
+       [:.image-card-0
+        {:max-height (px 358)}
+        [:img
+         {:transform "translateY(-15%)"}]]])
+    (at-size (px 1300)
+      [:.column-3
+       [:.card
+        {:height (px 880)}]]
+      [:.column-4
+       [:.card:first-child
+        {:height (px 580)}]
+       [:.image-card-0
+        {:max-height (px 260)}
+        [:img
+         {:transform "translateY(-27%)"}]]])
+    (at-size (px 1600)
+      [:.column-3
+       [:.card
+        {:height (px 770)}]]
+      [:.column-4
+       [:.card:first-child
+        {:height (px 490)}]
+       [:.image-card-0
+        {:max-height (px 240)}
+        [:img
+         {:transform "translateY(-33%)"}]]])]])
 
 (def our-office
   [[:main.our-office
@@ -1553,6 +1654,7 @@
     client-list-card
     copy-card
     statement-card
+    small-contact-card
     services
     our-office
     footer))
